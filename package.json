@@ -1,0 +1,17 @@
+{
+  "name": "futbol-experto-2026",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "update-news": "node scripts/update-news.js"
+  },
+  "dependencies": {
+    "astro": "^6.0.0",
+    "rss-parser": "^3.13.0"
+  }
+}

@@ -1,0 +1,108 @@
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const players = await getCollection('players');
+  return [];
+}
+
+const allPlayers = await getCollection('players');
+const players = allPlayers.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// Get unique teams and positions for filters
+const teams = [...new Set(allPlayers.map(p => p.data.team))].sort();
+const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
+</script>
+
+<Layout title="Todos los Jugadores - Fútbol Experto 2026">
+  <main class="container section">
+    <header class="hero">
+      <h1>Jugadores del Mundial 2026</h1>
+      <p>Estadísticas, noticias y redes sociales de cada futbolista</p>
+    </header>
+
+    <!-- Filtros -->
+    <div style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+      <select id="teamFilter" style="padding: 0.5rem 1rem; border-radius: 8px; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);">
+        <option value="">Todos los equipos</option>
+        {teams.map(teamId => (
+          <option value={teamId}>{teamId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</option>
+        ))}
+      </select>
+      
+      <select id="positionFilter" style="padding: 0.5rem 1rem; border-radius: 8px; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);">
+        <option value="">Todas las posiciones</option>
+        {positions.map(pos => (
+          <option value={pos}>{pos}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="players-grid" id="playersGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+      {players.map((player) => (
+        <a 
+          href={`/jugador/${player.data.id}`}
+          class="player-card"
+          data-team={player.data.team}
+          data-position={player.data.position}
+          style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--gradient-card); border: 1px solid var(--color-border); border-radius: 12px; transition: all 0.2s;"
+        >
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-surface); overflow: hidden; flex-shrink: 0;">
+            {player.data.photo ? (
+              <img src={player.data.photo} alt={player.data.name} style="width: 100%; height: 100%; object-fit: cover;" />
+            ) : (
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; color: var(--color-text-muted);">
+                {player.data.name.charAt(0)}
+              </div>
+            )}
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="player-name" style="font-weight: 600; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              {player.data.name}
+            </div>
+            <div class="player-details" style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; flex-wrap: wrap; gap: 0.5rem;">
+              <span>{player.data.position}</span>
+              <span>•</span>
+              <span>{player.data.team.replace(/-/g, ' ')}</span>
+            </div>
+          </div>
+          {player.data.number && (
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-accent);">
+              #{player.data.number}
+            </div>
+          )}
+        </a>
+      ))}
+    </div>
+
+    {players.length === 0 && (
+      <p style="text-align: center; color: var(--color-text-muted); padding: 4rem;">
+        No hay jugadores registrados aún.
+      </p>
+    )}
+  </main>
+
+  <script>
+    // Simple client-side filtering
+    document.addEventListener('DOMContentLoaded', () => {
+      const teamFilter = document.getElementById('teamFilter');
+      const positionFilter = document.getElementById('positionFilter');
+      const grid = document.getElementById('playersGrid');
+      const cards = grid.querySelectorAll('.player-card');
+
+      const filter = () => {
+        const team = teamFilter.value;
+        const position = positionFilter.value;
+
+        cards.forEach(card => {
+          const matchesTeam = !team || card.dataset.team === team;
+          const matchesPosition = !position || card.dataset.position === position;
+          card.style.display = matchesTeam && matchesPosition ? 'flex' : 'none';
+        });
+      };
+
+      teamFilter.addEventListener('change', filter);
+      positionFilter.addEventListener('change', filter);
+    });
+  </script>
+</Layout>

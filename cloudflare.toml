@@ -1,0 +1,13 @@
+name = "futbol-experto-2026"
+compatibility_date = "2025-03-12"
+
+[build]
+command = "npm run build"
+output_dir = "dist"
+
+[build.environment]
+NODE_VERSION = "22"
+
+# For Pages Functions (API routes) if needed later
+# [[pages_functions]]
+# path = "/api/*"

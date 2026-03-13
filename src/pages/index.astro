@@ -1,0 +1,125 @@
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const teams = await getCollection('teams');
+  return [];
+}
+
+// Obtener todos los equipos
+const allTeams = await getCollection('teams');
+const teams = allTeams.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// Agrupar por continente para mostrar en columnas
+const groupedByContinent = teams.reduce((acc, team) => {
+  const continent = team.data.continent;
+  if (!acc[continent]) acc[continent] = [];
+  acc[continent].push(team);
+  return acc;
+}, {} as Record<string, typeof teams>);
+</script>
+
+<Layout title="Fútbol Experto 2026 - Todos los Equipos del Mundial">
+  <main class="container section">
+    <header class="hero">
+      <h1>Cobertura Total del Mundial 2026</h1>
+      <p>México, USA y Canadá • 16 Ciudades • 48 Equipos</p>
+    </header>
+
+    <!-- Filtros por continente -->
+    <nav style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+      {Object.keys(groupedByContinent).map((continent) => (
+        <a 
+          href={`#${continent.toLowerCase().replace(' ', '-')}`}
+          style="
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            color: var(--color-accent);
+            font-weight: 600;
+            transition: all 0.2s;
+          "
+        >
+          {continent}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Equipos por continente en columnas -->
+    {Object.entries(groupedByContinent).map(([continent, continentTeams]) => (
+      <section id={continent.toLowerCase().replace(' ', '-')} style="margin-bottom: 4rem;">
+        <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--color-accent);">
+          {continent} ({continentTeams.length})
+        </h2>
+        
+        <div class="teams-grid">
+          {continentTeams.map((team) => {
+            const isQualified = team.data.qualified;
+            const latestNews = team.data.news?.[0];
+            
+            return (
+              <a 
+                href={`/equipo/${team.data.id}`}
+                class="team-card"
+                style="display: block;"
+              >
+                <div class="team-header">
+                  <img 
+                    src={team.data.flag} 
+                    alt={`Bandera de ${team.data.name}`} 
+                    class="team-flag"
+                  />
+                  <div>
+                    <h3 class="team-name">{team.data.name}</h3>
+                    <div style="font-size: 0.85rem; color: var(--color-text-muted);">
+                      {team.data.code} • Grupo {team.data.group || '—'}
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="team-content">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span style="font-size: 0.8rem; color: var(--color-text-muted);">
+                      {team.data.news?.length || 0} noticias
+                    </span>
+                    {isQualified ? (
+                      <span style="font-size: 0.75rem; background: rgba(0, 255, 136, 0.2); color: #00ff88; padding: 0.25rem 0.75rem; border-radius: 4px;">
+                        ✓ Clasificado
+                      </span>
+                    ) : (
+                      <span style="font-size: 0.75rem; background: rgba(255, 170, 0, 0.2); color: var(--color-warning); padding: 0.25rem 0.75rem; border-radius: 4px;">
+                        ⏳ Proceso
+                      </span>
+                    )}
+                  </div>
+
+                  {latestNews && (
+                    <div class="news-preview" style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.4;">
+                      <strong>{latestNews.title}</strong>
+                      <div style="margin-top: 0.5rem; font-size: 0.8rem;">
+                        {latestNews.source} • {new Intl.DateTimeFormat('es-ES', { 
+                          day: '2-digit', 
+                          month: 'short' 
+                        }).format(new Date(latestNews.published))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+
+    <!-- Sección de actualización -->
+    <section class="section" style="text-align: center; padding: 3rem; background: var(--gradient-card); border-radius: 16px; border: 1px solid var(--color-border);">
+      <h2 style="margin-bottom: 1rem;">🔄 Actualización Automática</h2>
+      <p style="color: var(--color-text-muted); max-width: 600px; margin: 0 auto;">
+        Las noticias de cada equipo se actualizan automáticamente cada 3 horas desde fuentes oficiales y redes sociales. 
+        El sitio se despliega en Cloudflare Pages para máxima velocidad y disponibilidad global.
+      </p>
+    </section>
+  </main>
+</Layout>
