@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "flag": {
+        "type": "string"
+      },
+      "code": {
+        "type": "string"
+      },
+      "group": {
+        "type": "string"
+      },
+      "continent": {
+        "type": "string"
+      },
+      "qualified": {
+        "default": false,
+        "type": "boolean"
+      },
+      "players": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "news": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "published": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "url",
+            "source",
+            "published"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "social": {
+        "type": "object",
+        "properties": {
+          "twitter": {
+            "type": "string"
+          },
+          "instagram": {
+            "type": "string"
+          },
+          "officialSite": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "code",
+      "continent",
+      "qualified",
+      "players",
+      "news"
+    ],
+    "additionalProperties": false
+  }
+}

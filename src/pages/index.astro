@@ -1,125 +1,333 @@
+---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getLatestNews } from '../lib/pocketbase';
 
-export async function getStaticPaths() {
-  const teams = await getCollection('teams');
-  return [];
-}
-
-// Obtener todos los equipos
 const allTeams = await getCollection('teams');
 const teams = allTeams.sort((a, b) => a.data.name.localeCompare(b.data.name));
 
-// Agrupar por continente para mostrar en columnas
 const groupedByContinent = teams.reduce((acc, team) => {
   const continent = team.data.continent;
   if (!acc[continent]) acc[continent] = [];
   acc[continent].push(team);
   return acc;
 }, {} as Record<string, typeof teams>);
-</script>
 
-<Layout title="Fútbol Experto 2026 - Todos los Equipos del Mundial">
-  <main class="container section">
-    <header class="hero">
-      <h1>Cobertura Total del Mundial 2026</h1>
-      <p>México, USA y Canadá • 16 Ciudades • 48 Equipos</p>
-    </header>
+const continentOrder = ['North America', 'South America', 'Europe', 'Africa', 'Asia', 'Oceania'];
+const sortedContinents = Object.entries(groupedByContinent).sort(
+  ([a], [b]) => (continentOrder.indexOf(a) === -1 ? 99 : continentOrder.indexOf(a)) - (continentOrder.indexOf(b) === -1 ? 99 : continentOrder.indexOf(b))
+);
 
-    <!-- Filtros por continente -->
-    <nav style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
-      {Object.keys(groupedByContinent).map((continent) => (
-        <a 
-          href={`#${continent.toLowerCase().replace(' ', '-')}`}
-          style="
-            padding: 0.75rem 1.5rem;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--color-accent);
-            border-radius: 8px;
-            color: var(--color-accent);
-            font-weight: 600;
-            transition: all 0.2s;
-          "
-        >
-          {continent}
-        </a>
-      ))}
-    </nav>
+let latestNews: any[] = [];
+try {
+  latestNews = await getLatestNews(6);
+} catch (e) {
+  console.error('Could not fetch news from PocketBase:', e);
+}
 
-    <!-- Equipos por continente en columnas -->
-    {Object.entries(groupedByContinent).map(([continent, continentTeams]) => (
-      <section id={continent.toLowerCase().replace(' ', '-')} style="margin-bottom: 4rem;">
-        <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--color-accent);">
-          {continent} ({continentTeams.length})
+const formatDate = (dateString: string) => {
+  try {
+    return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short' }).format(new Date(dateString));
+  } catch { return ''; }
+};
+---
+
+<Layout title="FutbolXP - Cobertura Total del Mundial 2026">
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-badge">MUNDIAL 2026</div>
+        <h1 class="hero-title">Cobertura Total<br />del <span class="gradient-text">Mundial 2026</span></h1>
+        <p class="hero-subtitle">Mexico, USA y Canada &bull; 48 Equipos &bull; Noticias actualizadas cada 3 horas</p>
+        <div class="hero-actions">
+          <a href="/noticias" class="btn btn-primary">Ver Noticias</a>
+          <a href="#equipos" class="btn btn-ghost">Explorar Equipos</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-value">{teams.length}</div>
+            <div class="stat-label">Equipos</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-value">16</div>
+            <div class="stat-label">Ciudades</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Paises Sede</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest News from PocketBase -->
+    {latestNews.length > 0 && (
+      <section class="container section">
+        <h2 class="section-title">
+          <span class="pulse"></span> Ultimas Noticias
         </h2>
-        
-        <div class="teams-grid">
-          {continentTeams.map((team) => {
-            const isQualified = team.data.qualified;
-            const latestNews = team.data.news?.[0];
-            
-            return (
-              <a 
-                href={`/equipo/${team.data.id}`}
-                class="team-card"
-                style="display: block;"
-              >
-                <div class="team-header">
-                  <img 
-                    src={team.data.flag} 
-                    alt={`Bandera de ${team.data.name}`} 
-                    class="team-flag"
-                  />
-                  <div>
-                    <h3 class="team-name">{team.data.name}</h3>
-                    <div style="font-size: 0.85rem; color: var(--color-text-muted);">
-                      {team.data.code} • Grupo {team.data.group || '—'}
+        <div class="news-grid">
+          {latestNews.map((item: any) => (
+            <a href={item.url} target="_blank" rel="noopener noreferrer" class="news-card">
+              <div class="title">{item.title}</div>
+              <div class="meta">
+                <span class="source">{item.source}</span>
+                <span>{item.teamName || item.teamId}</span>
+                <span>{formatDate(item.published)}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="/noticias" class="btn btn-ghost">Ver todas las noticias &rarr;</a>
+        </div>
+      </section>
+    )}
+
+    <!-- Teams -->
+    <section id="equipos" class="container section">
+      <div class="continent-tabs">
+        {sortedContinents.map(([continent]) => (
+          <a href={`#continent-${continent.toLowerCase().replace(/\s/g, '-')}`} class="continent-tab">
+            {continent}
+            <span class="tab-count">{groupedByContinent[continent].length}</span>
+          </a>
+        ))}
+      </div>
+
+      {sortedContinents.map(([continent, continentTeams]) => (
+        <section id={`continent-${continent.toLowerCase().replace(/\s/g, '-')}`} class="continent-section">
+          <h2 class="continent-title">{continent}</h2>
+          <div class="teams-grid">
+            {(continentTeams as typeof teams).map((team) => {
+              const latestTeamNews = team.data.news?.[0];
+              return (
+                <a href={`/equipo/${team.data.id}`} class="team-card card">
+                  <div class="team-card-header">
+                    <img src={team.data.flag} alt={team.data.name} class="team-flag" loading="lazy" />
+                    <div class="team-info">
+                      <h3 class="team-name">{team.data.name}</h3>
+                      <div class="team-meta">
+                        <span class="team-code">{team.data.code}</span>
+                        {team.data.group && <span>Grupo {team.data.group}</span>}
+                      </div>
                     </div>
-                  </div>
-                </div>
-                
-                <div class="team-content">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <span style="font-size: 0.8rem; color: var(--color-text-muted);">
-                      {team.data.news?.length || 0} noticias
-                    </span>
-                    {isQualified ? (
-                      <span style="font-size: 0.75rem; background: rgba(0, 255, 136, 0.2); color: #00ff88; padding: 0.25rem 0.75rem; border-radius: 4px;">
-                        ✓ Clasificado
-                      </span>
+                    {team.data.qualified ? (
+                      <span class="badge badge-success">Clasificado</span>
                     ) : (
-                      <span style="font-size: 0.75rem; background: rgba(255, 170, 0, 0.2); color: var(--color-warning); padding: 0.25rem 0.75rem; border-radius: 4px;">
-                        ⏳ Proceso
-                      </span>
+                      <span class="badge badge-warning">En proceso</span>
                     )}
                   </div>
-
-                  {latestNews && (
-                    <div class="news-preview" style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.4;">
-                      <strong>{latestNews.title}</strong>
-                      <div style="margin-top: 0.5rem; font-size: 0.8rem;">
-                        {latestNews.source} • {new Intl.DateTimeFormat('es-ES', { 
-                          day: '2-digit', 
-                          month: 'short' 
-                        }).format(new Date(latestNews.published))}
+                  {latestTeamNews && (
+                    <div class="team-card-news">
+                      <div class="team-news-title">{latestTeamNews.title}</div>
+                      <div class="team-news-meta">
+                        <span>{latestTeamNews.source}</span>
+                        <span>{formatDate(latestTeamNews.published)}</span>
                       </div>
                     </div>
                   )}
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-    ))}
-
-    <!-- Sección de actualización -->
-    <section class="section" style="text-align: center; padding: 3rem; background: var(--gradient-card); border-radius: 16px; border: 1px solid var(--color-border);">
-      <h2 style="margin-bottom: 1rem;">🔄 Actualización Automática</h2>
-      <p style="color: var(--color-text-muted); max-width: 600px; margin: 0 auto;">
-        Las noticias de cada equipo se actualizan automáticamente cada 3 horas desde fuentes oficiales y redes sociales. 
-        El sitio se despliega en Cloudflare Pages para máxima velocidad y disponibilidad global.
-      </p>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
     </section>
   </main>
 </Layout>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 5rem 0 3rem;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(ellipse, var(--color-primary-glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-inner { text-align: center; position: relative; }
+  .hero-badge {
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    background: var(--color-primary-glow);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--color-primary-light);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-primary-light), #a78bfa, #f472b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .hero-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+  .stat { text-align: center; }
+  .stat-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .stat-divider { width: 1px; height: 36px; background: var(--color-border); }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .continent-tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    scrollbar-width: none;
+  }
+  .continent-tabs::-webkit-scrollbar { display: none; }
+  .continent-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .continent-tab:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary-light);
+    background: var(--color-primary-glow);
+  }
+  .tab-count {
+    font-size: 0.7rem;
+    background: var(--color-surface-2);
+    padding: 0.1rem 0.4rem;
+    border-radius: 100px;
+    color: var(--color-text-muted);
+  }
+
+  .continent-section { margin-bottom: 3rem; }
+  .continent-title {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 0.75rem;
+  }
+  .team-card { display: block; }
+  .team-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+  .team-flag {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--color-surface-2);
+    flex-shrink: 0;
+  }
+  .team-info { flex: 1; min-width: 0; }
+  .team-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .team-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+  .team-code { font-weight: 600; color: var(--color-text-secondary); }
+  .team-card-news {
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+    background: rgba(255,255,255,0.01);
+  }
+  .team-news-title {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+  }
+  .team-news-meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 3rem 0 2rem; }
+    .hero-stats { gap: 1.5rem; padding: 0.75rem 1.5rem; }
+    .stat-divider { display: none; }
+    .teams-grid, .news-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: center; }
+  }
+</style>

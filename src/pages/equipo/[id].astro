@@ -1,148 +1,262 @@
-import Layout from '../layouts/Layout.astro';
+---
+import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import type { Team } from '../content/config';
+import { getNewsByTeam } from '../../lib/pocketbase';
 
 export async function getStaticPaths() {
   const teams = await getCollection('teams');
-  const sortedTeams = teams.sort((a, b) => a.data.name.localeCompare(b.data.name));
-  
-  return sortedTeams.map((team) => ({
+  return teams.map((team) => ({
     params: { id: team.data.id },
     props: { team: team.data },
   }));
 }
 
 const { team } = Astro.props;
-const isQualified = team.qualified;
 
-// Formatear fecha
+// Get players for this team
+const allPlayers = await getCollection('players');
+const teamPlayers = allPlayers.filter(p => p.data.team === team.id);
+
+// Fetch news from PocketBase
+let pbNews: any[] = [];
+try {
+  pbNews = await getNewsByTeam(team.id, 10);
+} catch (e) {
+  console.error(`Error fetching PB news for ${team.id}:`, e);
+}
+
+// Merge PocketBase news with static news, prefer PocketBase
+const staticNews = team.news || [];
+const allNewsUrls = new Set(pbNews.map((n: any) => n.url));
+const mergedNews = [
+  ...pbNews.map((n: any) => ({ title: n.title, url: n.url, source: n.source, published: n.published })),
+  ...staticNews.filter(n => !allNewsUrls.has(n.url)),
+].sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime()).slice(0, 10);
+
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('es-ES', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
+  try {
+    return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateString));
+  } catch { return ''; }
 };
+---
 
-// Agrupar noticias por fecha reciente
-const recentNews = team.news?.slice(0, 3) || [];
-</script>
-
-<Layout title={`${team.name} - Fútbol Experto 2026`}>
+<Layout title={`${team.name} - FutbolXP`}>
   <main class="container section">
-    <div class="team-profile" style="max-width: 800px; margin: 0 auto 3rem;">
-      <div class="team-header" style="display: flex; align-items: center; gap: 1.5rem; padding: 2rem; background: var(--gradient-card); border-radius: 16px; border: 1px solid var(--color-border);">
-        <img 
-          src={team.flag} 
-          alt={`Bandera de ${team.name}`} 
-          class="team-flag" 
-          style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;"
-        />
-        <div>
-          <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">{team.name}</h1>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem;">
-            <span>🏆 Mundial 2026</span>
-            <span>🌍 {team.continent}</span>
-            <span>📋 Grupo {team.group || 'Por definir'}</span>
-            {isQualified 
-              ? <span style="color: #00ff88;">✅ Clasificado</span>
-              : <span style="color: var(--color-warning);">⏳ En proceso</span>
-            }
+    <!-- Team Header -->
+    <div class="team-header">
+      <a href="/" class="back-link">&larr; Todos los equipos</a>
+      <div class="team-profile">
+        <img src={team.flag} alt={team.name} class="team-flag" />
+        <div class="team-details">
+          <h1 class="team-title">{team.name}</h1>
+          <div class="team-badges">
+            <span class="badge badge-primary">{team.code}</span>
+            {team.group && <span class="badge badge-primary">Grupo {team.group}</span>}
+            <span class="badge badge-primary">{team.continent}</span>
+            {team.qualified ? (
+              <span class="badge badge-success">Clasificado</span>
+            ) : (
+              <span class="badge badge-warning">En proceso</span>
+            )}
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Noticias del Equipo -->
-    <section class="team-news" style="margin-bottom: 3rem;">
-      <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem;">
-        📰 Últimas Noticias de {team.name}
-      </h2>
-      
-      {recentNews.length > 0 ? (
-        <div class="news-list">
-          {recentNews.map((item) => (
-            <article class="news-item">
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                <span class="news-title">{item.title}</span>
-              </a>
-              <div class="news-meta">
-                <span>{item.source}</span>
-                <time datetime={item.published}>{formatDate(item.published)}</time>
-              </div>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <p style="color: var(--color-text-muted); text-align: center; padding: 2rem;">
-          No hay noticias disponibles para este equipo aún.
-        </p>
-      )}
-      
-      {team.news && team.news.length > 3 && (
-        <div style="text-align: center; margin-top: 1.5rem;">
-          <a href="/equipo/{team.id}/noticias" style="color: var(--color-accent); font-weight: 600;">
-            Ver todas las noticias ({team.news.length}) →
-          </a>
-        </div>
-      )}
-    </section>
-
-    <!-- Jugadores Destacados -->
-    {team.players && team.players.length > 0 && (
-      <section class="team-players" style="margin-bottom: 3rem;">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem;">
-          ⚽ Jugadores Clave
-        </h2>
-        <div class="players-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
-          <!-- Aquí se mostrarán los jugadores, por ahora un placeholder -->
-          {team.players.map((playerSlug) => (
-            <div class="player-card" style="padding: 1.5rem; background: var(--gradient-card); border: 1px solid var(--color-border); border-radius: 12px;">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-surface);"></div>
-                <div>
-                  <div style="font-weight: 600; font-size: 1rem;">{playerSlug.replace('h-', '').replace('a-', '').replace('b-', '').replace('c-', '').replace('d-', '').replace('e-', '').replace('f-', '').replace('g-', '').replace('i-', '').replace('j-', '').replace('k-', '').replace('l-', '').replace('m-', '').replace('n-', '').replace('p-', '').replace('s-', '').replace('t-', '').replace('u-', '').replace('w-', '').replace('a-', '').replace('e-', '').replace('i-', '').replace('o-', '').replace('u-', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</div>
-                  <div style="font-size: 0.85rem; color: var(--color-text-muted);">Jugador de {team.name}</div>
+    <div class="content-grid">
+      <!-- Main: News -->
+      <div class="main-col">
+        <h2 class="section-title">Noticias</h2>
+        {mergedNews.length > 0 ? (
+          <div class="news-list">
+            {mergedNews.map((item) => (
+              <a href={item.url} target="_blank" rel="noopener noreferrer" class="news-card">
+                <div class="title">{item.title}</div>
+                <div class="meta">
+                  <span class="source">{item.source}</span>
+                  <time datetime={item.published}>{formatDate(item.published)}</time>
                 </div>
-              </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-state">No hay noticias disponibles para este equipo.</div>
+        )}
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <!-- Players -->
+        {teamPlayers.length > 0 && (
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">Jugadores ({teamPlayers.length})</h3>
+            <div class="player-list">
+              {teamPlayers.map((player) => (
+                <a href={`/jugador/${player.data.id}`} class="player-item">
+                  <div class="player-avatar">
+                    {player.data.photo ? (
+                      <img src={player.data.photo} alt={player.data.name} />
+                    ) : (
+                      <span>{player.data.name.charAt(0)}</span>
+                    )}
+                  </div>
+                  <div class="player-info">
+                    <div class="player-name">{player.data.name}</div>
+                    <div class="player-pos">{player.data.position} {player.data.number ? `#${player.data.number}` : ''}</div>
+                  </div>
+                </a>
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
-    )}
+          </div>
+        )}
 
-    <!-- Enlaces a Redes Sociales -->
-    {team.social && (
-      <section class="team-social" style="margin-bottom: 3rem;">
-        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem;">
-          📱 Redes Sociales Oficiales
-        </h2>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          {team.social.twitter && (
-            <a href={team.social.twitter} target="_blank" class="social-icon" style="width: auto; padding: 0.75rem 1.25rem; border-radius: 8px; background: #1da1f2; color: white; font-weight: 600;">
-              Twitter
-            </a>
-          )}
-          {team.social.instagram && (
-            <a href={team.social.instagram} target="_blank" class="social-icon" style="width: auto; padding: 0.75rem 1.25rem; border-radius: 8px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; font-weight: 600;">
-              Instagram
-            </a>
-          )}
-          {team.social.officialSite && (
-            <a href={team.social.officialSite} target="_blank" class="social-icon" style="width: auto; padding: 0.75rem 1.25rem; border-radius: 8px; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); font-weight: 600;">
-              Sitio Oficial
-            </a>
-          )}
-        </div>
-      </section>
-    )}
-
-    <!-- Volver a la lista -->
-    <div style="text-align: center; margin-top: 3rem;">
-      <a href="/equipos" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-accent); font-weight: 600;">
-        ← Volver a todos los equipos
-      </a>
+        <!-- Social -->
+        {team.social && (
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">Redes Sociales</h3>
+            <div class="social-list">
+              {team.social.twitter && (
+                <a href={team.social.twitter} target="_blank" rel="noopener noreferrer" class="social-btn twitter">Twitter / X</a>
+              )}
+              {team.social.instagram && (
+                <a href={team.social.instagram} target="_blank" rel="noopener noreferrer" class="social-btn instagram">Instagram</a>
+              )}
+              {team.social.officialSite && (
+                <a href={team.social.officialSite} target="_blank" rel="noopener noreferrer" class="social-btn website">Sitio Oficial</a>
+              )}
+            </div>
+          </div>
+        )}
+      </aside>
     </div>
   </main>
 </Layout>
+
+<style>
+  .team-header {
+    margin-bottom: 2.5rem;
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--color-primary-light); }
+  .team-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .team-flag {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--color-surface-2);
+    flex-shrink: 0;
+  }
+  .team-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .team-badges {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .sidebar-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+  }
+  .sidebar-title {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .player-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s;
+  }
+  .player-item:hover { background: var(--color-surface-2); }
+  .player-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-surface-2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+  .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .player-name { font-size: 0.9rem; font-weight: 600; }
+  .player-pos { font-size: 0.75rem; color: var(--color-text-muted); }
+
+  .social-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .social-btn {
+    display: block;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+  .social-btn:hover { opacity: 0.85; }
+  .social-btn.twitter { background: #1d9bf0; color: white; }
+  .social-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+  .social-btn.website { background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text); }
+
+  @media (max-width: 768px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .team-title { font-size: 1.5rem; }
+    .team-flag { width: 56px; height: 56px; }
+  }
+</style>

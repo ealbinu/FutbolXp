@@ -1,113 +1,75 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import rss from 'rss-parser';
+import PocketBase from 'pocketbase';
+import RssParser from 'rss-parser';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const PB_URL = process.env.POCKETBASE_URL || 'https://futbolxp.pockethost.io';
+const PB_EMAIL = process.env.POCKETBASE_EMAIL || 'pegaso@agentmail.to';
+const PB_PASSWORD = process.env.POCKETBASE_PASSWORD || 'WiKCaJLJqdtXD65';
 
-const parser = new rss();
+const pb = new PocketBase(PB_URL);
+pb.autoCancellation(false);
 
-// Fuentes de noticias RSS por equipo/continente
+const parser = new RssParser();
+
+// RSS news sources
 const NEWS_SOURCES = [
-  { url: 'https://www.espn.com/espn/rss/soccer', name: 'ESPN' },
-  { url: 'https://www.marca.com/rss/futbol.html', name: 'Marca' },
-  { url: 'https://www.as.com/rss/futbol.xml', name: 'AS' },
+  { url: 'https://www.espn.com/espn/rss/soccer/news', name: 'ESPN' },
+  { url: 'https://e00-marca.uecdn.es/rss/futbol/futbol-internacional.xml', name: 'Marca' },
+  { url: 'https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/videos/sport/futbol/', name: 'AS' },
   { url: 'https://www.goal.com/feeds/en/news', name: 'Goal' },
-  { url: 'https://www.skysports.com/rss/11076', name: 'Sky Sports' },
-  { url: 'https://www.bbc.com/sport/football/rss.xml', name: 'BBC Sport' },
+  { url: 'https://www.skysports.com/rss/11095', name: 'Sky Sports' },
+  { url: 'https://feeds.bbci.co.uk/sport/football/rss.xml', name: 'BBC Sport' },
+  { url: 'https://www.espn.com.mx/espn/rss/futbol/news', name: 'ESPN MX' },
+  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Soccer.xml', name: 'NY Times' },
 ];
 
-// Mapeo de nombres de equipos a keywords para búsqueda
-const TEAM_KEYWORDS: Record<string, string[]> = {
-  mexico: ['méxico', 'mexico', 'seleccion mexicana', 'miseleccion', 'tri'],
-  canada: ['canadá', 'canada', 'seleccion canadiense', 'canadasoccer'],
-  'estados-unidos': ['estados unidos', 'usa', 'eeuu', 'usmnt', 'seleccion estadounidense'],
-  argentina: ['argentina', 'seleccion argentina', 'scaloni', 'messi'],
-  brasil: ['brasil', 'brazil', 'seleccion brasileña', 'canarinha'],
-  uruguay: ['uruguay', 'seleccion uruguaya', 'celeste'],
-  colombia: ['colombia', 'seleccion colombiana'],
-  ecuador: ['ecuador', 'seleccion ecuatoriana', 'tricolor'],
-  chile: ['chile', 'seleccion chilena', 'la roja'],
-  peru: ['perú', 'peru', 'seleccion peruana', 'bicolor'],
-  paraguay: ['paraguay', 'seleccion paraguaya', 'albirroja'],
-  bolivia: ['bolivia', 'seleccion boliviana'],
-  venezuela: ['venezuela', 'seleccion venezolana', 'vinotinto'],
-  inglaterra: ['inglaterra', 'england', 'seleccion inglesa', 'three lions'],
-  francia: ['francia', 'france', 'seleccion francesa', 'les bleus'],
-  alemania: ['alemania', 'germany', 'seleccion alemana', 'die mannschaft'],
-  espana: ['españa', 'spain', 'seleccion española', 'la roja'],
-  portugal: ['portugal', 'seleccion portuguesa', 'selecao'],
-  italia: ['italia', 'italy', 'seleccion italiana', 'azzurri'],
-  'paises-bajos': ['países bajos', 'holanda', 'netherlands', 'oranje'],
-  belgica: ['bélgica', 'belgium', 'seleccion belga', 'red devils'],
-  croacia: ['croacia', 'croatia', 'seleccion croata'],
-  dinamarca: ['dinamarca', 'denmark', 'seleccion danesa'],
-  polonia: ['polonia', 'poland', 'seleccion polaca'],
-  suiza: ['suiza', 'switzerland', 'seleccion suiza', 'nati'],
-  austria: ['austria', 'seleccion austriaca'],
-  serbia: ['serbia', 'seleccion serbia'],
-  escocia: ['escocia', 'scotland', 'seleccion escocesa'],
-  'republica-checa': ['república checa', 'czech republic', 'seleccion checa'],
-  turquia: ['turquía', 'turkey', 'seleccion turca'],
-  rusia: ['rusia', 'russia', 'seleccion rusa'],
-  ucrania: ['ucrania', 'ukraine', 'seleccion ucraniana'],
-  suecia: ['suecia', 'sweden', 'seleccion sueca'],
-  grecia: ['grecia', 'greece', 'seleccion griega'],
-  hungria: ['hungría', 'hungary', 'seleccion húngara'],
-  rumania: ['rumanía', 'romania', 'seleccion rumana'],
-  bulgaria: ['bulgaria', 'seleccion búlgara'],
-  islandia: ['islandia', 'iceland', 'seleccion islandesa'],
-  finlandia: ['finlandia', 'finland', 'seleccion finlandesa'],
-  irlanda: ['irlanda', 'ireland', 'seleccion irlandesa'],
-  'irlanda-del-norte': ['irlanda del norte', 'northern ireland'],
-  gales: ['gales', 'wales', 'seleccion galesa'],
-  marruecos: ['marruecos', 'morocco', 'seleccion marroquí', 'leones del atlas'],
-  senegal: ['senegal', 'seleccion senegalesa', 'leones de la teranga'],
-  argelia: ['argelia', 'algeria', 'seleccion argelina', 'zorros del desierto'],
-  tunez: ['túnez', 'tunisia', 'seleccion tunecina', 'aguilas de cartago'],
-  nigeria: ['nigeria', 'seleccion nigeriana', 'super eagles'],
-  camerun: ['camerún', 'cameroon', 'seleccion camerunesa', 'leones indomables'],
-  ghana: ['ghana', 'seleccion ghanesa', 'black stars'],
-  'costas-de-marfil': ['costa de marfil', 'ivory coast', 'seleccion marfileña', 'elefantes'],
-  mali: ['mali', 'malí', 'seleccion maliense'],
-  'republica-democratica-del-congo': ['republica democratica del congo', 'dr congo', 'rdc'],
-  guinea: ['guinea', 'seleccion guineana'],
-  egipto: ['egipto', 'egypt', 'seleccion egipcia', 'faraones'],
-  'sudafrica': ['sudáfrica', 'south africa', 'seleccion sudafricana', 'bafana bafana'],
-  australia: ['australia', 'socceroos', 'seleccion australiana'],
-  iran: ['irán', 'iran', 'seleccion iraní', 'team melli'],
-  japon: ['japón', 'japan', 'seleccion japonesa', 'samurai blue'],
-  'corea-del-sur': ['corea del sur', 'south korea', 'seleccion surcoreana', 'taeguk warriors'],
-  'arabia-saudita': ['arabia saudita', 'saudi arabia', 'seleccion saudí', 'halcones verdes'],
-  china: ['china', 'seleccion china'],
-  irak: ['irak', 'iraq', 'seleccion iraquí'],
-  'emiratos-arabes-unidos': ['emiratos árabes unidos', 'uae', 'seleccion emiratí'],
-  qatar: ['qatar', 'seleccion catarí'],
-  oman: ['omán', 'oman', 'seleccion omaní'],
-  uzbekistan: ['uzbekistán', 'uzbekistan', 'seleccion uzbeka'],
-  jordania: ['jordania', 'jordan', 'seleccion jordana'],
-  kuwait: ['kuwait', 'seleccion kuwaití'],
-  tailandia: ['tailandia', 'thailand', 'seleccion tailandesa'],
-  vietnam: ['vietnam', 'seleccion vietnamita'],
-  filipinas: ['filipinas', 'philippines', 'seleccion filipina'],
-  indonesia: ['indonesia', 'seleccion indonesia'],
-  malasia: ['malasia', 'malaysia', 'seleccion malaya'],
-  singapur: ['singapur', 'singapore', 'seleccion singapurense'],
-  'nueva-zelanda': ['nueva zelanda', 'new zealand', 'socceroos'],
-  tahiti: ['tahití', 'tahiti', 'seleccion tahitiana'],
-  'nueva-caledonia': ['nueva caledonia', 'new caledonia', 'seleccion caledonia'],
-  'islas-salomon': ['islas salomón', 'solomon islands', 'seleccion salomonense'],
-  'papua-nueva-guinea': ['papúa nueva guinea', 'papua new guinea'],
-  fiji: ['fiyi', 'fiji', 'seleccion fiyiana'],
-  vanuatu: ['vanuatu', 'seleccion vanuatuense'],
-  tonga: ['tonga', 'seleccion tongana'],
-  'samoa-americana': ['samoa americana', 'american samoa'],
-  guam: ['guam', 'seleccion de guam'],
+// Team keywords for matching
+const TEAM_KEYWORDS = {
+  mexico: { name: 'Mexico', keywords: ['mexico', 'seleccion mexicana', 'miseleccion', 'tri', 'el tri', 'jimmy lozano'] },
+  canada: { name: 'Canada', keywords: ['canada', 'canadasoccer', 'jesse marsch'] },
+  'estados-unidos': { name: 'Estados Unidos', keywords: ['estados unidos', 'usa', 'eeuu', 'usmnt', 'gregg berhalter', 'us soccer'] },
+  argentina: { name: 'Argentina', keywords: ['argentina', 'seleccion argentina', 'scaloni', 'albiceleste'] },
+  brasil: { name: 'Brasil', keywords: ['brasil', 'brazil', 'selecao', 'canarinha', 'dorival junior'] },
+  uruguay: { name: 'Uruguay', keywords: ['uruguay', 'celeste', 'bielsa'] },
+  colombia: { name: 'Colombia', keywords: ['colombia', 'seleccion colombiana', 'nestor lorenzo'] },
+  ecuador: { name: 'Ecuador', keywords: ['ecuador', 'seleccion ecuatoriana', 'felix sanchez'] },
+  chile: { name: 'Chile', keywords: ['chile', 'seleccion chilena', 'la roja chile'] },
+  peru: { name: 'Peru', keywords: ['peru', 'seleccion peruana', 'bicolor'] },
+  paraguay: { name: 'Paraguay', keywords: ['paraguay', 'albirroja'] },
+  bolivia: { name: 'Bolivia', keywords: ['bolivia', 'seleccion boliviana'] },
+  venezuela: { name: 'Venezuela', keywords: ['venezuela', 'vinotinto'] },
+  inglaterra: { name: 'Inglaterra', keywords: ['england', 'three lions', 'gareth southgate', 'english football'] },
+  francia: { name: 'Francia', keywords: ['france', 'les bleus', 'didier deschamps', 'equipe de france'] },
+  alemania: { name: 'Alemania', keywords: ['germany', 'die mannschaft', 'julian nagelsmann', 'dfb'] },
+  espana: { name: 'Espana', keywords: ['spain', 'la roja spain', 'luis de la fuente', 'seleccion espanola'] },
+  portugal: { name: 'Portugal', keywords: ['portugal', 'selecao portuguesa', 'roberto martinez portugal'] },
+  italia: { name: 'Italia', keywords: ['italy', 'azzurri', 'luciano spalletti'] },
+  'paises-bajos': { name: 'Paises Bajos', keywords: ['netherlands', 'oranje', 'ronald koeman'] },
+  belgica: { name: 'Belgica', keywords: ['belgium', 'red devils', 'domenico tedesco'] },
+  croacia: { name: 'Croacia', keywords: ['croatia', 'seleccion croata', 'zlatko dalic'] },
+  dinamarca: { name: 'Dinamarca', keywords: ['denmark', 'danish football'] },
+  polonia: { name: 'Polonia', keywords: ['poland', 'polish football'] },
+  suiza: { name: 'Suiza', keywords: ['switzerland', 'nati', 'swiss football'] },
+  austria: { name: 'Austria', keywords: ['austria', 'austrian football'] },
+  serbia: { name: 'Serbia', keywords: ['serbia', 'serbian football'] },
+  turquia: { name: 'Turquia', keywords: ['turkey', 'turkish football'] },
+  ucrania: { name: 'Ucrania', keywords: ['ukraine', 'ukrainian football'] },
+  suecia: { name: 'Suecia', keywords: ['sweden', 'swedish football'] },
+  marruecos: { name: 'Marruecos', keywords: ['morocco', 'leones del atlas', 'atlas lions', 'walid regragui'] },
+  senegal: { name: 'Senegal', keywords: ['senegal', 'teranga lions'] },
+  nigeria: { name: 'Nigeria', keywords: ['nigeria', 'super eagles'] },
+  camerun: { name: 'Camerun', keywords: ['cameroon', 'indomitable lions'] },
+  ghana: { name: 'Ghana', keywords: ['ghana', 'black stars'] },
+  egipto: { name: 'Egipto', keywords: ['egypt', 'pharaohs'] },
+  'sudafrica': { name: 'Sudafrica', keywords: ['south africa', 'bafana bafana'] },
+  australia: { name: 'Australia', keywords: ['australia', 'socceroos'] },
+  iran: { name: 'Iran', keywords: ['iran', 'team melli'] },
+  japon: { name: 'Japon', keywords: ['japan', 'samurai blue', 'japanese football'] },
+  'corea-del-sur': { name: 'Corea del Sur', keywords: ['south korea', 'taeguk warriors', 'korean football'] },
+  'arabia-saudita': { name: 'Arabia Saudita', keywords: ['saudi arabia', 'green falcons'] },
+  qatar: { name: 'Qatar', keywords: ['qatar', 'qatari football'] },
 };
 
-// Función para normalizar texto
-function normalizeText(text: string) {
+function normalizeText(text) {
   return text.toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -116,170 +78,147 @@ function normalizeText(text: string) {
     .trim();
 }
 
-// Función para encontrar noticias relevantes a un equipo
-function findRelevantNews(teamId: string, articles: Array<{ title: string; content: string; pubDate: string; link: string; source: string }>) {
-  const keywords = TEAM_KEYWORDS[teamId] || [];
-  const normalizedTeamName = normalizeText(teamId.replace(/-/g, ' '));
-  
-  return articles.filter(article => {
-    const normalizedTitle = normalizeText(article.title);
-    const normalizedContent = normalizeText(article.content || '');
-    
-    // Verificar si alguna keyword coincide en título o contenido
-    const matchesKeyword = keywords.some(keyword => {
-      const normalizedKeyword = normalizeText(keyword);
-      return normalizedTitle.includes(normalizedKeyword) || normalizedContent.includes(normalizedKeyword);
-    });
-    
-    // También verificar si el nombre del equipo aparece directamente
-    const matchesTeamName = normalizedTitle.includes(normalizedTeamName) || normalizedContent.includes(normalizedTeamName);
-    
-    return matchesKeyword || matchesTeamName;
-  }).map(article => ({
-    title: article.title,
-    url: article.link,
-    source: article.source,
-    published: article.pubDate,
-  }));
+function findRelevantTeams(article) {
+  const normalizedTitle = normalizeText(article.title || '');
+  const normalizedContent = normalizeText(article.content || '');
+  const text = `${normalizedTitle} ${normalizedContent}`;
+
+  const matchedTeams = [];
+
+  for (const [teamId, teamData] of Object.entries(TEAM_KEYWORDS)) {
+    const normalizedTeamName = normalizeText(teamId.replace(/-/g, ' '));
+    const matchesTeamName = text.includes(normalizedTeamName);
+    const matchesKeyword = teamData.keywords.some(kw => text.includes(normalizeText(kw)));
+
+    if (matchesTeamName || matchesKeyword) {
+      matchedTeams.push({ teamId, teamName: teamData.name });
+    }
+  }
+
+  return matchedTeams;
 }
 
-// Función principal de actualización
-async function updateNews() {
-  console.log('🔄 Iniciando actualización de noticias...');
-  
-  // Cargar datos actuales de equipos
-  const teamsPath = path.join(__dirname, 'src/content/teams/data.js');
-  const teamsContent = fs.readFileSync(teamsPath, 'utf-8');
-  
-  // Parsear el archivo JS para extraer los objetos de equipo
-  const teamMatches = teamsContent.matchAll(/---\nid: "([^"]+)"[\s\S]*?(?=---|$)/g);
-  const teams: any[] = [];
-  
-  for (const match of teamMatches) {
-    const idMatch = match[0].match(/id: "([^"]+)"/);
-    const nameMatch = match[0].match(/name: "([^"]+)"/);
-    const codeMatch = match[0].match(/code: "([^"]+)"/);
-    const continentMatch = match[0].match(/continent: "([^"]+)"/);
-    const groupMatch = match[0].match(/group: "([^"]+)"?/);
-    const flagMatch = match[0].match(/flag: "([^"]+)"/);
-    const qualifiedMatch = match[0].match(/qualified: (true|false)/);
-    const playersMatch = match[0].match(/players: \[([\s\S]*?)\]/);
-    const socialMatch = match[0].match(/social:\s*\{[\s\S]*?\}/);
-    const newsMatch = match[0].match(/news:\s*\[([\s\S]*?)\]/);
-    
-    const players = playersMatch ? playersMatch[1].split(',').map(p => p.trim().replace(/^"|"$/g, '')).filter(Boolean) : [];
-    
-    // Parsear noticias existentes
-    let existingNews: any[] = [];
-    if (newsMatch && newsMatch[1].trim()) {
-      try {
-        // Convertir formato YAML a JSON
-        const newsItems = newsMatch[1].split(/\n\s*-/).filter(Boolean);
-        for (const item of newsItems) {
-          const titleMatch = item.match(/title: "([^"]+)"/);
-          const urlMatch = item.match(/url: "([^"]+)"/);
-          const sourceMatch = item.match(/source: "([^"]+)"/);
-          const publishedMatch = item.match(/published: "([^"]+)"/);
-          if (titleMatch && urlMatch && sourceMatch && publishedMatch) {
-            existingNews.push({
-              title: titleMatch[1],
-              url: urlMatch[1],
-              source: sourceMatch[1],
-              published: publishedMatch[1],
-            });
-          }
-        }
-      } catch (e) {
-        console.warn(`Error parsing news for ${idMatch?.[1]}:`, e);
-      }
-    }
-    
-    teams.push({
-      id: idMatch?.[1] || '',
-      name: nameMatch?.[1] || '',
-      code: codeMatch?.[1] || '',
-      continent: continentMatch?.[1] || '',
-      group: groupMatch?.[1] || undefined,
-      flag: flagMatch?.[1] || '',
-      qualified: qualifiedMatch?.[1] === 'true',
-      players,
-      social: socialMatch ? eval(`({${socialMatch[0].split('social:')[1].trim()}})`)[0] : {},
-      news: existingNews,
-    });
+async function authenticate() {
+  try {
+    await pb.collection('_superusers').authWithPassword(PB_EMAIL, PB_PASSWORD);
+    console.log('Authenticated with PocketBase');
+  } catch (e) {
+    console.error('Auth failed:', e.message);
+    throw e;
   }
-  
-  // Recopilar artículos de todas las fuentes RSS
-  console.log('📡 Obteniendo artículos de fuentes RSS...');
-  const allArticles: Array<{ title: string; content: string; pubDate: string; link: string; source: string }> = [];
-  
+}
+
+async function fetchArticles() {
+  console.log('Fetching RSS feeds...');
+  const allArticles = [];
+
   for (const source of NEWS_SOURCES) {
     try {
       const feed = await parser.parseURL(source.url);
-      feed.items.forEach(item => {
+      for (const item of feed.items) {
         allArticles.push({
           title: item.title || '',
           content: item.contentSnippet || item.content || '',
-          pubDate: item.pubDate || new Date().toISOString(),
+          pubDate: item.pubDate || item.isoDate || new Date().toISOString(),
           link: item.link || '',
           source: source.name,
+          imageUrl: item.enclosure?.url || item['media:content']?.['$']?.url || '',
         });
-      });
-      console.log(`  ✓ ${source.name}: ${feed.items.length} artículos`);
-    } catch (error) {
-      console.error(`  ✗ Error en ${source.name}:`, error);
-    }
-  }
-  
-  // Actualizar noticias para cada equipo
-  console.log('🔍 Buscando noticias relevantes para cada equipo...');
-  const updatedTeams = teams.map(team => {
-    const relevantNews = findRelevantNews(team.id, allArticles);
-    
-    // Combinar noticias existentes con nuevas (evitando duplicados por URL)
-    const combinedNews = [...team.news];
-    for (const newItem of relevantNews) {
-      const exists = combinedNews.some(item => item.url === newItem.url);
-      if (!exists) {
-        combinedNews.push(newItem);
       }
+      console.log(`  [OK] ${source.name}: ${feed.items.length} articles`);
+    } catch (error) {
+      console.error(`  [FAIL] ${source.name}: ${error.message}`);
     }
-    
-    // Ordenar por fecha (más recientes primero) y limitar a 10 noticias
-    combinedNews.sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime());
-    team.news = combinedNews.slice(0, 10);
-    
-    return team;
-  });
-  
-  // Escribir archivo actualizado
-  let output = '';
-  for (const team of updatedTeams) {
-    output += `---\n`;
-    output += `id: "${team.id}"\n`;
-    output += `name: "${team.name}"\n`;
-    output += `code: "${team.code}"\n`;
-    output += `group: "${team.group || ''}"\n`;
-    output += `continent: "${team.continent}"\n`;
-    output += `flag: "${team.flag}"\n`;
-    output += `qualified: ${team.qualified}\n`;
-    output += `players: [${team.players.map(p => `"${p}"`).join(', ')}]\n`;
-    output += `social: ${JSON.stringify(team.social)}\n`;
-    output += `news: [\n`;
-    for (const news of team.news) {
-      output += `  {\n`;
-      output += `    title: "${news.title.replace(/"/g, '\\"')}",\n`;
-      output += `    url: "${news.url}",\n`;
-      output += `    source: "${news.source}",\n`;
-      output += `    published: "${news.published}"\n`;
-      output += `  },\n`;
-    }
-    output += `]\n`;
-    output += `---\n\n`;
   }
-  
-  fs.writeFileSync(teamsPath, output);
-  console.log('✅ Actualización completada. Archivo de equipos actualizado.');
+
+  return allArticles;
 }
 
-// Ejecutar
-updateNews().catch(console.error);
+async function saveNews(articles) {
+  console.log('Processing and saving news to PocketBase...');
+  let saved = 0;
+  let skipped = 0;
+  let errors = 0;
+
+  for (const article of articles) {
+    if (!article.link || !article.title) continue;
+
+    const matchedTeams = findRelevantTeams(article);
+    if (matchedTeams.length === 0) continue;
+
+    for (const { teamId, teamName } of matchedTeams) {
+      try {
+        // Parse the date
+        let publishedDate;
+        try {
+          publishedDate = new Date(article.pubDate).toISOString().replace('T', ' ').replace('Z', '');
+        } catch {
+          publishedDate = new Date().toISOString().replace('T', ' ').replace('Z', '');
+        }
+
+        await pb.collection('news').create({
+          title: article.title.slice(0, 500),
+          url: article.link,
+          source: article.source,
+          published: publishedDate,
+          teamId,
+          teamName,
+          contentSnippet: (article.content || '').slice(0, 1000),
+          imageUrl: article.imageUrl || '',
+        });
+        saved++;
+      } catch (e) {
+        if (e.status === 400 && e.data?.data?.url?.code === 'validation_not_unique') {
+          skipped++;
+        } else {
+          errors++;
+          if (errors <= 5) {
+            console.error(`  Error saving "${article.title.slice(0, 50)}..." for ${teamId}:`, e.message);
+          }
+        }
+      }
+    }
+  }
+
+  console.log(`Results: ${saved} saved, ${skipped} duplicates skipped, ${errors} errors`);
+}
+
+async function cleanOldNews() {
+  console.log('Cleaning old news (>30 days)...');
+  try {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 30);
+    const cutoffStr = cutoff.toISOString().replace('T', ' ').replace('Z', '');
+
+    const oldRecords = await pb.collection('news').getList(1, 200, {
+      filter: `published < "${cutoffStr}"`,
+    });
+
+    for (const record of oldRecords.items) {
+      await pb.collection('news').delete(record.id);
+    }
+
+    console.log(`Cleaned ${oldRecords.items.length} old records`);
+  } catch (e) {
+    console.error('Error cleaning old news:', e.message);
+  }
+}
+
+async function main() {
+  console.log('=== FutbolXP News Update ===');
+  console.log(`Time: ${new Date().toISOString()}`);
+
+  await authenticate();
+  const articles = await fetchArticles();
+  console.log(`Total articles fetched: ${articles.length}`);
+
+  await saveNews(articles);
+  await cleanOldNews();
+
+  console.log('=== Update complete ===');
+}
+
+main().catch(e => {
+  console.error('Fatal error:', e);
+  process.exit(1);
+});

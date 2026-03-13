@@ -2,9 +2,8 @@ name: Update News and Deploy
 
 on:
   schedule:
-    # Run every 3 hours
     - cron: '0 */3 * * *'
-  workflow_dispatch: # Allow manual triggering
+  workflow_dispatch:
 
 jobs:
   update-and-deploy:
@@ -28,25 +27,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Update news from RSS feeds
+      - name: Update news from RSS feeds to PocketBase
+        env:
+          POCKETBASE_URL: ${{ secrets.POCKETBASE_URL || 'https://futbolxp.pockethost.io' }}
+          POCKETBASE_EMAIL: ${{ secrets.POCKETBASE_EMAIL }}
+          POCKETBASE_PASSWORD: ${{ secrets.POCKETBASE_PASSWORD }}
         run: npm run update-news
 
-      - name: Commit and push if there are changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add src/content/teams/data.js
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: update news data [skip ci]"
-            git push
-          fi
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Build
+        env:
+          PUBLIC_POCKETBASE_URL: https://futbolxp.pockethost.io
         run: npm run build
 
       - name: Upload artifact

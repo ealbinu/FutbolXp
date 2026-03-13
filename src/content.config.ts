@@ -1,74 +1,59 @@
 import { defineCollection, z } from 'astro:content';
+import { file } from 'astro/loaders';
 
-// Colección de equipos
-export const teams = defineCollection({
-  type: 'data',
-  schema: z.object({
-    id: z.string(),
-    name: z.string(),
-    flag: z.string().url().optional(),
-    code: z.string().length(3),
-    group: z.string().optional(),
-    continent: z.string(),
-    qualified: z.boolean().default(true),
-    players: z.array(z.string()).optional(), // slugs de jugadores
-    news: z.array(
-      z.object({
-        title: z.string(),
-        url: z.string().url(),
-        source: z.string(),
-        published: z.string().datetime(),
-      })
-    ).optional(),
-    social: z.object({
-      twitter: z.string().url().optional(),
-      instagram: z.string().url().optional(),
-      officialSite: z.string().url().optional(),
-    }).optional(),
-  }),
-});
-
-// Colección de jugadores
-export const players = defineCollection({
-  type: 'data',
-  schema: z.object({
-    id: z.string(),
-    name: z.string(),
-    team: z.string(), // slug del equipo
-    position: z.string(),
-    number: z.number().optional(),
-    photo: z.string().url().optional(),
-    nationality: z.string(),
-    birth: z.string().optional(),
-    social: z.object({
-      twitter: z.string().url().optional(),
-      instagram: z.string().url().optional(),
-      tiktok: z.string().url().optional(),
-      facebook: z.string().url().optional(),
+export const collections = {
+  teams: defineCollection({
+    loader: file('src/content/teams/data.json'),
+    schema: z.object({
+      id: z.string(),
+      name: z.string(),
+      flag: z.string().optional(),
+      code: z.string(),
+      group: z.string().optional(),
+      continent: z.string(),
+      qualified: z.boolean().default(false),
+      players: z.array(z.string()).default([]),
+      news: z.array(
+        z.object({
+          title: z.string(),
+          url: z.string(),
+          source: z.string(),
+          published: z.string(),
+        })
+      ).default([]),
+      social: z.object({
+        twitter: z.string().optional(),
+        instagram: z.string().optional(),
+        officialSite: z.string().optional(),
+      }).optional(),
     }),
-    news: z.array(
-      z.object({
-        title: z.string(),
-        url: z.string().url(),
-        source: z.string(),
-        published: z.string().datetime(),
-      })
-    ).optional(),
   }),
-});
 
-// Colección de contenido (noticias generales)
-export const posts = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.date(),
-    updated: z.date().optional(),
-    author: z.string(),
-    image: z.string().url().optional(),
-    tags: z.array(z.string()).optional(),
+  players: defineCollection({
+    loader: file('src/content/players/data.json'),
+    schema: z.object({
+      id: z.string(),
+      name: z.string(),
+      team: z.string(),
+      position: z.string(),
+      number: z.number().optional(),
+      photo: z.string().optional(),
+      nationality: z.string(),
+      birth: z.string().optional(),
+      social: z.object({
+        twitter: z.string().optional(),
+        instagram: z.string().optional(),
+        tiktok: z.string().optional(),
+        facebook: z.string().optional(),
+      }).default({}),
+      news: z.array(
+        z.object({
+          title: z.string(),
+          url: z.string(),
+          source: z.string(),
+          published: z.string(),
+        })
+      ).default([]),
+    }),
   }),
-});
-
-export const collections = { teams, players, posts };
+};

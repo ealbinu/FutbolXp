@@ -1,104 +1,90 @@
+---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-
-export async function getStaticPaths() {
-  const players = await getCollection('players');
-  return [];
-}
 
 const allPlayers = await getCollection('players');
 const players = allPlayers.sort((a, b) => a.data.name.localeCompare(b.data.name));
 
-// Get unique teams and positions for filters
 const teams = [...new Set(allPlayers.map(p => p.data.team))].sort();
 const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
-</script>
+---
 
-<Layout title="Todos los Jugadores - Fútbol Experto 2026">
+<Layout title="Jugadores - FutbolXP">
   <main class="container section">
-    <header class="hero">
+    <div class="page-header">
       <h1>Jugadores del Mundial 2026</h1>
-      <p>Estadísticas, noticias y redes sociales de cada futbolista</p>
-    </header>
+      <p class="page-desc">Todos los futbolistas participantes en el torneo</p>
+    </div>
 
-    <!-- Filtros -->
-    <div style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-      <select id="teamFilter" style="padding: 0.5rem 1rem; border-radius: 8px; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);">
+    <!-- Filters -->
+    <div class="filters">
+      <select id="teamFilter" class="filter-select">
         <option value="">Todos los equipos</option>
         {teams.map(teamId => (
-          <option value={teamId}>{teamId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</option>
+          <option value={teamId}>{teamId.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}</option>
         ))}
       </select>
-      
-      <select id="positionFilter" style="padding: 0.5rem 1rem; border-radius: 8px; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);">
+      <select id="positionFilter" class="filter-select">
         <option value="">Todas las posiciones</option>
         {positions.map(pos => (
           <option value={pos}>{pos}</option>
         ))}
       </select>
+      <div class="player-count" id="playerCount">{players.length} jugadores</div>
     </div>
 
-    <div class="players-grid" id="playersGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+    <div class="players-grid" id="playersGrid">
       {players.map((player) => (
-        <a 
+        <a
           href={`/jugador/${player.data.id}`}
-          class="player-card"
+          class="player-card card"
           data-team={player.data.team}
           data-position={player.data.position}
-          style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--gradient-card); border: 1px solid var(--color-border); border-radius: 12px; transition: all 0.2s;"
         >
-          <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-surface); overflow: hidden; flex-shrink: 0;">
+          <div class="player-avatar">
             {player.data.photo ? (
-              <img src={player.data.photo} alt={player.data.name} style="width: 100%; height: 100%; object-fit: cover;" />
+              <img src={player.data.photo} alt={player.data.name} loading="lazy" />
             ) : (
-              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; color: var(--color-text-muted);">
-                {player.data.name.charAt(0)}
-              </div>
+              <span class="avatar-letter">{player.data.name.charAt(0)}</span>
             )}
           </div>
-          <div style="flex: 1; min-width: 0;">
-            <div class="player-name" style="font-weight: 600; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              {player.data.name}
-            </div>
-            <div class="player-details" style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; flex-wrap: wrap; gap: 0.5rem;">
-              <span>{player.data.position}</span>
-              <span>•</span>
-              <span>{player.data.team.replace(/-/g, ' ')}</span>
+          <div class="player-info">
+            <div class="player-name">{player.data.name}</div>
+            <div class="player-details">
+              <span class="player-pos">{player.data.position}</span>
+              <span class="player-team">{player.data.team.replace(/-/g, ' ')}</span>
             </div>
           </div>
           {player.data.number && (
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-accent);">
-              #{player.data.number}
-            </div>
+            <div class="player-number">#{player.data.number}</div>
           )}
         </a>
       ))}
     </div>
 
     {players.length === 0 && (
-      <p style="text-align: center; color: var(--color-text-muted); padding: 4rem;">
-        No hay jugadores registrados aún.
-      </p>
+      <div class="empty-state">No hay jugadores registrados.</div>
     )}
   </main>
 
   <script>
-    // Simple client-side filtering
     document.addEventListener('DOMContentLoaded', () => {
-      const teamFilter = document.getElementById('teamFilter');
-      const positionFilter = document.getElementById('positionFilter');
-      const grid = document.getElementById('playersGrid');
-      const cards = grid.querySelectorAll('.player-card');
+      const teamFilter = document.getElementById('teamFilter') as HTMLSelectElement;
+      const positionFilter = document.getElementById('positionFilter') as HTMLSelectElement;
+      const grid = document.getElementById('playersGrid')!;
+      const countEl = document.getElementById('playerCount')!;
+      const cards = grid.querySelectorAll('.player-card') as NodeListOf<HTMLElement>;
 
       const filter = () => {
         const team = teamFilter.value;
         const position = positionFilter.value;
-
+        let visible = 0;
         cards.forEach(card => {
-          const matchesTeam = !team || card.dataset.team === team;
-          const matchesPosition = !position || card.dataset.position === position;
-          card.style.display = matchesTeam && matchesPosition ? 'flex' : 'none';
+          const show = (!team || card.dataset.team === team) && (!position || card.dataset.position === position);
+          card.style.display = show ? 'flex' : 'none';
+          if (show) visible++;
         });
+        countEl.textContent = `${visible} jugadores`;
       };
 
       teamFilter.addEventListener('change', filter);
@@ -106,3 +92,84 @@ const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
     });
   </script>
 </Layout>
+
+<style>
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  .page-desc { color: var(--color-text-secondary); }
+
+  .filters {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-select {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  .filter-select:focus { border-color: var(--color-primary); outline: none; }
+  .player-count {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .player-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+  .player-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-surface-2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar-letter { font-weight: 800; font-size: 1.1rem; color: var(--color-text-muted); }
+  .player-info { flex: 1; min-width: 0; }
+  .player-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .player-details {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+  .player-pos { color: var(--color-primary-light); }
+  .player-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .players-grid { grid-template-columns: 1fr; }
+    .player-count { margin-left: 0; }
+  }
+</style>
