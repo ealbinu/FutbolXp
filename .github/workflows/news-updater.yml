@@ -1,0 +1,29 @@
+name: News Auto-Updater
+
+on:
+  schedule:
+    - cron: '0 */3 * * *' # Every 3 hours
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Update Script
+        env:
+          POCKETBASE_URL: 'https://futbolxp.pockethost.io'
+          POCKETBASE_EMAIL: ${{ secrets.POCKETBASE_EMAIL }}
+          POCKETBASE_PASSWORD: ${{ secrets.POCKETBASE_PASSWORD }}
+        run: npm run update-news
