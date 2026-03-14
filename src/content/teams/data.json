@@ -18,26 +18,7 @@
       "h-hirving-loanzo",
       "h-carlos-rodriguez"
     ],
-    "news": [
-      {
-        "title": "México oficializa su sede para el Mundial 2026: 3 estadios confirmados",
-        "url": "https://example.com/mexico-sede-mundial-2026",
-        "source": "Fútbol Experto",
-        "published": "2025-03-15T10:30:00Z"
-      },
-      {
-        "title": "Jaime Lozano renueva como técnico de México hasta 2026",
-        "url": "https://example.com/lozano-renovacion",
-        "source": "ESPN",
-        "published": "2025-02-28T14:20:00Z"
-      },
-      {
-        "title": "México jugará partidos de preparación contra Brasil y Uruguay",
-        "url": "https://example.com/mexico-amistosos",
-        "source": "Marca",
-        "published": "2025-03-10T08:15:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "canada",
@@ -57,20 +38,7 @@
       "h-jonathan-david",
       "h-cyle-larin"
     ],
-    "news": [
-      {
-        "title": "Canadá confirma a Jesse Marsch como DT para el Mundial 2026",
-        "url": "https://example.com/canada-marsch",
-        "source": "The Athletic",
-        "published": "2025-01-20T12:00:00Z"
-      },
-      {
-        "title": "Alphonso Davies se recupera de lesión y apunta al Mundial",
-        "url": "https://example.com/davies-recovers",
-        "source": "Sky Sports",
-        "published": "2025-03-05T09:45:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "estados-unidos",
@@ -91,20 +59,7 @@
       "h-folarin-balogun",
       "h-weston-mckennie"
     ],
-    "news": [
-      {
-        "title": "USMNT anuncia gira europea previa al Mundial 2026",
-        "url": "https://example.com/usmnt-gira",
-        "source": "USA Today",
-        "published": "2025-03-12T16:30:00Z"
-      },
-      {
-        "title": "Pulisic renueva con el Chelsea hasta 2028",
-        "url": "https://example.com/pulisic-renewal",
-        "source": "Goal.com",
-        "published": "2025-02-15T11:20:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "costa-rica",
@@ -121,14 +76,7 @@
       "h-keylor-navas",
       "h-joel-campbell"
     ],
-    "news": [
-      {
-        "title": "Costa Rica busca su cuarto Mundial consecutivo",
-        "url": "https://example.com/costa-rica-eliminatorias",
-        "source": "Nación",
-        "published": "2025-03-08T07:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "jamaica",
@@ -144,14 +92,7 @@
     "players": [
       "h-leon-bailey"
     ],
-    "news": [
-      {
-        "title": "Reggae Boyz apuestan por la nueva generación para 2026",
-        "url": "https://example.com/jamaica-reggae-boyz",
-        "source": "Jamaica Observer",
-        "published": "2025-02-20T10:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "panama",
@@ -186,20 +127,7 @@
       "a-julian-alvarez",
       "a-emiliano-martinez"
     ],
-    "news": [
-      {
-        "title": "Messi confirma que jugará el Mundial 2026: 'Mi sueño sigue vivo'",
-        "url": "https://example.com/messi-mundial-2026",
-        "source": "Olé",
-        "published": "2025-03-01T18:00:00Z"
-      },
-      {
-        "title": "Scaloni renovó hasta 2026 y dirigirá en busca del bicampeonato",
-        "url": "https://example.com/scaloni-renovacion",
-        "source": "TyC Sports",
-        "published": "2025-01-15T14:30:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "colombia",
@@ -218,14 +146,7 @@
       "j-luis-diaz",
       "j-david-ospina"
     ],
-    "news": [
-      {
-        "title": "Colombia busca su boleto a Canadá 2026 en las eliminatorias",
-        "url": "https://example.com/colombia-eliminatorias",
-        "source": "Futbolred",
-        "published": "2025-03-09T12:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "ecuador",
@@ -242,14 +163,7 @@
     "players": [
       "e-enner-valencia"
     ],
-    "news": [
-      {
-        "title": "Ecuador y su sueño mundialista: la Tricolor apunta a 2026",
-        "url": "https://example.com/ecuador-mundial",
-        "source": "El Comercio",
-        "published": "2025-02-25T09:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "uruguay",
@@ -267,14 +181,7 @@
       "u-federico-valverde",
       "u-ronaldo-arias"
     ],
-    "news": [
-      {
-        "title": "Uruguay y su legado mundialista: la Celeste va por más",
-        "url": "https://example.com/uruguay-celeste",
-        "source": "El País",
-        "published": "2025-03-03T15:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "brazil",
@@ -295,14 +202,7 @@
       "b-alisson",
       "b-casemiro"
     ],
-    "news": [
-      {
-        "title": "Brasil comienza su preparación para el Mundial 2026",
-        "url": "https://example.com/brasil-preparacion",
-        "source": "Globo Esporte",
-        "published": "2025-02-18T08:30:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "paraguay",
@@ -331,14 +231,7 @@
       "twitter": "https://twitter.com/TuFPF"
     },
     "players": [],
-    "news": [
-      {
-        "title": "Perú y la esperanza de volver a un Mundial después de 8 años",
-        "url": "https://example.com/peru-mundial-2026",
-        "source": "Depor",
-        "published": "2025-02-28T13:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "chile",
@@ -352,14 +245,7 @@
       "twitter": "https://twitter.com/LaRoja"
     },
     "players": [],
-    "news": [
-      {
-        "title": "La Roja se prepara para las eliminatorias con miras a 2026",
-        "url": "https://example.com/chile-roja",
-        "source": "AS Chile",
-        "published": "2025-03-07T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "inglaterra",
@@ -375,14 +261,7 @@
       "instagram": "https://instagram.com/england"
     },
     "players": [],
-    "news": [
-      {
-        "title": "England busca romper la sequía de títulos en 2026",
-        "url": "https://example.com/england-mundial",
-        "source": "BBC Sport",
-        "published": "2025-02-10T12:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "francia",
@@ -400,14 +279,7 @@
     "players": [
       "f-kylian-mbappe"
     ],
-    "news": [
-      {
-        "title": "Les Bleus, favoritos para el Mundial 2026 tras su renovación",
-        "url": "https://example.com/francia-bleus",
-        "source": "L'Équipe",
-        "published": "2025-03-04T08:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "alemania",
@@ -427,14 +299,7 @@
       "g-toni-kroos",
       "g-manuel-neuer"
     ],
-    "news": [
-      {
-        "title": "Alemania renace bajo Julian Nagelsmann: rumbo a 2026",
-        "url": "https://example.com/alemania-renace",
-        "source": "Kicker",
-        "published": "2025-02-22T14:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "espana",
@@ -454,14 +319,7 @@
       "e-gavi",
       "e-dani-olmo"
     ],
-    "news": [
-      {
-        "title": "La Roja de Luis de la Fuente apunta al bicampeonato mundial",
-        "url": "https://example.com/espana-roja",
-        "source": "Marca",
-        "published": "2025-01-30T11:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "portugal",
@@ -481,14 +339,7 @@
       "p-bruno-fernandes",
       "p-bernardo-silva"
     ],
-    "news": [
-      {
-        "title": "CR7 y la nueva generación lusa sueñan con 2026",
-        "url": "https://example.com/portugal-cr7",
-        "source": "Record",
-        "published": "2025-03-02T10:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "italia",
@@ -505,14 +356,7 @@
       "i-gianluigi-donnarumma",
       "i-leonardo-bonucci"
     ],
-    "news": [
-      {
-        "title": "Gli Azzurri buscan redención en Canadá, México y EE.UU.",
-        "url": "https://example.com/italia-azzurri",
-        "source": "La Gazzetta",
-        "published": "2025-02-14T12:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "paises-bajos",
@@ -530,14 +374,7 @@
       "n-memphis-depay",
       "n-frenkie-de-jong"
     ],
-    "news": [
-      {
-        "title": "Oranje se renueva: nueva sangre para 2026",
-        "url": "https://example.com/paises-bajos-oranje",
-        "source": "Voetbal International",
-        "published": "2025-02-26T09:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "belgica",
@@ -555,14 +392,7 @@
       "b-kevin-de-bruyne",
       "b-romelu-lukaku"
     ],
-    "news": [
-      {
-        "title": "Golden Generation 2.0: Bélgica apuesta por la renovación",
-        "url": "https://example.com/belgica-golden-generation",
-        "source": "Het Nieuwsblad",
-        "published": "2025-03-06T15:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "croacia",
@@ -580,14 +410,7 @@
       "c-luka-modric",
       "c-mateo-kovacic"
     ],
-    "news": [
-      {
-        "title": "Croacia y su legado: Modric apunta a su último Mundial",
-        "url": "https://example.com/croacia-modric",
-        "source": "Sportske Novosti",
-        "published": "2025-01-25T10:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "dinamarca",
@@ -603,14 +426,7 @@
     "players": [
       "d-christian-eriksen"
     ],
-    "news": [
-      {
-        "title": "Danish Dynamite: Dinamarca crece con Eriksen liderando",
-        "url": "https://example.com/dinamarca-dynamite",
-        "source": "TV 2",
-        "published": "2025-02-12T13:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "polonia",
@@ -626,14 +442,7 @@
     "players": [
       "p-robert-lewandowski"
     ],
-    "news": [
-      {
-        "title": "Lewandowski y Polonia buscan hacer historia en 2026",
-        "url": "https://example.com/polonia-lewandowski",
-        "source": "Przegląd Sportowy",
-        "published": "2025-02-17T11:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "suiza",
@@ -651,14 +460,7 @@
       "s-xherdan-shaqiri",
       "s-manuel-akanji"
     ],
-    "news": [
-      {
-        "title": "Nati: la selección suiza quiere sorprender en 2026",
-        "url": "https://example.com/suiza-nati",
-        "source": "Blick",
-        "published": "2025-02-23T09:30:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "austria",
@@ -675,14 +477,7 @@
     "players": [
       "a-marko-arnautovic"
     ],
-    "news": [
-      {
-        "title": "Austria y su joven generación apuntan al Mundial 2026",
-        "url": "https://example.com/austria-2026",
-        "source": "Krone Sport",
-        "published": "2025-03-11T14:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "serbia",
@@ -698,14 +493,7 @@
     "players": [
       "s-dujovic"
     ],
-    "news": [
-      {
-        "title": "Serbia busca su lugar en el Mundial 2026",
-        "url": "https://example.com/serbia-mundial",
-        "source": "Mondo",
-        "published": "2025-02-19T10:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "escocia",
@@ -722,14 +510,7 @@
     "players": [
       "s-andy-robertson"
     ],
-    "news": [
-      {
-        "title": "Scotland aim to end 24-year World Cup drought in 2026",
-        "url": "https://example.com/scotland-2026",
-        "source": "BBC Scotland",
-        "published": "2025-02-05T15:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "republica-checa",
@@ -745,14 +526,7 @@
     "players": [
       "c-patrice-slavick"
     ],
-    "news": [
-      {
-        "title": "Czech Republic rebuild with young talents for 2026",
-        "url": "https://example.com/czech-republic-2026",
-        "source": "iDNES.cz",
-        "published": "2025-03-14T09:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "turquia",
@@ -768,14 +542,7 @@
     "players": [
       "t-hakan-calhanoglu"
     ],
-    "news": [
-      {
-        "title": "Turkey push for World Cup return with new generation",
-        "url": "https://example.com/turkey-2026",
-        "source": "Fanatik",
-        "published": "2025-02-27T12:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "suecia",
@@ -791,14 +558,7 @@
     "players": [
       "s-alexander-isak"
     ],
-    "news": [
-      {
-        "title": "Sweden rebuild without Zlatan: new stars emerge",
-        "url": "https://example.com/sweden-2026",
-        "source": "Aftonbladet",
-        "published": "2025-02-09T13:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "gales",
@@ -814,14 +574,7 @@
     "players": [
       "w-gareth-bale"
     ],
-    "news": [
-      {
-        "title": "Gales con Bale: último asalto para el Mundial 2026",
-        "url": "https://example.com/gales-bale",
-        "source": "BBC Wales",
-        "published": "2025-02-16T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "marruecos",
@@ -838,14 +591,7 @@
     "players": [
       "m-achraf-hakimi"
     ],
-    "news": [
-      {
-        "title": "Los Leones del Atlas buscan repetir hazaña en 2026",
-        "url": "https://example.com/marruecos-atlas",
-        "source": "Hespress",
-        "published": "2025-02-03T12:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "senegal",
@@ -862,14 +608,7 @@
     "players": [
       "s-sadio-mane"
     ],
-    "news": [
-      {
-        "title": "Senegal con Mane: la力量 of Africa",
-        "url": "https://example.com/senegal-mane",
-        "source": "Senego",
-        "published": "2025-03-13T08:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "argelia",
@@ -884,14 +623,7 @@
       "twitter": "https://twitter.com/lesverts"
     },
     "players": [],
-    "news": [
-      {
-        "title": "Los Zorros del Desierto: Argelia apunta a Canadá 2026",
-        "url": "https://example.com/argelia-mahrez",
-        "source": "DZFoot",
-        "published": "2025-02-11T17:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "tunez",
@@ -908,14 +640,7 @@
     "players": [
       "t-youssef-msakni"
     ],
-    "news": [
-      {
-        "title": "Los Águilas de Cartago buscan su quinto Mundial",
-        "url": "https://example.com/tunez-aguilas",
-        "source": "Tunis Afrique Presse",
-        "published": "2025-03-09T14:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "nigeria",
@@ -931,14 +656,7 @@
     "players": [
       "n-victor-osimhen"
     ],
-    "news": [
-      {
-        "title": "Super Eagles: Nigeria confía en su nueva generación",
-        "url": "https://example.com/nigeria-eagles",
-        "source": "Punch",
-        "published": "2025-02-21T10:30:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "camerun",
@@ -954,14 +672,7 @@
     "players": [
       "c-vincent-abusuor"
     ],
-    "news": [
-      {
-        "title": "Los Leones Indomables renacen con nueva sangre",
-        "url": "https://example.com/camerun-leones",
-        "source": "Cameroon Tribune",
-        "published": "2025-03-02T11:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "ghana",
@@ -978,14 +689,7 @@
     "players": [
       "g-thomas-partey"
     ],
-    "news": [
-      {
-        "title": "Black Stars: Ghana busca su cuarto Mundial",
-        "url": "https://example.com/ghana-stars",
-        "source": "GhanaWeb",
-        "published": "2025-02-14T09:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "costas-de-marfil",
@@ -1002,14 +706,7 @@
     "players": [
       "i-seko-fofana"
     ],
-    "news": [
-      {
-        "title": "Les Éléphants: Costa de Marfil apunta a 2026",
-        "url": "https://example.com/costamarfil-elefantes",
-        "source": "Fraternité Matin",
-        "published": "2025-03-08T13:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "egipto",
@@ -1026,14 +723,7 @@
     "players": [
       "e-mohamed-salah"
     ],
-    "news": [
-      {
-        "title": "Los Faraones: Egipto con Salah busca su cuarto Mundial",
-        "url": "https://example.com/egipto-faraones",
-        "source": "Al Ahram",
-        "published": "2025-02-19T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "sudafrica",
@@ -1065,14 +755,7 @@
     "players": [
       "a-aaron-mooy"
     ],
-    "news": [
-      {
-        "title": "Socceroos: Australia busca su sexto Mundial consecutivo",
-        "url": "https://example.com/australia-socceroos",
-        "source": "The Guardian Australia",
-        "published": "2025-02-28T07:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "iran",
@@ -1089,14 +772,7 @@
     "players": [
       "i-mehdi-taremi"
     ],
-    "news": [
-      {
-        "title": "Team Melli: Irán y su sueño mundialista",
-        "url": "https://example.com/iran-team-melli",
-        "source": "Tehran Times",
-        "published": "2025-03-11T18:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "japon",
@@ -1115,14 +791,7 @@
       "j-takumi-minamino",
       "j-maya-yoshida"
     ],
-    "news": [
-      {
-        "title": "Samurai Blue: Japón y su estilo único hacia 2026",
-        "url": "https://example.com/japon-samurai",
-        "source": "Kyodo News",
-        "published": "2025-02-25T05:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "corea-del-sur",
@@ -1139,14 +808,7 @@
     "players": [
       "k-son-heung-min"
     ],
-    "news": [
-      {
-        "title": "Taegeuk Warriors: Corea del Sur con Son Heung-min",
-        "url": "https://example.com/corea-sur-son",
-        "source": "Yonhap News",
-        "published": "2025-03-06T03:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "arabia-saudita",
@@ -1163,14 +825,7 @@
     "players": [
       "s-salem-al-dawsari"
     ],
-    "news": [
-      {
-        "title": "Los Halcones Verdes: Arabia Saudita sorprenderá en 2026?",
-        "url": "https://example.com/arabia-saudita-halcones",
-        "source": "Arab News",
-        "published": "2025-02-13T11:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "uzbekistan",

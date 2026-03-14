@@ -13,20 +13,7 @@
       "instagram": "https://instagram.com/luisromero9",
       "tiktok": "https://tiktok.com/@luisromero9"
     },
-    "news": [
-      {
-        "title": "Luis Romero marca doblete en el entrenamiento de la Selección",
-        "url": "https://example.com/romero-doblete",
-        "source": "Mediotiempo",
-        "published": "2025-03-12T10:30:00Z"
-      },
-      {
-        "title": "Romero: 'Estoy listo para el Mundial 2026'",
-        "url": "https://example.com/romero-declaraciones",
-        "source": "ESPN",
-        "published": "2025-03-08T14:20:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-guillermo-martinez",
@@ -41,14 +28,7 @@
       "twitter": "https://twitter.com/guillermomtzz",
       "instagram": "https://instagram.com/guillermomtzz"
     },
-    "news": [
-      {
-        "title": "Guillermo Martínez renueva con Chivas hasta 2027",
-        "url": "https://example.com/martinez-renovacion",
-        "source": "Chivas TV",
-        "published": "2025-02-28T09:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-hirving-loanzo",
@@ -63,14 +43,7 @@
       "twitter": "https://twitter.com/hirvinglozano",
       "instagram": "https://instagram.com/hirvinglozano"
     },
-    "news": [
-      {
-        "title": "Chucky Lozano listo para el Mundial tras recuperarse de lesión",
-        "url": "https://example.com/lozano-recuperacion",
-        "source": "TUDN",
-        "published": "2025-03-10T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-carlos-rodriguez",
@@ -100,20 +73,7 @@
       "twitter": "https://twitter.com/AlphonsoDavies",
       "instagram": "https://instagram.com/alphonsodavies"
     },
-    "news": [
-      {
-        "title": "Davies renueva con el Bayern Munich hasta 2030",
-        "url": "https://example.com/davies-renewal",
-        "source": "Kicker",
-        "published": "2025-02-15T12:00:00Z"
-      },
-      {
-        "title": "Alphonso Davies liderará a Canadá en el Mundial 2026",
-        "url": "https://example.com/davies-lider",
-        "source": "Sportsnet",
-        "published": "2025-03-05T08:30:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-jonathan-david",
@@ -128,14 +88,7 @@
       "twitter": "https://twitter.com/jonathandavid_10",
       "instagram": "https://instagram.com/jonathandavid_10"
     },
-    "news": [
-      {
-        "title": "Jonathan David marca hat-trick con Lille",
-        "url": "https://example.com/david-hattrick",
-        "source": "L'Équipe",
-        "published": "2025-03-01T18:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-cyle-larin",
@@ -165,20 +118,7 @@
       "twitter": "https://twitter.com/ChristianPulisic",
       "instagram": "https://instagram.com/chelseapulisic"
     },
-    "news": [
-      {
-        "title": "Pulisic renueva con el Chelsea: 'Quiero hacer historia en 2026'",
-        "url": "https://example.com/pulisic-renewal",
-        "source": "Chelsea FC",
-        "published": "2025-02-15T11:20:00Z"
-      },
-      {
-        "title": "USMNT captain Pulisic leads America’s 2026 bid",
-        "url": "https://example.com/pulisic-captain",
-        "source": "USA Today",
-        "published": "2025-03-12T09:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-gio-reyna",
@@ -193,14 +133,7 @@
       "twitter": "https://twitter.com/GioReyna",
       "instagram": "https://instagram.com/gio_reyna"
     },
-    "news": [
-      {
-        "title": "Reyna returns to training after hamstring injury",
-        "url": "https://example.com/reyna-injury",
-        "source": "Borussia Dortmund",
-        "published": "2025-03-10T14:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-folarin-balogun",
@@ -215,14 +148,7 @@
       "twitter": "https://twitter.com/balogun",
       "instagram": "https://instagram.com/folarin_balogun"
     },
-    "news": [
-      {
-        "title": "Balogun shines in Monaco’s Champions League run",
-        "url": "https://example.com/balogun-monaco",
-        "source": "L'Équipe",
-        "published": "2025-02-28T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "h-weston-mckennie",
@@ -297,14 +223,7 @@
       "twitter": "https://twitter.com/TeamMessi",
       "instagram": "https://instagram.com/leomessi"
     },
-    "news": [
-      {
-        "title": "Messi confirma que jugará el Mundial 2026: 'Mi sueño sigue vivo'",
-        "url": "https://example.com/messi-mundial-2026",
-        "source": "Olé",
-        "published": "2025-03-01T18:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "a-julian-alvarez",
@@ -349,14 +268,7 @@
       "twitter": "https://twitter.com/jamesrodriguez",
       "instagram": "https://instagram.com/jamesrodriguez10"
     },
-    "news": [
-      {
-        "title": "James Rodríguez lidera a Colombia en eliminatorias",
-        "url": "https://example.com/james-colombia",
-        "source": "Futbolred",
-        "published": "2025-03-09T12:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "j-luis-diaz",
@@ -521,14 +433,7 @@
       "twitter": "https://twitter.com/Cristiano",
       "instagram": "https://instagram.com/cristiano"
     },
-    "news": [
-      {
-        "title": "CR7 confirma que jugará el Mundial 2026 a sus 41 años",
-        "url": "https://example.com/cr7-mundial-2026",
-        "source": "Record",
-        "published": "2025-03-02T10:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "p-bruno-fernandes",
@@ -573,14 +478,7 @@
       "twitter": "https://twitter.com/Pedri",
       "instagram": "https://instagram.com/pedri"
     },
-    "news": [
-      {
-        "title": "Pedri, el corazón de la Roja: 'Vamos por el tercer Mundial'",
-        "url": "https://example.com/pedri-roja",
-        "source": "Marca",
-        "published": "2025-01-30T11:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "e-gavi",
@@ -625,14 +523,7 @@
       "twitter": "https://twitter.com/KMbappe",
       "instagram": "https://instagram.com/k.mbappe"
     },
-    "news": [
-      {
-        "title": "Mbappé renueva con el Real Madrid y apunta al Mundial 2026",
-        "url": "https://example.com/mbappe-renewal",
-        "source": "Marca",
-        "published": "2025-03-04T08:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "g-jamal-musiala",
@@ -647,14 +538,7 @@
       "twitter": "https://twitter.com/JamalMusiala",
       "instagram": "https://instagram.com/jamalmusiala"
     },
-    "news": [
-      {
-        "title": "Musiala, la nueva estrella de Alemania: 'Quiero ser campeón del mundo'",
-        "url": "https://example.com/musiala-germany",
-        "source": "Kicker",
-        "published": "2025-02-22T14:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "g-toni-kroos",
@@ -789,14 +673,7 @@
       "twitter": "https://twitter.com/lukamodric10",
       "instagram": "https://instagram.com/lukamodric10"
     },
-    "news": [
-      {
-        "title": "Modrić anuncia que el Mundial 2026 será su último",
-        "url": "https://example.com/modric-retiro",
-        "source": "Sportske Novosti",
-        "published": "2025-01-25T10:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "c-mateo-kovacic",
@@ -976,14 +853,7 @@
       "twitter": "https://twitter.com/GarethBale11",
       "instagram": "https://instagram.com/garethbale11"
     },
-    "news": [
-      {
-        "title": "Bale anuncia su retirada tras el Mundial 2026",
-        "url": "https://example.com/bale-retiro",
-        "source": "BBC Wales",
-        "published": "2025-02-16T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "m-achraf-hakimi",
@@ -1118,14 +988,7 @@
       "twitter": "https://twitter.com/MoSalah",
       "instagram": "https://instagram.com/mohamed Salah"
     },
-    "news": [
-      {
-        "title": "Salah leads Egypt’s 2026 World Cup qualification charge",
-        "url": "https://example.com/salah-egypt",
-        "source": "Al Ahram",
-        "published": "2025-02-19T16:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "a-aaron-mooy",
@@ -1200,14 +1063,7 @@
       "twitter": "https://twitter.com/SonHeungMin",
       "instagram": "https://instagram.com/sonheungmin"
     },
-    "news": [
-      {
-        "title": "Son Heung-min lidera Corea del Sur hacia 2026",
-        "url": "https://example.com/son-corea",
-        "source": "Yonhap News",
-        "published": "2025-03-06T03:00:00Z"
-      }
-    ]
+    "news": []
   },
   {
     "id": "s-salem-al-dawsari",
