@@ -1,17 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import { getNewsByPlayer } from '../../lib/pocketbase';
 
-export async function getStaticPaths() {
-  const players = await getCollection('players');
-  return players.map((player) => ({
-    params: { id: player.data.id },
-    props: { player: player.data },
-  }));
+export const prerender = false;
+
+const { id } = Astro.params;
+const entry = await getEntry('players', id as any);
+
+if (!entry) {
+  return Astro.redirect('/404');
 }
 
-const { player } = Astro.props;
+const player = entry.data;
 
 // Fetch real news from PocketBase
 const realNews = await getNewsByPlayer(player.id, 10);

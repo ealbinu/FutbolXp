@@ -1,17 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import { getNewsByTeam } from '../../lib/pocketbase';
 
-export async function getStaticPaths() {
-  const teams = await getCollection('teams');
-  return teams.map((team) => ({
-    params: { id: team.data.id },
-    props: { team: team.data },
-  }));
+export const prerender = false;
+
+const { id } = Astro.params;
+const entry = await getEntry('teams', id as any);
+
+if (!entry) {
+  return Astro.redirect('/404');
 }
 
-const { team } = Astro.props;
+const team = entry.data;
 
 // Get players for this team
 const allPlayers = await getCollection('players');
