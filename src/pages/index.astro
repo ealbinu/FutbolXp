@@ -296,16 +296,21 @@ const formatDate = (dateString: string) => {
     letter-spacing: 0.03em;
   }
   .group-tab:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 2px 2px 0px #000000;
+    transform: translate(-3px, -3px);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
   .group-tab.active {
-    background: #000000;
-    color: #ffffff;
+    background: #ffffff;
+    color: #000000;
+    border-width: 4px;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
   }
   .group-tab.active .tab-count {
-    background: rgba(255,255,255,0.3);
-    color: #ffffff;
+    background: #ffffff;
+    color: #000000;
   }
   .tab-count {
     font-size: 0.6rem;
