@@ -311,7 +311,7 @@ async function cleanOldNews() {
 }
 
 async function main() {
-  console.log('=== FutbolXP News Update ===');
+  console.log('=== FutbolExperto News Update ===');
   await authenticate();
   const allArticles = await fetchArticles();
   const articles = allArticles.slice(0, 20);

@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title = 'FutbolXP - Mundial 2026', description = 'Noticias y cobertura de los equipos y jugadores del Mundial 2026' } = Astro.props;
+const { title = 'FutbolExperto - Mundial 2026', description = 'Noticias y cobertura de los equipos y jugadores del Mundial 2026' } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -398,7 +398,7 @@ const currentPath = Astro.url.pathname;
       <div class="container header-inner">
         <a href="/" class="logo">
           <div class="logo-icon">&#9917;</div>
-          <span>FutbolXP</span>
+          <span>FutbolExperto.com</span>
         </a>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">&#9776;</button>
         <nav>
@@ -415,9 +415,9 @@ const currentPath = Astro.url.pathname;
 
     <footer class="footer">
       <div class="container footer-inner">
-        <div class="footer-brand">FutbolXP &copy; 2026</div>
+        <div class="footer-brand">FutbolExperto.com &copy; 2026</div>
         <div class="footer-info">
-          <span><span class="pulse"></span>Datos actualizados cada 3h</span>
+          <span><span class="pulse"></span>¡Noticias del mundial actualizadas!</span>
           <span class="dot"></span>
           <span>Powered by PocketBase + Astro</span>
         </div>
