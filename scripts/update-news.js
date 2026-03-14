@@ -319,6 +319,7 @@ async function main() {
   await saveNews(articles);
   await cleanOldNews();
   console.log('=== Update complete ===');
+  process.exit(0);
 }
 
 main().catch(e => {
