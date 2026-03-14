@@ -1,9 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getNewsCounts } from '../lib/pocketbase';
+
+export const prerender = false;
 
 const allPlayers = await getCollection('players');
 const players = allPlayers.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const newsCounts = await getNewsCounts();
 
 const teams = [...new Set(allPlayers.map(p => p.data.team))].sort();
 const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
@@ -57,6 +62,11 @@ const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
           </div>
           {player.data.number && (
             <div class="player-number">#{player.data.number}</div>
+          )}
+          {newsCounts[player.data.id] > 0 && (
+            <div class="news-count-badge">
+              {newsCounts[player.data.id]} noticias
+            </div>
           )}
         </a>
       ))}
@@ -174,6 +184,15 @@ const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
     font-size: 0.85rem;
     font-weight: 800;
     color: #333333;
+  }
+  .news-count-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0.15rem 0.4rem;
+    border: 1px solid #000000;
+    white-space: nowrap;
+    margin-left: 0.5rem;
   }
 
   @media (max-width: 768px) {

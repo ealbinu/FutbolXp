@@ -75,3 +75,24 @@ export async function getLatestNews(limit = 10): Promise<NewsItem[]> {
     return [];
   }
 }
+export async function getNewsCounts(): Promise<Record<string, number>> {
+  try {
+    // Fetch all news that have a playerId assigned
+    const records = await pb.collection('news').getFullList<NewsItem>({
+      filter: 'playerId != ""',
+      fields: 'playerId'
+    });
+
+    const counts: Record<string, number> = {};
+    records.forEach(news => {
+      if (news.playerId) {
+        counts[news.playerId] = (counts[news.playerId] || 0) + 1;
+      }
+    });
+
+    return counts;
+  } catch (e) {
+    console.error('Error fetching news counts:', e);
+    return {};
+  }
+}
