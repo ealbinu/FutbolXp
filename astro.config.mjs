@@ -5,7 +5,7 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://futbolexperto.com',
   integrations: [],
-  output: 'static',
+  output: 'server',
   adapter: cloudflare({
     imageService: 'passthrough',
   }),
