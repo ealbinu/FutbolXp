@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getNewsByPlayer } from '../../lib/pocketbase';
 
 export async function getStaticPaths() {
   const players = await getCollection('players');
@@ -11,6 +12,13 @@ export async function getStaticPaths() {
 }
 
 const { player } = Astro.props;
+
+// Fetch real news from PocketBase
+const realNews = await getNewsByPlayer(player.id, 10);
+
+// Combine with static news (optional, but real news first)
+const staticNews = player.news || [];
+const allNews = [...realNews, ...staticNews].slice(0, 15);
 
 const allTeams = await getCollection('teams');
 const team = allTeams.find(t => t.data.id === player.team);
@@ -53,10 +61,10 @@ const formatDate = (dateString: string) => {
     <div class="content-grid">
       <div class="main-col">
         <h2 class="section-title">Noticias</h2>
-        {player.news && player.news.length > 0 ? (
+        {allNews.length > 0 ? (
           <div class="news-list">
-            {player.news.map((item) => (
-              <a href={item.url} target="_blank" rel="noopener noreferrer" class="news-card">
+            {allNews.map((item: any) => (
+              <a href={item.id ? `/noticia/${item.id}` : item.url} target={item.id ? "_self" : "_blank"} rel="noopener noreferrer" class="news-card">
                 <div class="title">{item.title}</div>
                 <div class="meta">
                   <span class="source">{item.source}</span>
@@ -124,28 +132,32 @@ const formatDate = (dateString: string) => {
 <style>
   .back-link {
     display: inline-block;
-    color: var(--color-text-muted);
+    color: #000000;
     font-size: 0.85rem;
+    font-weight: 700;
     margin-bottom: 1.25rem;
-    transition: color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  .back-link:hover { color: var(--color-primary-light); }
+  .back-link:hover { text-decoration-thickness: 3px; }
 
   .profile-card {
     display: flex;
     align-items: center;
     gap: 1.5rem;
     padding: 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: #ffffff;
+    border: 3px solid #000000;
     margin-bottom: 2.5rem;
   }
   .profile-avatar {
     width: 96px;
     height: 96px;
     border-radius: 50%;
-    background: var(--color-surface-2);
+    background: #f0f0f0;
+    border: 3px solid #000000;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -153,18 +165,21 @@ const formatDate = (dateString: string) => {
     flex-shrink: 0;
   }
   .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .avatar-letter { font-size: 2.5rem; font-weight: 800; color: var(--color-text-muted); }
+  .avatar-letter { font-size: 2.5rem; font-weight: 900; color: #666666; }
   .profile-info h1 { font-size: 2rem; margin-bottom: 0.5rem; }
   .profile-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
   .team-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--color-primary-light);
-    font-weight: 500;
-    font-size: 0.9rem;
+    color: #000000;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  .team-flag-sm { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+  .team-flag-sm { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; border: 1px solid #000000; }
 
   .content-grid {
     display: grid;
@@ -184,38 +199,47 @@ const formatDate = (dateString: string) => {
     gap: 1.5rem;
   }
   .sidebar-section {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: #ffffff;
+    border: 2px solid #000000;
     padding: 1.25rem;
   }
   .sidebar-title {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    color: #000000;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 2px solid #000000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
   .info-grid { display: flex; flex-direction: column; gap: 0.75rem; }
   .info-item { display: flex; justify-content: space-between; }
-  .info-label { font-size: 0.85rem; color: var(--color-text-muted); }
-  .info-value { font-size: 0.85rem; font-weight: 600; }
+  .info-label { font-size: 0.8rem; color: #666666; text-transform: uppercase; font-weight: 600; }
+  .info-value { font-size: 0.8rem; font-weight: 700; }
 
   .social-list { display: flex; flex-direction: column; gap: 0.4rem; }
   .social-btn {
     display: block;
     padding: 0.6rem 1rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     text-align: center;
-    transition: opacity 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: #ffffff;
+    border: 2px solid #000000;
+    color: #000000;
+    transition: all 0.1s;
   }
-  .social-btn:hover { opacity: 0.85; }
-  .social-btn.twitter { background: #1d9bf0; color: white; }
-  .social-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
-  .social-btn.tiktok { background: #010101; color: white; }
-  .social-btn.facebook { background: #1877f2; color: white; }
+  .social-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0px #000000;
+  }
+  .social-btn.twitter { background: #ffffff !important; color: #000000 !important; }
+  .social-btn.instagram { background: #ffffff !important; color: #000000 !important; }
+  .social-btn.tiktok { background: #ffffff !important; color: #000000 !important; }
+  .social-btn.facebook { background: #ffffff !important; color: #000000 !important; }
 
   @media (max-width: 768px) {
     .content-grid { grid-template-columns: 1fr; }
@@ -225,3 +249,4 @@ const formatDate = (dateString: string) => {
     .profile-info h1 { font-size: 1.5rem; }
   }
 </style>
+

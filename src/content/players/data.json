@@ -5,7 +5,7 @@
     "team": "mexico",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/luis-romero.jpg",
+    "photo": "https://ui-avatars.com/api/?name=Luis%20Romero&background=random&size=200",
     "nationality": "México",
     "birth": "1998-03-15",
     "social": {
@@ -34,7 +34,7 @@
     "team": "mexico",
     "position": "Delantero",
     "number": 11,
-    "photo": "https://example.com/players/guillermo-martinez.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Inter_Miami_CF_3-1_UNAM_%286_August_2025%29_30_%28cropped%29.jpg/120px-Inter_Miami_CF_3-1_UNAM_%286_August_2025%29_30_%28cropped%29.jpg",
     "nationality": "México",
     "birth": "1995-09-15",
     "social": {
@@ -56,7 +56,7 @@
     "team": "mexico",
     "position": "Extremo",
     "number": 7,
-    "photo": "https://example.com/players/hirving-lozano.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Hirving_Lozano.png/500px-Hirving_Lozano.png",
     "nationality": "México",
     "birth": "1995-07-30",
     "social": {
@@ -78,7 +78,7 @@
     "team": "mexico",
     "position": "Mediocampista",
     "number": 8,
-    "photo": "https://example.com/players/carlos-rodriguez.jpg",
+    "photo": "https://ui-avatars.com/api/?name=Carlos%20Rodr%C3%ADguez&background=random&size=200",
     "nationality": "México",
     "birth": "1997-01-10",
     "social": {
@@ -93,7 +93,7 @@
     "team": "canada",
     "position": "Extremo",
     "number": 19,
-    "photo": "https://example.com/players/davies.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/2022-07-30_Fu%C3%9Fball%2C_M%C3%A4nner%2C_DFL-Supercup%2C_RB_Leipzig_-_FC_Bayern_M%C3%BCnchen_1DX_3286_by_Stepro.jpg/960px-2022-07-30_Fu%C3%9Fball%2C_M%C3%A4nner%2C_DFL-Supercup%2C_RB_Leipzig_-_FC_Bayern_M%C3%BCnchen_1DX_3286_by_Stepro.jpg",
     "nationality": "Canadá",
     "birth": "2000-11-02",
     "social": {
@@ -121,7 +121,7 @@
     "team": "canada",
     "position": "Delantero",
     "number": 20,
-    "photo": "https://example.com/players/david.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Jonathan_David_asse_losc_2425_%28cropped%29.jpg/500px-Jonathan_David_asse_losc_2425_%28cropped%29.jpg",
     "nationality": "Canadá",
     "birth": "2000-01-14",
     "social": {
@@ -143,7 +143,7 @@
     "team": "canada",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/larin.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Cyle_Larin_%282021-22_S%C3%BCper_Lig%29_-_Resim1_%28cropped%29.png/500px-Cyle_Larin_%282021-22_S%C3%BCper_Lig%29_-_Resim1_%28cropped%29.png",
     "nationality": "Canadá",
     "birth": "1995-04-17",
     "social": {
@@ -158,7 +158,7 @@
     "team": "estados-unidos",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/pulisic.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/USMNT_vs._Trinidad_and_Tobago_%2848125059622%29_%28cropped%29.jpg/960px-USMNT_vs._Trinidad_and_Tobago_%2848125059622%29_%28cropped%29.jpg",
     "nationality": "Estados Unidos",
     "birth": "1998-09-18",
     "social": {
@@ -186,7 +186,7 @@
     "team": "estados-unidos",
     "position": "Mediocampista",
     "number": 7,
-    "photo": "https://example.com/players/reyna.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Giovanni_Reyna_2020.jpg/250px-Giovanni_Reyna_2020.jpg",
     "nationality": "Estados Unidos",
     "birth": "2002-05-03",
     "social": {
@@ -208,7 +208,7 @@
     "team": "estados-unidos",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/balogun.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Balogun_asse_asm_2425.png/500px-Balogun_asse_asm_2425.png",
     "nationality": "Estados Unidos",
     "birth": "2001-07-03",
     "social": {
@@ -230,7 +230,7 @@
     "team": "estados-unidos",
     "position": "Mediocampista",
     "number": 8,
-    "photo": "https://example.com/players/mckennie.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/USAvVEN_2019-06-09_-_Weston_McKennie_%2851170534993%29_%28close-up%29.jpg/960px-USAvVEN_2019-06-09_-_Weston_McKennie_%2851170534993%29_%28close-up%29.jpg",
     "nationality": "Estados Unidos",
     "birth": "1998-08-28",
     "social": {
@@ -245,7 +245,7 @@
     "team": "costa-rica",
     "position": "Portero",
     "number": 1,
-    "photo": "https://example.com/players/navas.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Keylor_Navas_2018_%28cropped%29.jpg/330px-Keylor_Navas_2018_%28cropped%29.jpg",
     "nationality": "Costa Rica",
     "birth": "1986-12-15",
     "social": {
@@ -260,7 +260,7 @@
     "team": "costa-rica",
     "position": "Delantero",
     "number": 12,
-    "photo": "https://example.com/players/campbell.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Joel_Campbell.jpg/500px-Joel_Campbell.jpg",
     "nationality": "Costa Rica",
     "birth": "1992-06-26",
     "social": {
@@ -275,7 +275,7 @@
     "team": "jamaica",
     "position": "Extremo",
     "number": 7,
-    "photo": "https://example.com/players/bailey.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Leon_Bailey_bei_der_Saisoneroeffnung_August_2018.jpg/960px-Leon_Bailey_bei_der_Saisoneroeffnung_August_2018.jpg",
     "nationality": "Jamaica",
     "birth": "1997-08-09",
     "social": {
@@ -290,7 +290,7 @@
     "team": "argentina",
     "position": "Delantero",
     "number": 10,
-    "photo": "https://example.com/players/messi.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/330px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
     "nationality": "Argentina",
     "birth": "1987-06-24",
     "social": {
@@ -312,7 +312,7 @@
     "team": "argentina",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/alvarez.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Argentina_national_football_team_-_2_-_2022_%28Juli%C3%A1n_%C3%81lvarez%29.jpg/250px-Argentina_national_football_team_-_2_-_2022_%28Juli%C3%A1n_%C3%81lvarez%29.jpg",
     "nationality": "Argentina",
     "birth": "2000-01-31",
     "social": {
@@ -327,7 +327,7 @@
     "team": "argentina",
     "position": "Portero",
     "number": 23,
-    "photo": "https://example.com/players/martinez.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/St._Louis_City_vs_Aston_Villa_%28Jul_2025%29_14_%28Emiliano_Mart%C3%ADnez%29.jpg/500px-St._Louis_City_vs_Aston_Villa_%28Jul_2025%29_14_%28Emiliano_Mart%C3%ADnez%29.jpg",
     "nationality": "Argentina",
     "birth": "1992-09-02",
     "social": {
@@ -337,27 +337,12 @@
     "news": []
   },
   {
-    "id": "a-angel-di-maria",
-    "name": "Ángel Di María",
-    "team": "argentina",
-    "position": "Extremo",
-    "number": 11,
-    "photo": "https://example.com/players/di-maria.jpg",
-    "nationality": "Argentina",
-    "birth": "1988-02-14",
-    "social": {
-      "twitter": "https://twitter.com/AngelDiMaria",
-      "instagram": "https://instagram.com/angeldimaria_"
-    },
-    "news": []
-  },
-  {
     "id": "j-james-rodriguez",
     "name": "James Rodríguez",
     "team": "colombia",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/james.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/2019-03-09_Fu%C3%9Fball%2C_M%C3%A4nner%2C_1._Bundesliga%2C_FC_Bayern_M%C3%BCnchen_-_VfL_Wolfsburg_StP_2655_by_Stepro.jpg/960px-2019-03-09_Fu%C3%9Fball%2C_M%C3%A4nner%2C_1._Bundesliga%2C_FC_Bayern_M%C3%BCnchen_-_VfL_Wolfsburg_StP_2655_by_Stepro.jpg",
     "nationality": "Colombia",
     "birth": "1991-07-12",
     "social": {
@@ -379,7 +364,7 @@
     "team": "colombia",
     "position": "Extremo",
     "number": 7,
-    "photo": "https://example.com/players/luis-diaz.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Luis_D%C3%ADaz_%28portrait%29.jpg/250px-Luis_D%C3%ADaz_%28portrait%29.jpg",
     "nationality": "Colombia",
     "birth": "1997-01-13",
     "social": {
@@ -394,7 +379,7 @@
     "team": "colombia",
     "position": "Portero",
     "number": 1,
-    "photo": "https://example.com/players/ospina.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/David_Ospina%2C_2015-05-31_%28cropped%29.JPG/960px-David_Ospina%2C_2015-05-31_%28cropped%29.JPG",
     "nationality": "Colombia",
     "birth": "1988-08-31",
     "social": {
@@ -409,7 +394,7 @@
     "team": "ecuador",
     "position": "Delantero",
     "number": 13,
-    "photo": "https://example.com/players/valencia.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Enner_Valencia%2C_January_2016.jpg/960px-Enner_Valencia%2C_January_2016.jpg",
     "nationality": "Ecuador",
     "birth": "1989-11-04",
     "social": {
@@ -424,7 +409,7 @@
     "team": "ecuador",
     "position": "Mediocampista",
     "number": 23,
-    "photo": "https://example.com/players/caicedo.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Mois%C3%A9s_Caicedo_20042025_%281%29.jpg/960px-Mois%C3%A9s_Caicedo_20042025_%281%29.jpg",
     "nationality": "Ecuador",
     "birth": "2001-04-02",
     "social": {
@@ -434,49 +419,12 @@
     "news": []
   },
   {
-    "id": "u-luis-suarez",
-    "name": "Luis Suárez",
-    "team": "uruguay",
-    "position": "Delantero",
-    "number": 9,
-    "photo": "https://example.com/players/suarez.jpg",
-    "nationality": "Uruguay",
-    "birth": "1987-01-24",
-    "social": {
-      "twitter": "https://twitter.com/LuisSuarez9",
-      "instagram": "https://instagram.com/luissuarez9"
-    },
-    "news": [
-      {
-        "title": "Suárez anuncia que este será su último Mundial",
-        "url": "https://example.com/suarez-ultimo-mundial",
-        "source": "El País",
-        "published": "2025-03-03T15:00:00Z"
-      }
-    ]
-  },
-  {
-    "id": "u-edinson-cavani",
-    "name": "Edinson Cavani",
-    "team": "uruguay",
-    "position": "Delantero",
-    "number": 21,
-    "photo": "https://example.com/players/cavani.jpg",
-    "nationality": "Uruguay",
-    "birth": "1987-02-14",
-    "social": {
-      "twitter": "https://twitter.com/ECavaniOfficial",
-      "instagram": "https://instagram.com/cavaniofficial"
-    },
-    "news": []
-  },
-  {
     "id": "u-federico-valverde",
     "name": "Federico Valverde",
     "team": "uruguay",
     "position": "Mediocampista",
     "number": 15,
-    "photo": "https://example.com/players/valverde.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Federico_Valverde_2021_%28cropped%29.jpg/500px-Federico_Valverde_2021_%28cropped%29.jpg",
     "nationality": "Uruguay",
     "birth": "1998-07-22",
     "social": {
@@ -491,7 +439,7 @@
     "team": "uruguay",
     "position": "Portero",
     "number": 1,
-    "photo": "https://example.com/players/arias.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Palestino_-_Universidad_de_Concepci%C3%B3n%2C_2018-05-06_-_Ronald_de_la_Fuente_-_01_%28cropped%29.jpg/960px-Palestino_-_Universidad_de_Concepci%C3%B3n%2C_2018-05-06_-_Ronald_de_la_Fuente_-_01_%28cropped%29.jpg",
     "nationality": "Uruguay",
     "birth": "1997-09-27",
     "social": {
@@ -506,7 +454,7 @@
     "team": "brazil",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/neymar.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Neymar_Jr._with_Al_Hilal%2C_3_October_2023_-_03_%28cropped%29_version_2.jpg/330px-Neymar_Jr._with_Al_Hilal%2C_3_October_2023_-_03_%28cropped%29_version_2.jpg",
     "nationality": "Brasil",
     "birth": "1992-02-05",
     "social": {
@@ -521,7 +469,7 @@
     "team": "brazil",
     "position": "Extremo",
     "number": 7,
-    "photo": "https://example.com/players/vinicius.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg/500px-2023_05_06_Final_de_la_Copa_del_Rey_-_52879242230_%28cropped%29.jpg",
     "nationality": "Brasil",
     "birth": "2000-07-12",
     "social": {
@@ -536,7 +484,7 @@
     "team": "brazil",
     "position": "Portero",
     "number": 1,
-    "photo": "https://example.com/players/alisson.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_850_1625.jpg/960px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_850_1625.jpg",
     "nationality": "Brasil",
     "birth": "1992-10-02",
     "social": {
@@ -551,7 +499,7 @@
     "team": "brazil",
     "position": "Mediocampista",
     "number": 5,
-    "photo": "https://example.com/players/casemiro.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Casemiro_850_1575.jpg/960px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Casemiro_850_1575.jpg",
     "nationality": "Brasil",
     "birth": "1992-02-23",
     "social": {
@@ -566,7 +514,7 @@
     "team": "portugal",
     "position": "Delantero",
     "number": 7,
-    "photo": "https://example.com/players/cr7.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/500px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg",
     "nationality": "Portugal",
     "birth": "1985-02-05",
     "social": {
@@ -588,7 +536,7 @@
     "team": "portugal",
     "position": "Mediocampista",
     "number": 8,
-    "photo": "https://example.com/players/bruno.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Portugal_national_football_team_0866_%28Bruno_Fernandes%29.jpg/330px-Portugal_national_football_team_0866_%28Bruno_Fernandes%29.jpg",
     "nationality": "Portugal",
     "birth": "1994-09-08",
     "social": {
@@ -603,7 +551,7 @@
     "team": "portugal",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/bernardo.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Bernardo_Silva_%28Isto_%C3%89_Gozar_Com_Quem_Trabalha%2C_2024%29.png/500px-Bernardo_Silva_%28Isto_%C3%89_Gozar_Com_Quem_Trabalha%2C_2024%29.png",
     "nationality": "Portugal",
     "birth": "1994-08-10",
     "social": {
@@ -618,7 +566,7 @@
     "team": "espana",
     "position": "Mediocampista",
     "number": 16,
-    "photo": "https://example.com/players/pedri.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Pedri.jpg/960px-Pedri.jpg",
     "nationality": "España",
     "birth": "2002-11-25",
     "social": {
@@ -640,7 +588,7 @@
     "team": "espana",
     "position": "Mediocampista",
     "number": 19,
-    "photo": "https://example.com/players/gavi.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Gavi_%28footballer%29.jpg/500px-Gavi_%28footballer%29.jpg",
     "nationality": "España",
     "birth": "2004-08-05",
     "social": {
@@ -655,7 +603,7 @@
     "team": "espana",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/olmo.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Dani_Olmo_2022.jpg/500px-Dani_Olmo_2022.jpg",
     "nationality": "España",
     "birth": "1998-05-07",
     "social": {
@@ -670,7 +618,7 @@
     "team": "francia",
     "position": "Delantero",
     "number": 10,
-    "photo": "https://example.com/players/mbappe.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Picture_with_Mbapp%C3%A9_%28cropped%29_%28cropped%29.jpg/500px-Picture_with_Mbapp%C3%A9_%28cropped%29_%28cropped%29.jpg",
     "nationality": "Francia",
     "birth": "1998-12-20",
     "social": {
@@ -687,27 +635,12 @@
     ]
   },
   {
-    "id": "f-antoine-griezmann",
-    "name": "Antoine Griezmann",
-    "team": "francia",
-    "position": "Mediocampista",
-    "number": 7,
-    "photo": "https://example.com/players/griezmann.jpg",
-    "nationality": "Francia",
-    "birth": "1991-03-21",
-    "social": {
-      "twitter": "https://twitter.com/AntoGriezmann",
-      "instagram": "https://instagram.com/antogriezmann"
-    },
-    "news": []
-  },
-  {
     "id": "g-jamal-musiala",
     "name": "Jamal Musiala",
     "team": "alemania",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/musiala.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Jamal_Musiala_2022_%28cropped%29.jpg/330px-Jamal_Musiala_2022_%28cropped%29.jpg",
     "nationality": "Alemania",
     "birth": "2003-02-26",
     "social": {
@@ -729,7 +662,7 @@
     "team": "alemania",
     "position": "Mediocampista",
     "number": 18,
-    "photo": "https://example.com/players/kroos.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Toni_Kroos_Real_Madrid_2021.jpg/500px-Toni_Kroos_Real_Madrid_2021.jpg",
     "nationality": "Alemania",
     "birth": "1990-01-04",
     "social": {
@@ -744,7 +677,7 @@
     "team": "alemania",
     "position": "Portero",
     "number": 1,
-    "photo": "https://example.com/players/neuer.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg/960px-20180602_FIFA_Friendly_Match_Austria_vs._Germany_Manuel_Neuer_850_0723.jpg",
     "nationality": "Alemania",
     "birth": "1986-03-27",
     "social": {
@@ -759,7 +692,7 @@
     "team": "italia",
     "position": "Portero",
     "number": 1,
-    "photo": "https://example.com/players/donnarumma.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Donnarumma_asse_psg_2425.png/500px-Donnarumma_asse_psg_2425.png",
     "nationality": "Italia",
     "birth": "1999-02-25",
     "social": {
@@ -774,7 +707,7 @@
     "team": "italia",
     "position": "Defensa",
     "number": 19,
-    "photo": "https://example.com/players/bonucci.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Leonardo_Bonucci.jpg/330px-20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Leonardo_Bonucci.jpg",
     "nationality": "Italia",
     "birth": "1987-04-01",
     "social": {
@@ -789,7 +722,7 @@
     "team": "paises-bajos",
     "position": "Delantero",
     "number": 10,
-    "photo": "https://example.com/players/depay.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Memphis_Depay_Barca_2021.jpg/960px-Memphis_Depay_Barca_2021.jpg",
     "nationality": "Países Bajos",
     "birth": "1994-02-13",
     "social": {
@@ -804,7 +737,7 @@
     "team": "paises-bajos",
     "position": "Mediocampista",
     "number": 21,
-    "photo": "https://example.com/players/dejong.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/%D0%9C%D0%B0%D1%82%D1%87_%C2%AB%D0%94%D0%B8%D0%BD%D0%B0%D0%BC%D0%BE%C2%BB_-_%C2%AB%D0%91%D0%B0%D1%80%D1%81%D0%B5%D0%BB%D0%BE%D0%BD%D0%B0%C2%BB_0-1._2_%D0%BD%D0%BE%D1%8F%D0%B1%D1%80%D1%8F_2021_%D0%B3%D0%BE%D0%B4%D0%B0._II_%E2%80%94_1289671_%28cropped%29.jpg/250px-%D0%9C%D0%B0%D1%82%D1%87_%C2%AB%D0%94%D0%B8%D0%BD%D0%B0%D0%BC%D0%BE%C2%BB_-_%C2%AB%D0%91%D0%B0%D1%80%D1%81%D0%B5%D0%BB%D0%BE%D0%BD%D0%B0%C2%BB_0-1._2_%D0%BD%D0%BE%D1%8F%D0%B1%D1%80%D1%8F_2021_%D0%B3%D0%BE%D0%B4%D0%B0._II_%E2%80%94_1289671_%28cropped%29.jpg",
     "nationality": "Países Bajos",
     "birth": "1997-05-12",
     "social": {
@@ -819,7 +752,7 @@
     "team": "belgica",
     "position": "Mediocampista",
     "number": 7,
-    "photo": "https://example.com/players/debruyne.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Kevin_De_Bruyne-December_2021.png/500px-Kevin_De_Bruyne-December_2021.png",
     "nationality": "Bélgica",
     "birth": "1991-06-28",
     "social": {
@@ -834,7 +767,7 @@
     "team": "belgica",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/lukaku.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Romelu_Lukaku_2021.jpg/500px-Romelu_Lukaku_2021.jpg",
     "nationality": "Bélgica",
     "birth": "1993-05-13",
     "social": {
@@ -849,7 +782,7 @@
     "team": "croacia",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/modric.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Ofrenda_de_la_Liga_y_la_Champions-57-L.Mill%C3%A1n_%2852109310843%29_%28Luka_Modri%C4%87%29.jpg/500px-Ofrenda_de_la_Liga_y_la_Champions-57-L.Mill%C3%A1n_%2852109310843%29_%28Luka_Modri%C4%87%29.jpg",
     "nationality": "Croacia",
     "birth": "1985-09-09",
     "social": {
@@ -871,7 +804,7 @@
     "team": "croacia",
     "position": "Mediocampista",
     "number": 8,
-    "photo": "https://example.com/players/kovacic.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Yokohama_F._Marinos_-_Manchester_City_%283-5%29_-_53075077396_%28cropped%29_%28cropped%29.jpg/500px-Yokohama_F._Marinos_-_Manchester_City_%283-5%29_-_53075077396_%28cropped%29_%28cropped%29.jpg",
     "nationality": "Croacia",
     "birth": "1994-05-06",
     "social": {
@@ -886,7 +819,7 @@
     "team": "dinamarca",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/eriksen.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/20140904_-_Christian_Eriksen_%28cropped%29.jpg/500px-20140904_-_Christian_Eriksen_%28cropped%29.jpg",
     "nationality": "Dinamarca",
     "birth": "1992-02-14",
     "social": {
@@ -901,7 +834,7 @@
     "team": "polonia",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/lewandowski.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/2019147183134_2019-05-27_Fussball_1.FC_Kaiserslautern_vs_FC_Bayern_M%C3%BCnchen_-_Sven_-_1D_X_MK_II_-_0228_-_B70I8527_%28cropped%29.jpg/960px-2019147183134_2019-05-27_Fussball_1.FC_Kaiserslautern_vs_FC_Bayern_M%C3%BCnchen_-_Sven_-_1D_X_MK_II_-_0228_-_B70I8527_%28cropped%29.jpg",
     "nationality": "Polonia",
     "birth": "1988-08-21",
     "social": {
@@ -916,7 +849,7 @@
     "team": "suiza",
     "position": "Extremo",
     "number": 23,
-    "photo": "https://example.com/players/shaqiri.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Xherdan_Shaqiri_2018.jpg/330px-Xherdan_Shaqiri_2018.jpg",
     "nationality": "Suiza",
     "birth": "1991-10-10",
     "social": {
@@ -931,7 +864,7 @@
     "team": "suiza",
     "position": "Defensa",
     "number": 5,
-    "photo": "https://example.com/players/akanji.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Ser-Swi_%2834%29_%28cropped%29.jpg/120px-Ser-Swi_%2834%29_%28cropped%29.jpg",
     "nationality": "Suiza",
     "birth": "1995-07-19",
     "social": {
@@ -946,7 +879,7 @@
     "team": "austria",
     "position": "Delantero",
     "number": 7,
-    "photo": "https://example.com/players/arnautovic.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Marko_Arnautovi%C4%87_850_1633.jpg/960px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Marko_Arnautovi%C4%87_850_1633.jpg",
     "nationality": "Austria",
     "birth": "1989-04-19",
     "social": {
@@ -961,7 +894,7 @@
     "team": "serbia",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/jovetic.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Iran_vs._Montenegro_2014-05-26_%28161%29.jpg/960px-Iran_vs._Montenegro_2014-05-26_%28161%29.jpg",
     "nationality": "Serbia",
     "birth": "1989-11-02",
     "social": {
@@ -976,7 +909,7 @@
     "team": "escocia",
     "position": "Defensa",
     "number": 3,
-    "photo": "https://example.com/players/robertson.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/LFC_Parade_2019_01_Andy_Robertson.jpg/330px-LFC_Parade_2019_01_Andy_Robertson.jpg",
     "nationality": "Escocia",
     "birth": "1994-03-11",
     "social": {
@@ -991,7 +924,7 @@
     "team": "republica-checa",
     "position": "Delantero",
     "number": 10,
-    "photo": "https://example.com/players/schick.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Patrik_Schick_20180601_AUSCZE_3910_%28cropped%29.jpg/250px-Patrik_Schick_20180601_AUSCZE_3910_%28cropped%29.jpg",
     "nationality": "República Checa",
     "birth": "1996-01-24",
     "social": {
@@ -1006,7 +939,7 @@
     "team": "turquia",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/calhanoglu.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/AUT_vs._TUR_2016-03-29_%28342%29.jpg/960px-AUT_vs._TUR_2016-03-29_%28342%29.jpg",
     "nationality": "Turquía",
     "birth": "1994-09-08",
     "social": {
@@ -1021,7 +954,7 @@
     "team": "suecia",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/isak.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/UEFA_EURO_qualifiers_Sweden_vs_Spain_20191015_Alexander_Isak_56_%28cropped%29.jpg/960px-UEFA_EURO_qualifiers_Sweden_vs_Spain_20191015_Alexander_Isak_56_%28cropped%29.jpg",
     "nationality": "Suecia",
     "birth": "1999-09-21",
     "social": {
@@ -1036,7 +969,7 @@
     "team": "gales",
     "position": "Extremo",
     "number": 11,
-    "photo": "https://example.com/players/bale.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/2022_FIFA_World_Cup_United_States_1%E2%80%931_Wales_-_%2832%29_%28cropped%29.jpg/330px-2022_FIFA_World_Cup_United_States_1%E2%80%931_Wales_-_%2832%29_%28cropped%29.jpg",
     "nationality": "Gales",
     "birth": "1989-07-16",
     "social": {
@@ -1058,7 +991,7 @@
     "team": "marruecos",
     "position": "Defensa",
     "number": 2,
-    "photo": "https://example.com/players/hakimi.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Achraf_Hakimi_vs_Niger%2C_5_Sept_2025.jpg/960px-Achraf_Hakimi_vs_Niger%2C_5_Sept_2025.jpg",
     "nationality": "Marruecos",
     "birth": "1998-11-04",
     "social": {
@@ -1073,7 +1006,7 @@
     "team": "senegal",
     "position": "Delantero",
     "number": 10,
-    "photo": "https://example.com/players/mane.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Esteghlal_F.C._v_Al_Nassr_FC%2C_3_March_2025%2C_Sadio_Man%C3%A9.jpg/960px-Esteghlal_F.C._v_Al_Nassr_FC%2C_3_March_2025%2C_Sadio_Man%C3%A9.jpg",
     "nationality": "Senegal",
     "birth": "1992-04-10",
     "social": {
@@ -1088,7 +1021,7 @@
     "team": "argelia",
     "position": "Extremo",
     "number": 7,
-    "photo": "https://example.com/players/mahrez.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Alg%C3%A9rie_-_Arm%C3%A9nie_-_20140531_-_Riyad_Mahrez.jpg/960px-Alg%C3%A9rie_-_Arm%C3%A9nie_-_20140531_-_Riyad_Mahrez.jpg",
     "nationality": "Argelia",
     "birth": "1991-02-21",
     "social": {
@@ -1103,7 +1036,7 @@
     "team": "tunez",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/msakni.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Youssef_Msakni_2015b.jpg/960px-Youssef_Msakni_2015b.jpg",
     "nationality": "Túnez",
     "birth": "1990-10-28",
     "social": {
@@ -1118,7 +1051,7 @@
     "team": "nigeria",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/osimhen.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Victor-osimhen-nigeria-2024-3-4.jpg/500px-Victor-osimhen-nigeria-2024-3-4.jpg",
     "nationality": "Nigeria",
     "birth": "1998-12-29",
     "social": {
@@ -1133,7 +1066,7 @@
     "team": "camerun",
     "position": "Delantero",
     "number": 10,
-    "photo": "https://example.com/players/aboubakar.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Vincent_Aboubakar_in_2023_%28cropped%29.jpg/960px-Vincent_Aboubakar_in_2023_%28cropped%29.jpg",
     "nationality": "Camerún",
     "birth": "1992-01-22",
     "social": {
@@ -1148,7 +1081,7 @@
     "team": "ghana",
     "position": "Mediocampista",
     "number": 5,
-    "photo": "https://example.com/players/partey.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/ATL-Madrid-Lokomotiv001-Thomas_%28cropped%29.jpg/250px-ATL-Madrid-Lokomotiv001-Thomas_%28cropped%29.jpg",
     "nationality": "Ghana",
     "birth": "1993-06-13",
     "social": {
@@ -1163,7 +1096,7 @@
     "team": "costas-de-marfil",
     "position": "Mediocampista",
     "number": 8,
-    "photo": "https://example.com/players/fofana.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Seko_Fofana.jpg/960px-Seko_Fofana.jpg",
     "nationality": "Costa de Marfil",
     "birth": "1995-05-07",
     "social": {
@@ -1178,7 +1111,7 @@
     "team": "egipto",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/salah.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/%D9%85%D8%AD%D9%85%D8%AF_%D8%B5%D8%A7%D9%84%D8%AD_%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D9%8A.jpg/330px-%D9%85%D8%AD%D9%85%D8%AF_%D8%B5%D8%A7%D9%84%D8%AD_%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D9%8A.jpg",
     "nationality": "Egipto",
     "birth": "1992-06-15",
     "social": {
@@ -1200,7 +1133,7 @@
     "team": "australia",
     "position": "Mediocampista",
     "number": 10,
-    "photo": "https://example.com/players/mooy.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Cameroon-Australia_%2821%29_%28cropped%29.jpg/330px-Cameroon-Australia_%2821%29_%28cropped%29.jpg",
     "nationality": "Australia",
     "birth": "1990-09-15",
     "social": {
@@ -1215,7 +1148,7 @@
     "team": "iran",
     "position": "Delantero",
     "number": 9,
-    "photo": "https://example.com/players/taremi.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Iran_-_Japan%2C_AFC_Asian_Cup_2019_42_%28cropped%29.jpg/250px-Iran_-_Japan%2C_AFC_Asian_Cup_2019_42_%28cropped%29.jpg",
     "nationality": "Irán",
     "birth": "1992-07-18",
     "social": {
@@ -1230,7 +1163,7 @@
     "team": "japon",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/minamino.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/FC_Red_Bull_Salzburg_versus_Feyenoord_Rotterdam_%28Testspiel_12._Juli_2019%29_36.jpg/960px-FC_Red_Bull_Salzburg_versus_Feyenoord_Rotterdam_%28Testspiel_12._Juli_2019%29_36.jpg",
     "nationality": "Japón",
     "birth": "1995-01-16",
     "social": {
@@ -1245,7 +1178,7 @@
     "team": "japon",
     "position": "Defensa",
     "number": 22,
-    "photo": "https://example.com/players/yoshida.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Maya_Yoshida.jpg/120px-Maya_Yoshida.jpg",
     "nationality": "Japón",
     "birth": "1988-08-24",
     "social": {
@@ -1260,7 +1193,7 @@
     "team": "corea-del-sur",
     "position": "Extremo",
     "number": 7,
-    "photo": "https://example.com/players/son.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/BFA_2023_-2_Heung-Min_Son_%28cropped%29.jpg/960px-BFA_2023_-2_Heung-Min_Son_%28cropped%29.jpg",
     "nationality": "Corea del Sur",
     "birth": "1992-07-08",
     "social": {
@@ -1282,7 +1215,7 @@
     "team": "arabia-saudita",
     "position": "Extremo",
     "number": 10,
-    "photo": "https://example.com/players/al-dawsari.jpg",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Salem_Al-Dawsari_2018.jpg/500px-Salem_Al-Dawsari_2018.jpg",
     "nationality": "Arabia Saudita",
     "birth": "1991-08-19",
     "social": {

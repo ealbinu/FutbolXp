@@ -15,6 +15,7 @@ export interface NewsItem {
   published: string;
   teamId: string;
   teamName: string;
+  playerId: string;
   contentSnippet: string;
   imageUrl: string;
   created: string;
@@ -24,12 +25,25 @@ export interface NewsItem {
 export async function getNewsByTeam(teamId: string, limit = 10): Promise<NewsItem[]> {
   try {
     const records = await pb.collection('news').getList<NewsItem>(1, limit, {
-      filter: `teamId = "${teamId}"`,
+      filter: `teamId = "${teamId}" && playerId = ""`,
       sort: '-published',
     });
     return records.items;
   } catch (e) {
     console.error(`Error fetching news for team ${teamId}:`, e);
+    return [];
+  }
+}
+
+export async function getNewsByPlayer(playerId: string, limit = 10): Promise<NewsItem[]> {
+  try {
+    const records = await pb.collection('news').getList<NewsItem>(1, limit, {
+      filter: `playerId = "${playerId}"`,
+      sort: '-published',
+    });
+    return records.items;
+  } catch (e) {
+    console.error(`Error fetching news for player ${playerId}:`, e);
     return [];
   }
 }

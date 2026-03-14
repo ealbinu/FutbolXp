@@ -3,19 +3,26 @@ import Layout from '../layouts/Layout.astro';
 import { getAllNews } from '../lib/pocketbase';
 import { getCollection } from 'astro:content';
 
+const url = new URL(Astro.request.url);
+const page = parseInt(url.searchParams.get('page') || '1');
+const perPage = 20;
+
 // Fetch news from PocketBase
 let newsData = { items: [] as any[], totalPages: 0, totalItems: 0 };
 try {
-  newsData = await getAllNews(1, 50);
+  newsData = await getAllNews(page, perPage);
 } catch (e) {
   console.error('Error fetching news:', e);
 }
 
-// Also gather static news from teams as fallback
-const allTeams = await getCollection('teams');
-const staticNews = allTeams.flatMap(t =>
-  (t.data.news || []).map(n => ({ ...n, teamId: t.data.id, teamName: t.data.name }))
-).sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime());
+// Also gather static news from teams as fallback - only if on first page
+let staticNews: any[] = [];
+if (page === 1) {
+  const allTeams = await getCollection('teams');
+  staticNews = allTeams.flatMap(t =>
+    (t.data.news || []).map(n => ({ ...n, teamId: t.data.id, teamName: t.data.name }))
+  ).sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime());
+}
 
 // Merge: PocketBase first, then static (deduped by url)
 const pbUrls = new Set(newsData.items.map((n: any) => n.url));
@@ -24,11 +31,6 @@ const allNews = [
   ...staticNews.filter(n => !pbUrls.has(n.url)).slice(0, 50),
 ];
 
-const formatDate = (dateString: string) => {
-  try {
-    return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(dateString));
-  } catch { return ''; }
-};
 
 const formatRelative = (dateString: string) => {
   try {
@@ -39,9 +41,13 @@ const formatRelative = (dateString: string) => {
     const days = Math.floor(hours / 24);
     if (days === 1) return 'Ayer';
     if (days < 7) return `Hace ${days} dias`;
-    return formatDate(dateString);
+    return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short' }).format(new Date(dateString));
   } catch { return ''; }
 };
+
+const totalPages = newsData.totalPages;
+const hasNextPage = page < totalPages;
+const hasPrevPage = page > 1;
 ---
 
 <Layout title="Noticias - FutbolXP">
@@ -50,35 +56,63 @@ const formatRelative = (dateString: string) => {
       <h1>Noticias del Mundial 2026</h1>
       <p class="page-desc">
         <span class="pulse"></span>
-        Actualizadas automaticamente cada 3 horas &bull; {allNews.length} noticias
+        Actualizadas automáticamente cada 3 horas &bull; Página {page} de {totalPages || 1}
       </p>
     </div>
 
     {allNews.length > 0 ? (
-      <div class="news-feed">
-        {allNews.map((item: any, i: number) => (
-          <a href={item.url} target="_blank" rel="noopener noreferrer" class="news-item">
-            <div class="news-content">
-              <div class="news-header">
-                <span class="news-source">{item.source}</span>
-                {(item.teamName || item.teamId) && (
-                  <span class="news-team">{item.teamName || item.teamId}</span>
+      <>
+        <div class="news-feed">
+          {allNews.map((item: any) => (
+            <div class="news-item">
+              <div class="news-content">
+                <div class="news-header">
+                  <span class="news-source">{item.source}</span>
+                  {(item.teamName || item.teamId) && (
+                    <span class="news-team">{item.teamName || item.teamId}</span>
+                  )}
+                </div>
+                <h3 class="news-title">{item.title}</h3>
+                {item.contentSnippet && (
+                  <p class="news-snippet">{item.contentSnippet.slice(0, 150)}...</p>
                 )}
-              </div>
-              <h3 class="news-title">{item.title}</h3>
-              {item.contentSnippet && (
-                <p class="news-snippet">{item.contentSnippet.slice(0, 150)}...</p>
-              )}
-              <div class="news-footer">
-                <time datetime={item.published}>{formatRelative(item.published)}</time>
+                <div class="news-footer">
+                  <time datetime={item.published}>{formatRelative(item.published)}</time>
+                </div>
+                <a href={item.id ? `/noticia/${item.id}` : item.url} target={item.id ? "_self" : "_blank"} rel="noopener noreferrer" class="read-more-link">Visitar nota &rarr;</a>
               </div>
             </div>
-          </a>
-        ))}
-      </div>
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <div class="pagination">
+            {hasPrevPage ? (
+              <a href={`/noticias?page=${page - 1}`} class="btn btn-primary pagination-btn">
+                &larr; Anterior
+              </a>
+            ) : (
+              <span class="btn btn-disabled pagination-btn">&larr; Anterior</span>
+            )}
+            
+            <div class="page-numbers">
+              Página <strong>{page}</strong> de {totalPages}
+            </div>
+
+            {hasNextPage ? (
+              <a href={`/noticias?page=${page + 1}`} class="btn btn-primary pagination-btn">
+                Siguiente &rarr;
+              </a>
+            ) : (
+              <span class="btn btn-disabled pagination-btn">Siguiente &rarr;</span>
+            )}
+          </div>
+        )}
+      </>
     ) : (
       <div class="empty-state">
-        <p>No hay noticias disponibles. Las noticias se actualizan cada 3 horas.</p>
+        <p>No hay noticias disponibles en esta página.</p>
+        <a href="/noticias" class="btn btn-primary">Volver al inicio</a>
       </div>
     )}
   </main>
@@ -86,66 +120,72 @@ const formatRelative = (dateString: string) => {
 
 <style>
   .page-header { margin-bottom: 2rem; }
-  .page-header h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  .page-header h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
   .page-desc {
-    color: var(--color-text-secondary);
+    color: #333333;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
   }
 
   .news-feed {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
+    margin-bottom: 3rem;
   }
 
   .news-item {
     display: block;
-    padding: 1.25rem 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    transition: all 0.2s;
+    padding: 1.5rem 2rem;
+    background: #ffffff;
+    border: 3px solid #000000;
+    transition: all 0.1s;
   }
   .news-item:hover {
-    border-color: var(--color-primary);
-    background: var(--color-surface-2);
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0px #000000;
   }
 
   .news-header {
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    align-items: center;
   }
   .news-source {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-primary-light);
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #000000;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
   }
   .news-team {
     font-size: 0.75rem;
-    color: var(--color-text-muted);
-    padding: 0.1rem 0.5rem;
-    background: var(--color-surface-2);
-    border-radius: 100px;
+    color: #000000;
+    padding: 0.2rem 0.6rem;
+    background: transparent;
+    border: 2px solid #000000;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .news-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.35rem;
-    line-height: 1.3;
+    font-family: 'Google Sans Flex Text', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    line-height: 1.25;
+    text-transform: none;
   }
 
   .news-snippet {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #333333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -153,7 +193,59 @@ const formatRelative = (dateString: string) => {
   }
 
   .news-footer {
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    color: #666666;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+  }
+
+  .read-more-link {
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    color: #000000;
+  }
+  .read-more-link:hover {
+    text-decoration-thickness: 3px;
+  }
+
+  /* Pagination styles */
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 3px solid #000000;
+  }
+
+  .page-numbers {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .pagination-btn {
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .btn-disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    border-color: #999;
+    color: #999;
+  }
+
+  @media (max-width: 768px) {
+    .page-header h1 { font-size: 2rem; }
+    .news-item { padding: 1.25rem; }
+    .news-title { font-size: 1.25rem; }
+    .pagination {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .pagination-btn { width: 100%; }
   }
 </style>

@@ -1,5 +1,9 @@
 import PocketBase from 'pocketbase';
 import RssParser from 'rss-parser';
+import fs from 'fs';
+import path from 'path';
+import { translate } from '@vitalets/google-translate-api';
+import { convert } from 'html-to-text';
 
 const PB_URL = process.env.POCKETBASE_URL || 'https://futbolxp.pockethost.io';
 const PB_EMAIL = process.env.POCKETBASE_EMAIL || 'pegaso@agentmail.to';
@@ -9,6 +13,9 @@ const pb = new PocketBase(PB_URL);
 pb.autoCancellation(false);
 
 const parser = new RssParser();
+
+// Load players for matching
+const playersData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/content/players/data.json'), 'utf-8'));
 
 // RSS news sources
 const NEWS_SOURCES = [
@@ -78,6 +85,30 @@ function normalizeText(text) {
     .trim();
 }
 
+function findRelevantPlayers(article) {
+  const normalizedTitle = normalizeText(article.title || '');
+  const normalizedContent = normalizeText(article.content || '');
+  const text = `${normalizedTitle} ${normalizedContent}`;
+
+  const matchedPlayers = [];
+  for (const player of playersData) {
+    const normalizedPlayerName = normalizeText(player.name);
+    const nameParts = normalizedPlayerName.split(' ');
+    const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+
+    // Match full name
+    const matchesFullName = normalizedPlayerName.length > 5 && text.includes(normalizedPlayerName);
+    // Match last name (only if it matches as a whole word and is specific enough)
+    const matchesLastName = lastName.length >= 5 && new RegExp(`\\b${lastName}\\b`, 'i').test(text);
+
+    if (matchesFullName || matchesLastName) {
+      console.log(`  [MATCH] Player: ${player.name} (${player.id})`);
+      matchedPlayers.push({ playerId: player.id, playerName: player.name });
+    }
+  }
+  return matchedPlayers;
+}
+
 function findRelevantTeams(article) {
   const normalizedTitle = normalizeText(article.title || '');
   const normalizedContent = normalizeText(article.content || '');
@@ -116,9 +147,10 @@ async function fetchArticles() {
     try {
       const feed = await parser.parseURL(source.url);
       for (const item of feed.items) {
+        const content = item['content:encoded'] || item.content || item.contentSnippet || '';
         allArticles.push({
           title: item.title || '',
-          content: item.contentSnippet || item.content || '',
+          content: content,
           pubDate: item.pubDate || item.isoDate || new Date().toISOString(),
           link: item.link || '',
           source: source.name,
@@ -134,6 +166,28 @@ async function fetchArticles() {
   return allArticles;
 }
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function processSourceItem(text, isEnglishSource, retries = 2) {
+  let cleanText = convert(text || '', { wordwrap: false });
+  if (isEnglishSource && cleanText.trim() !== '') {
+    for (let i = 0; i <= retries; i++) {
+        try {
+          const { text: translatedText } = await translate(cleanText, { to: 'es' });
+          return translatedText;
+        } catch (e) {
+          if (i === retries) {
+            console.error('Final translation error:', e.message);
+            return cleanText;
+          }
+          console.log(`Retrying translation (${i+1}/${retries})...`);
+          await sleep(10000 * (i + 1));
+        }
+    }
+  }
+  return cleanText;
+}
+
 async function saveNews(articles) {
   console.log('Processing and saving news to PocketBase...');
   let saved = 0;
@@ -142,13 +196,74 @@ async function saveNews(articles) {
 
   for (const article of articles) {
     if (!article.link || !article.title) continue;
-
+    
     const matchedTeams = findRelevantTeams(article);
-    if (matchedTeams.length === 0) continue;
+    const matchedPlayers = findRelevantPlayers(article);
+    
+    if (matchedTeams.length === 0 && matchedPlayers.length === 0) continue;
 
+    const isEnglishSource = ['ESPN', 'Goal', 'Sky Sports', 'BBC Sport', 'NY Times'].includes(article.source);
+
+    let processedTitle = article.title;
+    let processedSnippet = article.content;
+
+    try {
+      if (isEnglishSource) {
+         processedTitle = await processSourceItem(article.title, true);
+         await sleep(2000);
+         let cleanContent = convert(article.content || '', { wordwrap: false });
+         if (cleanContent.length > 2500) cleanContent = cleanContent.substring(0, 2500) + '...';
+         processedSnippet = await processSourceItem(cleanContent, true);
+      } else {
+         processedSnippet = convert(article.content || '', { wordwrap: false }).substring(0, 2500);
+         if (article.content && article.content.length > 2500) processedSnippet += '...';
+      }
+      
+      if (processedSnippet && !processedSnippet.includes('\n\n') && processedSnippet.length > 300) {
+          const midpoint = Math.floor(processedSnippet.length / 2);
+          const splitPoint = processedSnippet.indexOf('. ', midpoint);
+          if (splitPoint !== -1) {
+              processedSnippet = processedSnippet.substring(0, splitPoint + 1) + '\n\n' + processedSnippet.substring(splitPoint + 2);
+          }
+      }
+    } catch (e) {
+       console.log('Error processing text:', e.message);
+    }
+
+    await sleep(2000);
+
+    const processedUrls = new Set();
+
+    // Save for teams
     for (const { teamId, teamName } of matchedTeams) {
-      try {
-        // Parse the date
+      const key = `${article.link}-${teamId}`;
+      if (processedUrls.has(key)) continue;
+      await saveToPocketBase(article, processedTitle, processedSnippet, teamId, teamName, null);
+      processedUrls.add(key);
+      saved++;
+    }
+
+    // Save for players
+    for (const { playerId, playerName } of matchedPlayers) {
+      const key = `${article.link}-${playerId}`;
+      if (processedUrls.has(key)) continue;
+      
+      const player = playersData.find(p => p.id === playerId);
+      const teamId = player ? player.team : '';
+      const teamData = TEAM_KEYWORDS[teamId];
+      const teamName = teamData ? teamData.name : '';
+      
+      await saveToPocketBase(article, processedTitle, processedSnippet, teamId, teamName, playerId);
+      processedUrls.add(key);
+      saved++;
+    }
+  }
+
+  console.log(`Results: ${saved} saved, ${skipped} duplicates skipped, ${errors} errors`);
+}
+
+async function saveToPocketBase(article, processedTitle, processedSnippet, teamId, teamName, playerId) {
+    try {
         let publishedDate;
         try {
           publishedDate = new Date(article.pubDate).toISOString().replace('T', ' ').replace('Z', '');
@@ -157,30 +272,21 @@ async function saveNews(articles) {
         }
 
         await pb.collection('news').create({
-          title: article.title.slice(0, 500),
+          title: processedTitle.slice(0, 500),
           url: article.link,
           source: article.source,
           published: publishedDate,
           teamId,
           teamName,
-          contentSnippet: (article.content || '').slice(0, 1000),
+          playerId: playerId || '',
+          contentSnippet: (processedSnippet || '').slice(0, 2500),
           imageUrl: article.imageUrl || '',
         });
-        saved++;
-      } catch (e) {
-        if (e.status === 400 && e.data?.data?.url?.code === 'validation_not_unique') {
-          skipped++;
-        } else {
-          errors++;
-          if (errors <= 5) {
-            console.error(`  Error saving "${article.title.slice(0, 50)}..." for ${teamId}:`, e.message);
-          }
+    } catch (e) {
+        if (!(e.status === 400 && e.data?.data?.url?.code === 'validation_not_unique')) {
+            console.error(`Error saving article: ${e.message}`);
         }
-      }
     }
-  }
-
-  console.log(`Results: ${saved} saved, ${skipped} duplicates skipped, ${errors} errors`);
 }
 
 async function cleanOldNews() {
@@ -206,15 +312,12 @@ async function cleanOldNews() {
 
 async function main() {
   console.log('=== FutbolXP News Update ===');
-  console.log(`Time: ${new Date().toISOString()}`);
-
   await authenticate();
-  const articles = await fetchArticles();
-  console.log(`Total articles fetched: ${articles.length}`);
-
+  const allArticles = await fetchArticles();
+  const articles = allArticles.slice(0, 20);
+  console.log(`Processing top 20 articles...`);
   await saveNews(articles);
   await cleanOldNews();
-
   console.log('=== Update complete ===');
 }
 

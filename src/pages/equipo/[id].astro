@@ -28,8 +28,8 @@ try {
 // Merge PocketBase news with static news, prefer PocketBase
 const staticNews = team.news || [];
 const allNewsUrls = new Set(pbNews.map((n: any) => n.url));
-const mergedNews = [
-  ...pbNews.map((n: any) => ({ title: n.title, url: n.url, source: n.source, published: n.published })),
+const mergedNews: any[] = [
+  ...pbNews.map((n: any) => ({ title: n.title, url: n.url, source: n.source, published: n.published, contentSnippet: n.contentSnippet })),
   ...staticNews.filter(n => !allNewsUrls.has(n.url)),
 ].sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime()).slice(0, 10);
 
@@ -70,13 +70,17 @@ const formatDate = (dateString: string) => {
         {mergedNews.length > 0 ? (
           <div class="news-list">
             {mergedNews.map((item) => (
-              <a href={item.url} target="_blank" rel="noopener noreferrer" class="news-card">
+              <div class="news-card">
                 <div class="title">{item.title}</div>
-                <div class="meta">
+                {item.contentSnippet && (
+                  <div class="summary" style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">{item.contentSnippet.slice(0, 100)}...</div>
+                )}
+                <div class="meta" style="margin-bottom: 0.75rem;">
                   <span class="source">{item.source}</span>
                   <time datetime={item.published}>{formatDate(item.published)}</time>
                 </div>
-              </a>
+                <a href={item.id ? `/noticia/${item.id}` : item.url} target={item.id ? "_self" : "_blank"} rel="noopener noreferrer" class="read-more-link" style="color: #000000; font-weight: 800; font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px; text-transform: uppercase;">Visitar nota &rarr;</a>
+              </div>
             ))}
           </div>
         ) : (
@@ -138,28 +142,32 @@ const formatDate = (dateString: string) => {
   }
   .back-link {
     display: inline-block;
-    color: var(--color-text-muted);
+    color: #000000;
     font-size: 0.85rem;
+    font-weight: 700;
     margin-bottom: 1.25rem;
-    transition: color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  .back-link:hover { color: var(--color-primary-light); }
+  .back-link:hover { text-decoration-thickness: 3px; }
   .team-profile {
     display: flex;
     align-items: center;
     gap: 1.25rem;
     padding: 1.5rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: #ffffff;
+    border: 3px solid #000000;
   }
   .team-flag {
     width: 72px;
     height: 72px;
     border-radius: 50%;
     object-fit: cover;
-    background: var(--color-surface-2);
+    background: #f5f5f5;
     flex-shrink: 0;
+    border: 3px solid #000000;
   }
   .team-title {
     font-size: 2rem;
@@ -190,50 +198,56 @@ const formatDate = (dateString: string) => {
     gap: 1.5rem;
   }
   .sidebar-section {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: #ffffff;
+    border: 2px solid #000000;
     padding: 1.25rem;
   }
   .sidebar-title {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    color: #000000;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 2px solid #000000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
 
   .player-list {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.3rem;
   }
   .player-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    transition: background 0.2s;
+    border: 1px solid transparent;
+    transition: all 0.1s;
   }
-  .player-item:hover { background: var(--color-surface-2); }
+  .player-item:hover {
+    border: 1px solid #000000;
+    background: #f5f5f5;
+  }
   .player-avatar {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: var(--color-surface-2);
+    background: #f0f0f0;
+    border: 2px solid #000000;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #666666;
   }
   .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .player-name { font-size: 0.9rem; font-weight: 600; }
-  .player-pos { font-size: 0.75rem; color: var(--color-text-muted); }
+  .player-name { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; }
+  .player-pos { font-size: 0.7rem; color: #666666; text-transform: uppercase; font-weight: 600; }
 
   .social-list {
     display: flex;
@@ -243,16 +257,23 @@ const formatDate = (dateString: string) => {
   .social-btn {
     display: block;
     padding: 0.6rem 1rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     text-align: center;
-    transition: opacity 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: #ffffff;
+    border: 2px solid #000000;
+    color: #000000;
+    transition: all 0.1s;
   }
-  .social-btn:hover { opacity: 0.85; }
-  .social-btn.twitter { background: #1d9bf0; color: white; }
-  .social-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
-  .social-btn.website { background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text); }
+  .social-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0px #000000;
+  }
+  .social-btn.twitter { background: #ffffff; color: #000000; }
+  .social-btn.instagram { background: #ffffff; color: #000000; }
+  .social-btn.website { background: #ffffff; color: #000000; }
 
   @media (max-width: 768px) {
     .content-grid { grid-template-columns: 1fr; }

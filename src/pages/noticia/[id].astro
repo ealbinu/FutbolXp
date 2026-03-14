@@ -1,0 +1,177 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { pb } from '../../lib/pocketbase';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+let newsItem;
+
+try {
+  if (!id) throw new Error('No id provided');
+  newsItem = await pb.collection('news').getOne(id);
+} catch (e) {
+  return Astro.redirect('/noticias');
+}
+
+import { formatRelative } from 'date-fns';
+import { es } from 'date-fns/locale';
+
+const formatDate = (dateString: string) => {
+  try {
+    return formatRelative(new Date(dateString), new Date(), { locale: es });
+  } catch { return dateString; }
+};
+
+---
+
+<Layout title={`${newsItem.title} - FutbolXP`}>
+  <main class="container section">
+    <a href="/noticias" class="back-link">&larr; Volver a Noticias</a>
+
+    <article class="news-detail-container">
+      <div class="news-header">
+        <span class="news-source">{newsItem.source}</span>
+        <span class="news-team">{newsItem.teamName}</span>
+      </div>
+      
+      <h1 class="news-title">{newsItem.title}</h1>
+      
+      <div class="news-footer">
+        <time datetime={newsItem.published}>{formatDate(newsItem.published)}</time>
+      </div>
+
+      {newsItem.imageUrl && (
+        <div class="news-image-wrapper">
+          <img src={newsItem.imageUrl} alt={newsItem.title} class="news-image" loading="lazy" />
+        </div>
+      )}
+
+      <div class="news-content">
+        {newsItem.contentSnippet?.split('\n').map((para: string) => para.trim() && <p>{para}</p>)}
+      </div>
+
+      <div class="news-actions">
+        <a href={newsItem.url} target="_blank" rel="noopener noreferrer" class="read-more-btn">
+          Seguir leyendo en la fuente original &rarr;
+        </a>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    color: #000000;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .back-link:hover { text-decoration-thickness: 3px; }
+
+  .news-detail-container {
+    background: #ffffff;
+    border: 3px solid #000000;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .news-header {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  .news-source {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .news-team {
+    font-size: 0.75rem;
+    color: #000000;
+    padding: 0.2rem 0.6rem;
+    background: transparent;
+    border: 2px solid #000000;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .news-title {
+    font-family: 'Google Sans Flex Text', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  .news-footer {
+    font-size: 0.9rem;
+    color: #666666;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .news-image-wrapper {
+    margin-bottom: 2rem;
+    border: 3px solid #000000;
+    overflow: hidden;
+  }
+  .news-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .news-content {
+    font-size: 1.1rem;
+    color: #000000;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+  }
+
+  .news-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .news-actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .read-more-btn {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    background: #000000;
+    color: #ffffff;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    border: 3px solid #000000;
+    transition: all 0.1s;
+  }
+  .read-more-btn:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translate(-3px, -3px);
+    box-shadow: 4px 4px 0px #000000;
+  }
+
+  @media (max-width: 768px) {
+    .news-detail-container { padding: 1.5rem; }
+    .news-title { font-size: 1.75rem; }
+  }
+</style>

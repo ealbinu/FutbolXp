@@ -43,7 +43,7 @@
     "id": "canada",
     "name": "Canadá",
     "code": "CAN",
-    "group": "A",
+    "group": "B",
     "continent": "North America",
     "qualified": true,
     "flag": "https://flagcdn.com/w640/ca.png",
@@ -76,7 +76,7 @@
     "id": "estados-unidos",
     "name": "Estados Unidos",
     "code": "USA",
-    "group": "A",
+    "group": "D",
     "continent": "North America",
     "qualified": true,
     "flag": "https://flagcdn.com/w640/us.png",
@@ -110,7 +110,6 @@
     "id": "costa-rica",
     "name": "Costa Rica",
     "code": "CRC",
-    "group": "B",
     "continent": "North America",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/cr.png",
@@ -135,7 +134,6 @@
     "id": "jamaica",
     "name": "Jamaica",
     "code": "JAM",
-    "group": "B",
     "continent": "North America",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/jm.png",
@@ -159,9 +157,9 @@
     "id": "panama",
     "name": "Panamá",
     "code": "PAN",
-    "group": "B",
+    "group": "L",
     "continent": "North America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/pa.png",
     "officialSite": "https://fepafut.com",
     "social": {
@@ -171,42 +169,12 @@
     "news": []
   },
   {
-    "id": "honduras",
-    "name": "Honduras",
-    "code": "HON",
-    "group": "B",
-    "continent": "North America",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/hn.png",
-    "officialSite": "https://fenafuth.org",
-    "social": {
-      "twitter": "https://twitter.com/fenafuth"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "trinidad-tobago",
-    "name": "Trinidad y Tobago",
-    "code": "TRI",
-    "group": "C",
-    "continent": "North America",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/tt.png",
-    "officialSite": "https://ttfootball.org",
-    "social": {
-      "twitter": "https://twitter.com/ttfootball"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "argentina",
     "name": "Argentina",
     "code": "ARG",
-    "group": "C",
+    "group": "J",
     "continent": "South America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/ar.png",
     "officialSite": "https://afa.com.ar",
     "social": {
@@ -216,8 +184,7 @@
     "players": [
       "a-lionel-messi",
       "a-julian-alvarez",
-      "a-emiliano-martinez",
-      "a-angel-di-maria"
+      "a-emiliano-martinez"
     ],
     "news": [
       {
@@ -238,9 +205,9 @@
     "id": "colombia",
     "name": "Colombia",
     "code": "COL",
-    "group": "C",
+    "group": "K",
     "continent": "South America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/co.png",
     "officialSite": "https://fcf.com.co",
     "social": {
@@ -264,17 +231,16 @@
     "id": "ecuador",
     "name": "Ecuador",
     "code": "ECU",
-    "group": "C",
+    "group": "E",
     "continent": "South America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/ec.png",
     "officialSite": "https://ecuafutbol.org",
     "social": {
       "twitter": "https://twitter.com/Ecuafutbol"
     },
     "players": [
-      "e-enner-valencia",
-      "e-moisés-caicedo"
+      "e-enner-valencia"
     ],
     "news": [
       {
@@ -289,17 +255,15 @@
     "id": "uruguay",
     "name": "Uruguay",
     "code": "URU",
-    "group": "C",
+    "group": "H",
     "continent": "South America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/uy.png",
     "officialSite": "https://auf.org.uy",
     "social": {
       "twitter": "https://twitter.com/Uruguay"
     },
     "players": [
-      "u-luis-suarez",
-      "u-edinson-cavani",
       "u-federico-valverde",
       "u-ronaldo-arias"
     ],
@@ -316,9 +280,9 @@
     "id": "brazil",
     "name": "Brasil",
     "code": "BRA",
-    "group": "G",
+    "group": "C",
     "continent": "South America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/br.png",
     "officialSite": "https://cbf.com.br",
     "social": {
@@ -344,9 +308,9 @@
     "id": "paraguay",
     "name": "Paraguay",
     "code": "PAR",
-    "group": "C",
+    "group": "D",
     "continent": "South America",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/py.png",
     "officialSite": "https://apf.org.py",
     "social": {
@@ -359,7 +323,6 @@
     "id": "peru",
     "name": "Perú",
     "code": "PER",
-    "group": "C",
     "continent": "South America",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/pe.png",
@@ -367,10 +330,7 @@
     "social": {
       "twitter": "https://twitter.com/TuFPF"
     },
-    "players": [
-      "p-andrea-guardado",
-      "p-paolo-guerrero"
-    ],
+    "players": [],
     "news": [
       {
         "title": "Perú y la esperanza de volver a un Mundial después de 8 años",
@@ -384,7 +344,6 @@
     "id": "chile",
     "name": "Chile",
     "code": "CHI",
-    "group": "C",
     "continent": "South America",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/cl.png",
@@ -392,10 +351,7 @@
     "social": {
       "twitter": "https://twitter.com/LaRoja"
     },
-    "players": [
-      "c-alexis-sanchez",
-      "c-arturo-vidal"
-    ],
+    "players": [],
     "news": [
       {
         "title": "La Roja se prepara para las eliminatorias con miras a 2026",
@@ -406,53 +362,19 @@
     ]
   },
   {
-    "id": "venezuela",
-    "name": "Venezuela",
-    "code": "VEN",
-    "group": "C",
-    "continent": "South America",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ve.png",
-    "officialSite": "https://federacionvenezolanadefutbol.org",
-    "social": {
-      "twitter": "https://twitter.com/FVF_oficial"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "bolivia",
-    "name": "Bolivia",
-    "code": "BOL",
-    "group": "C",
-    "continent": "South America",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/bo.png",
-    "officialSite": "https://fbf.com.bo",
-    "social": {
-      "twitter": "https://twitter.com/fbf_bolivia"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "inglaterra",
     "name": "Inglaterra",
     "code": "ENG",
-    "group": "E",
+    "group": "L",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/gb-eng.png",
     "officialSite": "https://englandfootball.com",
     "social": {
       "twitter": "https://twitter.com/England",
       "instagram": "https://instagram.com/england"
     },
-    "players": [
-      "e-harry-kane",
-      "e-jude-bellingham",
-      "e-bukayo-saka"
-    ],
+    "players": [],
     "news": [
       {
         "title": "England busca romper la sequía de títulos en 2026",
@@ -466,9 +388,9 @@
     "id": "francia",
     "name": "Francia",
     "code": "FRA",
-    "group": "D",
+    "group": "I",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/fr.png",
     "officialSite": "https://fff.fr",
     "social": {
@@ -476,9 +398,7 @@
       "instagram": "https://instagram.com/equipedefrance"
     },
     "players": [
-      "f-kylian-mbappe",
-      "f-antoine-griezmann",
-      "f-jude-bellingham"
+      "f-kylian-mbappe"
     ],
     "news": [
       {
@@ -495,7 +415,7 @@
     "code": "GER",
     "group": "E",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/de.png",
     "officialSite": "https://dfb.de",
     "social": {
@@ -520,9 +440,9 @@
     "id": "espana",
     "name": "España",
     "code": "ESP",
-    "group": "E",
+    "group": "H",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/es.png",
     "officialSite": "https://rfef.es",
     "social": {
@@ -547,9 +467,9 @@
     "id": "portugal",
     "name": "Portugal",
     "code": "POR",
-    "group": "F",
+    "group": "K",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/pt.png",
     "officialSite": "https://fpf.pt",
     "social": {
@@ -574,7 +494,6 @@
     "id": "italia",
     "name": "Italia",
     "code": "ITA",
-    "group": "B",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/it.png",
@@ -599,9 +518,9 @@
     "id": "paises-bajos",
     "name": "Países Bajos",
     "code": "NED",
-    "group": "E",
+    "group": "F",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/nl.png",
     "officialSite": "https://knvb.nl",
     "social": {
@@ -624,9 +543,9 @@
     "id": "belgica",
     "name": "Bélgica",
     "code": "BEL",
-    "group": "F",
+    "group": "G",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/be.png",
     "officialSite": "https://rbfa.be",
     "social": {
@@ -649,9 +568,9 @@
     "id": "croacia",
     "name": "Croacia",
     "code": "CRO",
-    "group": "F",
+    "group": "L",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/hr.png",
     "officialSite": "https://hns-cff.hr",
     "social": {
@@ -674,7 +593,6 @@
     "id": "dinamarca",
     "name": "Dinamarca",
     "code": "DEN",
-    "group": "E",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/dk.png",
@@ -698,7 +616,6 @@
     "id": "polonia",
     "name": "Polonia",
     "code": "POL",
-    "group": "E",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/pl.png",
@@ -722,9 +639,9 @@
     "id": "suiza",
     "name": "Suiza",
     "code": "SUI",
-    "group": "A",
+    "group": "B",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/ch.png",
     "officialSite": "https://football.ch",
     "social": {
@@ -747,9 +664,9 @@
     "id": "austria",
     "name": "Austria",
     "code": "AUT",
-    "group": "F",
+    "group": "J",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/at.png",
     "officialSite": "https://oefb.at",
     "social": {
@@ -771,7 +688,6 @@
     "id": "serbia",
     "name": "Serbia",
     "code": "SRB",
-    "group": "G",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/rs.png",
@@ -795,9 +711,9 @@
     "id": "escocia",
     "name": "Escocia",
     "code": "SCO",
-    "group": "F",
+    "group": "C",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/gb-sct.png",
     "officialSite": "https://scottishfa.co.uk",
     "social": {
@@ -819,7 +735,6 @@
     "id": "republica-checa",
     "name": "República Checa",
     "code": "CZE",
-    "group": "G",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/cz.png",
@@ -843,7 +758,6 @@
     "id": "turquia",
     "name": "Turquía",
     "code": "TUR",
-    "group": "G",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/tr.png",
@@ -864,40 +778,9 @@
     ]
   },
   {
-    "id": "rusia",
-    "name": "Rusia",
-    "code": "RUS",
-    "group": "G",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ru.png",
-    "officialSite": "https://rfs.ru",
-    "social": {
-      "twitter": "https://twitter.com/TeamRussia"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "ucrania",
-    "name": "Ucrania",
-    "code": "UKR",
-    "group": "E",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ua.png",
-    "officialSite": "https://uaf.ua",
-    "social": {
-      "twitter": "https://twitter.com/Ukraine_DA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "suecia",
     "name": "Suecia",
     "code": "SWE",
-    "group": "F",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/se.png",
@@ -918,130 +801,9 @@
     ]
   },
   {
-    "id": "grecia",
-    "name": "Grecia",
-    "code": "GRE",
-    "group": "G",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/gr.png",
-    "officialSite": "https://epo.gr",
-    "social": {
-      "twitter": "https://twitter.com/EPOGR"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "hungria",
-    "name": "Hungría",
-    "code": "HUN",
-    "group": "F",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/hu.png",
-    "officialSite": "https://mlsz.hu",
-    "social": {
-      "twitter": "https://twitter.com/mlszhu"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "rumania",
-    "name": "Rumanía",
-    "code": "ROU",
-    "group": "E",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ro.png",
-    "officialSite": "https://frf.ro",
-    "social": {
-      "twitter": "https://twitter.com/romanianfootball"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "bulgaria",
-    "name": "Bulgaria",
-    "code": "BUL",
-    "group": "E",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/bg.png",
-    "officialSite": "https://bfunion.bg",
-    "social": {
-      "twitter": "https://twitter.com/bg_bfunion"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "islandia",
-    "name": "Islandia",
-    "code": "ISL",
-    "group": "F",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/is.png",
-    "officialSite": "https://ksi.is",
-    "social": {
-      "twitter": "https://twitter.com/FootballIceland"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "finlandia",
-    "name": "Finlandia",
-    "code": "FIN",
-    "group": "G",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/fi.png",
-    "officialSite": "https://palloliitto.fi",
-    "social": {
-      "twitter": "https://twitter.com/FinlandFooty"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "irlanda",
-    "name": "Irlanda",
-    "code": "IRL",
-    "group": "E",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ie.png",
-    "officialSite": "https://fa.ie",
-    "social": {
-      "twitter": "https://twitter.com/FAIreland"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "irlanda-del-norte",
-    "name": "Irlanda del Norte",
-    "code": "NIR",
-    "group": "F",
-    "continent": "Europe",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/gb-nir.png",
-    "officialSite": "https://www.irishfa.com",
-    "social": {
-      "twitter": "https://twitter.com/IrishFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "gales",
     "name": "Gales",
     "code": "WAL",
-    "group": "B",
     "continent": "Europe",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/gb-wls.png",
@@ -1065,9 +827,9 @@
     "id": "marruecos",
     "name": "Marruecos",
     "code": "MAR",
-    "group": "B",
+    "group": "C",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/ma.png",
     "officialSite": "https://frmf.ma",
     "social": {
@@ -1089,9 +851,9 @@
     "id": "senegal",
     "name": "Senegal",
     "code": "SEN",
-    "group": "C",
+    "group": "I",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/sn.png",
     "officialSite": "https://fsf.sn",
     "social": {
@@ -1113,17 +875,15 @@
     "id": "argelia",
     "name": "Argelia",
     "code": "ALG",
-    "group": "D",
+    "group": "J",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/dz.png",
     "officialSite": "https://faf.dz",
     "social": {
       "twitter": "https://twitter.com/lesverts"
     },
-    "players": [
-      "a-riyad-mahrez"
-    ],
+    "players": [],
     "news": [
       {
         "title": "Los Zorros del Desierto: Argelia apunta a Canadá 2026",
@@ -1137,9 +897,9 @@
     "id": "tunez",
     "name": "Túnez",
     "code": "TUN",
-    "group": "D",
+    "group": "F",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/tn.png",
     "officialSite": "https://ftf.org.tn",
     "social": {
@@ -1161,7 +921,6 @@
     "id": "nigeria",
     "name": "Nigeria",
     "code": "NGA",
-    "group": "D",
     "continent": "Africa",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/ng.png",
@@ -1185,7 +944,6 @@
     "id": "camerun",
     "name": "Camerún",
     "code": "CMR",
-    "group": "D",
     "continent": "Africa",
     "qualified": false,
     "flag": "https://flagcdn.com/w640/cm.png",
@@ -1209,9 +967,9 @@
     "id": "ghana",
     "name": "Ghana",
     "code": "GHA",
-    "group": "D",
+    "group": "L",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/gh.png",
     "officialSite": "https://ghanafa.org",
     "social": {
@@ -1235,7 +993,7 @@
     "code": "CIV",
     "group": "E",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/ci.png",
     "officialSite": "https://fif-ci.com",
     "social": {
@@ -1254,57 +1012,12 @@
     ]
   },
   {
-    "id": "malí",
-    "name": "Mali",
-    "code": "MLI",
-    "group": "F",
-    "continent": "Africa",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ml.png",
-    "officialSite": "https://femafoot.com",
-    "social": {
-      "twitter": "https://twitter.com/femafoot"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "republica-democratica-del-congo",
-    "name": "República Democrática del Congo",
-    "code": "COD",
-    "group": "F",
-    "continent": "Africa",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/cd.png",
-    "officialSite": "https://fecofa.cd",
-    "social": {
-      "twitter": "https://twitter.com/fecofa"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "guinea",
-    "name": "Guinea",
-    "code": "GUI",
-    "group": "F",
-    "continent": "Africa",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/gn.png",
-    "officialSite": "https://feguifoot.com",
-    "social": {
-      "twitter": "https://twitter.com/feguifoot"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "egipto",
     "name": "Egipto",
     "code": "EGY",
     "group": "G",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/eg.png",
     "officialSite": "https://efa.com.eg",
     "social": {
@@ -1326,9 +1039,9 @@
     "id": "sudafrica",
     "name": "Sudáfrica",
     "code": "RSA",
-    "group": "H",
+    "group": "A",
     "continent": "Africa",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/za.png",
     "officialSite": "https://safa.net",
     "social": {
@@ -1341,9 +1054,9 @@
     "id": "australia",
     "name": "Australia",
     "code": "AUS",
-    "group": "B",
+    "group": "D",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/au.png",
     "officialSite": "https://footballaustralia.com.au",
     "social": {
@@ -1365,9 +1078,9 @@
     "id": "iran",
     "name": "Irán",
     "code": "IRN",
-    "group": "H",
+    "group": "G",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/ir.png",
     "officialSite": "https://the-ffiri.ir",
     "social": {
@@ -1389,9 +1102,9 @@
     "id": "japon",
     "name": "Japón",
     "code": "JPN",
-    "group": "H",
+    "group": "F",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/jp.png",
     "officialSite": "https://jfa.jp",
     "social": {
@@ -1415,9 +1128,9 @@
     "id": "corea-del-sur",
     "name": "Corea del Sur",
     "code": "KOR",
-    "group": "H",
+    "group": "A",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/kr.png",
     "officialSite": "https://kfa.or.kr",
     "social": {
@@ -1441,7 +1154,7 @@
     "code": "KSA",
     "group": "H",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/sa.png",
     "officialSite": "https://thesaff.com.sa",
     "social": {
@@ -1460,87 +1173,12 @@
     ]
   },
   {
-    "id": "china",
-    "name": "China",
-    "code": "CHN",
-    "group": "H",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/cn.png",
-    "officialSite": "https://thecfa.cn",
-    "social": {
-      "twitter": "https://twitter.com/ChineseFootball"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "irak",
-    "name": "Irak",
-    "code": "IRQ",
-    "group": "H",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/iq.png",
-    "officialSite": "https://ifa.iq",
-    "social": {
-      "twitter": "https://twitter.com/IraqFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "emiratos-arabes-unidos",
-    "name": "Emiratos Árabes Unidos",
-    "code": "UAE",
-    "group": "G",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ae.png",
-    "officialSite": "https://uaefa.ae",
-    "social": {
-      "twitter": "https://twitter.com/UAEFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "qatar",
-    "name": "Qatar",
-    "code": "QAT",
-    "group": "A",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/qa.png",
-    "officialSite": "https://qfa.qa",
-    "social": {
-      "twitter": "https://twitter.com/QFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "oman",
-    "name": "Omán",
-    "code": "OMA",
-    "group": "A",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/om.png",
-    "officialSite": "https://ofa.om",
-    "social": {
-      "twitter": "https://twitter.com/ofaofficial"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "uzbekistan",
     "name": "Uzbekistán",
     "code": "UZB",
-    "group": "B",
+    "group": "K",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/uz.png",
     "officialSite": "https://ufa.uz",
     "social": {
@@ -1553,9 +1191,9 @@
     "id": "jordania",
     "name": "Jordania",
     "code": "JOR",
-    "group": "B",
+    "group": "J",
     "continent": "Asia",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/jo.png",
     "officialSite": "https://jfa.com.jo",
     "social": {
@@ -1565,117 +1203,12 @@
     "news": []
   },
   {
-    "id": "kuwait",
-    "name": "Kuwait",
-    "code": "KUW",
-    "group": "C",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/kw.png",
-    "officialSite": "https://kfa.org.kw",
-    "social": {
-      "twitter": "https://twitter.com/KFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "tailandia",
-    "name": "Tailandia",
-    "code": "THA",
-    "group": "C",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/th.png",
-    "officialSite": "https://fat.or.th",
-    "social": {
-      "twitter": "https://twitter.com/FAThailand"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "vietnam",
-    "name": "Vietnam",
-    "code": "VIE",
-    "group": "C",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/vn.png",
-    "officialSite": "https://vff.org.vn",
-    "social": {
-      "twitter": "https://twitter.com/VietnamFootball"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "filipinas",
-    "name": "Filipinas",
-    "code": "PHI",
-    "group": "D",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/ph.png",
-    "officialSite": "https://pff.org.ph",
-    "social": {
-      "twitter": "https://twitter.com/PhilippineFootball"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "indonesia",
-    "name": "Indonesia",
-    "code": "IDN",
-    "group": "D",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/id.png",
-    "officialSite": "https://pssi.org",
-    "social": {
-      "twitter": "https://twitter.com/PSSI"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "malasia",
-    "name": "Malasia",
-    "code": "MAS",
-    "group": "D",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/my.png",
-    "officialSite": "https://fam.org.my",
-    "social": {
-      "twitter": "https://twitter.com/famofmalaysia"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "singapur",
-    "name": "Singapur",
-    "code": "SGP",
-    "group": "D",
-    "continent": "Asia",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/sg.png",
-    "officialSite": "https://fas.org.sg",
-    "social": {
-      "twitter": "https://twitter.com/fas_singapore"
-    },
-    "players": [],
-    "news": []
-  },
-  {
     "id": "nueva-zelanda",
     "name": "Nueva Zelanda",
     "code": "NZL",
-    "group": "B",
+    "group": "G",
     "continent": "Oceania",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w640/nz.png",
     "officialSite": "https://nzfootball.co.nz",
     "social": {
@@ -1685,138 +1218,58 @@
     "news": []
   },
   {
-    "id": "tahiti",
-    "name": "Tahití",
-    "code": "TAH",
-    "group": "A",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/pf.png",
-    "officialSite": "https://ftf.pf",
-    "social": {
-      "twitter": "https://twitter.com/FTFP"
-    },
+    "id": "haiti",
+    "name": "Haití",
+    "code": "HAI",
+    "continent": "Por Definir",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w640/ha.png",
     "players": [],
-    "news": []
+    "news": [],
+    "group": "C"
   },
   {
-    "id": "nueva-caledonia",
-    "name": "Nueva Caledonia",
-    "code": "NCL",
-    "group": "B",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/nc.png",
-    "officialSite": "https://fedcalfoot.com",
-    "social": {
-      "twitter": "https://twitter.com/FedCalfoot"
-    },
+    "id": "curazao",
+    "name": "Curazao",
+    "code": "CUR",
+    "continent": "Por Definir",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w640/cu.png",
     "players": [],
-    "news": []
+    "news": [],
+    "group": "E"
   },
   {
-    "id": "islas-salomon",
-    "name": "Islas Salomón",
-    "code": "SOL",
-    "group": "C",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/sb.png",
-    "officialSite": "https://solomonsfootball.com",
-    "social": {
-      "twitter": "https://twitter.com/SolomonFA"
-    },
+    "id": "noruega",
+    "name": "Noruega",
+    "code": "NOR",
+    "continent": "Por Definir",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w640/no.png",
     "players": [],
-    "news": []
+    "news": [],
+    "group": "I"
   },
   {
-    "id": "papua-nueva-guinea",
-    "name": "Papúa Nueva Guinea",
-    "code": "PNG",
-    "group": "D",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/pg.png",
-    "officialSite": "https://pngfootball.com",
-    "social": {
-      "twitter": "https://twitter.com/PNGFA"
-    },
+    "id": "catar",
+    "name": "Catar",
+    "code": "CAT",
+    "continent": "Por Definir",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w640/ca.png",
     "players": [],
-    "news": []
+    "news": [],
+    "group": "B"
   },
   {
-    "id": "fiji",
-    "name": "Fiyi",
-    "code": "FIJ",
-    "group": "E",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/fj.png",
-    "officialSite": "https://fijifootball.com.fj",
-    "social": {
-      "twitter": "https://twitter.com/FijiFA"
-    },
+    "id": "cabo-verde",
+    "name": "Cabo Verde",
+    "code": "CAB",
+    "continent": "Por Definir",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w640/ca.png",
     "players": [],
-    "news": []
-  },
-  {
-    "id": "vanuatu",
-    "name": "Vanuatu",
-    "code": "VAN",
-    "group": "F",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/vu.png",
-    "officialSite": "https://vanuafootball.com",
-    "social": {
-      "twitter": "https://twitter.com/VanuatuFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "tonga",
-    "name": "Tonga",
-    "code": "TGA",
-    "group": "G",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/to.png",
-    "officialSite": "https://tongafootball.to",
-    "social": {
-      "twitter": "https://twitter.com/TongaFA"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "samoa-americana",
-    "name": "Samoa Americana",
-    "code": "ASA",
-    "group": "H",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/as.png",
-    "officialSite": "https://ffas.as",
-    "social": {
-      "twitter": "https://twitter.com/FFAS_Soccer"
-    },
-    "players": [],
-    "news": []
-  },
-  {
-    "id": "guam",
-    "name": "Guam",
-    "code": "GUM",
-    "group": "H",
-    "continent": "Oceania",
-    "qualified": false,
-    "flag": "https://flagcdn.com/w640/gu.png",
-    "officialSite": "https://guamfa.com",
-    "social": {
-      "twitter": "https://twitter.com/GuamFA"
-    },
-    "players": [],
-    "news": []
+    "news": [],
+    "group": "H"
   }
 ]
