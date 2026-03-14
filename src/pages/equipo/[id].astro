@@ -29,7 +29,14 @@ try {
 const staticNews = team.news || [];
 const allNewsUrls = new Set(pbNews.map((n: any) => n.url));
 const mergedNews: any[] = [
-  ...pbNews.map((n: any) => ({ title: n.title, url: n.url, source: n.source, published: n.published, contentSnippet: n.contentSnippet })),
+  ...pbNews.map((n: any) => ({ 
+    id: n.id, 
+    title: n.title, 
+    url: n.url, 
+    source: n.source, 
+    published: n.published, 
+    contentSnippet: n.contentSnippet 
+  })),
   ...staticNews.filter(n => !allNewsUrls.has(n.url)),
 ].sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime()).slice(0, 10);
 
