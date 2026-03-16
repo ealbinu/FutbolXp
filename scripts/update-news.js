@@ -21,8 +21,8 @@ const playersData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'src/con
 const NEWS_SOURCES = [
   { url: 'https://www.espn.com/espn/rss/soccer/news', name: 'ESPN' },
   { url: 'https://e00-marca.uecdn.es/rss/futbol/futbol-internacional.xml', name: 'Marca' },
-  { url: 'https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/videos/sport/futbol/', name: 'AS' },
-  { url: 'https://www.goal.com/feeds/en/news', name: 'Goal' },
+  { url: 'https://as.com/rss/futbol/mundial.xml', name: 'AS' },
+  { url: 'https://www.goal.com/feeds/es-mx/news', name: 'Goal' },
   { url: 'https://www.skysports.com/rss/11095', name: 'Sky Sports' },
   { url: 'https://feeds.bbci.co.uk/sport/football/rss.xml', name: 'BBC Sport' },
   { url: 'https://www.espn.com.mx/espn/rss/futbol/news', name: 'ESPN MX' },
@@ -314,6 +314,15 @@ async function saveNews(articles) {
   for (const article of articles) {
     if (!article.link || !article.title) continue;
     
+    const normalizedTitle = normalizeText(article.title || '');
+    const normalizedContent = normalizeText(article.content || '');
+    const textToMatch = `${normalizedTitle} ${normalizedContent}`;
+
+    if (article.source === 'El Futbolero') {
+      console.log(`    [DEBUG] Matching El Futbolero article: "${article.title}"`);
+      console.log(`    [DEBUG] Text length: ${textToMatch.length} chars.`);
+    }
+
     const matchedTeams = findRelevantTeams(article);
     const matchedPlayers = findRelevantPlayers(article);
     
@@ -443,11 +452,18 @@ async function main() {
   const rssArticles = await fetchArticles();
   const crawlArticles = await fetchCrawlArticles();
   
-  const allArticles = [...rssArticles, ...crawlArticles];
+  // Prioritize crawl articles (El Futbolero) by placing them first
+  const allArticles = [...crawlArticles, ...rssArticles];
   
-  // Sort or prioritize if needed, here we just take the first 40 to avoid over-processing
-  const articles = allArticles.slice(0, 40);
+  const articles = allArticles.slice(0, 60); // Increased limit to process more
   console.log(`Processing total of ${articles.length} articles...`);
+  
+  for (const art of crawlArticles) {
+    if (!art.content || art.content.length < 100) {
+      console.log(`    [WARN] Crawl article "${art.title}" has suspiciously short content (${art.content?.length || 0} chars).`);
+    }
+  }
+
   await saveNews(articles);
   await cleanOldNews();
   console.log('=== Update complete ===');
