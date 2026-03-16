@@ -24,8 +24,6 @@ const formatDate = (dateString: string) => {
   } catch { return dateString; }
 };
 
----
-
 const newsSchema = {
   "@context": "https://schema.org",
   "@type": "NewsArticle",
@@ -46,7 +44,7 @@ const newsSchema = {
   image={newsItem.imageUrl}
   type="article"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(newsSchema)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(newsSchema)} />
   <main class="container section">
     <a href="/noticias" class="back-link">&larr; Volver a Noticias</a>
 

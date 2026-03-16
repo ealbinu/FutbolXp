@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname;
     <meta property="twitter:image" content={socialImageURL} />
 
     <!-- GEO / Generative Engine Optimization (JSON-LD) -->
-    <script type="application/ld+json">
+    <script type="application/ld+json" is:inline>
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
@@ -63,7 +63,7 @@ const currentPath = Astro.url.pathname;
         }
       }
     </script>
-    <script type="application/ld+json">
+    <script type="application/ld+json" is:inline>
       {
         "@context": "https://schema.org",
         "@type": "SportsEvent",
