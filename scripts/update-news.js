@@ -29,6 +29,107 @@ const NEWS_SOURCES = [
   { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Soccer.xml', name: 'NY Times' },
 ];
 
+const CRAWL_SOURCES = [
+  { 
+    url: 'https://www.elfutbolero.com.mx/mundial-2026', 
+    name: 'El Futbolero',
+    includePatterns: ['https://www.elfutbolero.com.mx/mundial-2026/**']
+  }
+];
+
+const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
+const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
+
+async function fetchCrawlArticles() {
+  if (!CF_ACCOUNT_ID || !CF_API_TOKEN) {
+    console.log('Skipping crawl sources: Cloudflare credentials not set.');
+    return [];
+  }
+
+  console.log('Starting Cloudflare crawl jobs...');
+  const allArticles = [];
+
+  for (const source of CRAWL_SOURCES) {
+    try {
+      console.log(`  [CRAWL] Starting job for ${source.name}...`);
+      const initRes = await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${CF_API_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            url: source.url,
+            limit: 10,
+            depth: 1,
+            formats: ['markdown'],
+            options: {
+              includePatterns: source.includePatterns
+            }
+          }),
+        }
+      );
+
+      const initData = await initRes.json();
+      if (!initData.success) {
+        console.error(`  [FAIL] ${source.name} init: ${JSON.stringify(initData.errors)}`);
+        continue;
+      }
+
+      const jobId = initData.result;
+      console.log(`  [OK] Job ID: ${jobId}. Polling...`);
+
+      // Polling
+      let records = [];
+      const maxAttempts = 20;
+      for (let i = 0; i < maxAttempts; i++) {
+        await sleep(10000); // 10s between checks
+        const pollRes = await fetch(
+          `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=1`,
+          { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
+        );
+        const pollData = await pollRes.json();
+        const status = pollData.result?.status;
+
+        if (status === 'completed') {
+          console.log(`  [DONE] ${source.name} completed.`);
+          const fullRes = await fetch(
+            `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=10&status=completed`,
+            { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
+          );
+          const fullData = await fullRes.json();
+          records = fullData.result?.records || [];
+          break;
+        } else if (status !== 'running') {
+          console.error(`  [FAIL] ${source.name} terminal status: ${status}`);
+          break;
+        }
+        console.log(`  ... poll ${i+1}/${maxAttempts} (status: ${status})`);
+      }
+
+      for (const record of records) {
+        // Skip the index page itself
+        if (record.url === source.url) continue;
+
+        allArticles.push({
+          title: record.metadata?.title || 'Noticia de Mundial 2026',
+          content: record.markdown || '',
+          pubDate: new Date().toISOString(), // Crawlers usually don't give pubDate in metadata easily
+          link: record.url,
+          source: source.name,
+          imageUrl: '', // Hard to get from metadata
+        });
+      }
+    } catch (error) {
+      console.error(`  [ERROR] ${source.name}: ${error.message}`);
+    }
+  }
+
+  return allArticles;
+}
+
 // Team keywords for matching
 const TEAM_KEYWORDS = {
   mexico: { name: 'Mexico', keywords: ['mexico', 'seleccion mexicana', 'miseleccion', 'tri', 'el tri', 'jimmy lozano'] },
@@ -313,9 +414,15 @@ async function cleanOldNews() {
 async function main() {
   console.log('=== FutbolExperto News Update ===');
   await authenticate();
-  const allArticles = await fetchArticles();
-  const articles = allArticles.slice(0, 20);
-  console.log(`Processing top 20 articles...`);
+  
+  const rssArticles = await fetchArticles();
+  const crawlArticles = await fetchCrawlArticles();
+  
+  const allArticles = [...rssArticles, ...crawlArticles];
+  
+  // Sort or prioritize if needed, here we just take the first 40 to avoid over-processing
+  const articles = allArticles.slice(0, 40);
+  console.log(`Processing total of ${articles.length} articles...`);
   await saveNews(articles);
   await cleanOldNews();
   console.log('=== Update complete ===');
