@@ -360,7 +360,7 @@ async function saveNews(articles) {
     }
 
     // Save for players
-    for (const { playerId, playerName } of matchedPlayers) {
+    for (const { playerId } of matchedPlayers) {
       const key = `${article.link}-${playerId}`;
       if (processedUrls.has(key)) continue;
       

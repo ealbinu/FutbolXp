@@ -177,8 +177,8 @@ const formatDate = (dateString: string) => {
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-      const tabs = document.querySelectorAll<HTMLButtonElement>('.group-tab');
-      const panels = document.querySelectorAll<HTMLElement>('.group-panel');
+      const tabs = document.querySelectorAll('.group-tab');
+      const panels = document.querySelectorAll('.group-panel');
 
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -189,8 +189,8 @@ const formatDate = (dateString: string) => {
           const group = tab.dataset.group;
 
           // GTM Event
-          (window as any).dataLayer = (window as any).dataLayer || [];
-          (window as any).dataLayer.push({
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
             'event': 'news_category_filter',
             'filter_type': 'group_tab',
             'filter_value': group

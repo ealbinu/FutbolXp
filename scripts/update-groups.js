@@ -22,10 +22,6 @@ const officialGroups = {
 };
 
 // Qualified teams (all 42 confirmed)
-const qualifiedIds = new Set(Object.values(officialGroups).flat());
-
-// Names normalization helper
-const normalize = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
 
 // Build reverse lookup: teamId -> group
 const idToGroup = {};
