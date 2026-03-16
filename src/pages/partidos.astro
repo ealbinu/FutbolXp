@@ -337,7 +337,9 @@ const sortedGroups = Object.entries(groupedByGroup).sort(([a], [b]) => {
   }
 
   @media (max-width: 768px) {
-    .tabs { flex-direction: column; }
+    .tabs { flex-direction: column; gap: 0.5rem; }
+    .tab-btn { width: 100%; border-width: 2px; }
     .bracket { gap: 2rem; }
+    .group-box { padding: 1rem; }
   }
 </style>

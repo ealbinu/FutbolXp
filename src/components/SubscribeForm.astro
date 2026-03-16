@@ -150,4 +150,14 @@ const { teams } = Astro.props;
   }
   .msg.success { color: #000000; }
   .msg.error { color: #000000; text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .subscribe-container {
+      padding: 1.25rem;
+      margin: 2rem 0;
+    }
+    .teams-checkboxes {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
