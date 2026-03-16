@@ -33,7 +33,7 @@ const CRAWL_SOURCES = [
   { 
     url: 'https://www.elfutbolero.com.mx/mundial-2026', 
     name: 'El Futbolero',
-    includePatterns: ['*mundial-2026*']
+    includePatterns: ['**/mundial-2026/**']
   }
 ];
 
@@ -62,11 +62,12 @@ async function fetchCrawlArticles() {
           },
           body: JSON.stringify({
             url: source.url,
-            limit: 20,
-            depth: 1,
+            limit: 40,
+            depth: 2,
             formats: ['markdown'],
             options: {
               includePatterns: source.includePatterns,
+              waitForSelector: 'main a[href*="mundial-2026"]',
             }
           }),
         }
