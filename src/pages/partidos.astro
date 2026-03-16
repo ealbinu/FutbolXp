@@ -187,6 +187,13 @@ const sortedGroups = Object.entries(groupedByGroup).sort(([a], [b]) => {
         tab.addEventListener('click', () => {
           const target = tab.getAttribute('data-tab');
           
+          // GTM Event
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push({
+            'event': 'tournament_tab_switch',
+            'tab_name': target
+          });
+
           tabs.forEach(t => t.classList.remove('active'));
           contents.forEach(c => c.classList.remove('active'));
           

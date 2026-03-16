@@ -53,6 +53,15 @@ const { teams } = Astro.props;
       if (res.ok) {
         msg.textContent = '¡Suscripción exitosa!';
         msg.className = 'msg success';
+        
+        // GTM Event
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          'event': 'newsletter_signup',
+          'email_hashed': btoa(email as string), // Simple hash for privacy
+          'selected_teams': teams
+        });
+
         form.reset();
       } else {
         msg.textContent = data.error || 'Ocurrió un error.';

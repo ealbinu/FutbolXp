@@ -71,13 +71,25 @@ const newsSchema = {
       </div>
 
       <div class="news-actions">
-        <a href={newsItem.url} target="_blank" rel="noopener noreferrer" class="read-more-btn">
+        <a href={newsItem.url} target="_blank" rel="noopener noreferrer" class="read-more-btn" id="external-source-link">
           Seguir leyendo en la fuente original &rarr;
         </a>
       </div>
     </article>
   </main>
 </Layout>
+
+<script is:inline define:vars={{ newsTitle: newsItem.title, newsSource: newsItem.source }}>
+  document.getElementById('external-source-link')?.addEventListener('click', () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'content_interaction',
+      'interaction_type': 'external_source_click',
+      'content_title': newsTitle,
+      'content_source': newsSource
+    });
+  });
+</script>
 
 <style>
   .back-link {

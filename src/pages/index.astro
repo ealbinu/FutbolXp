@@ -162,7 +162,20 @@ const formatDate = (dateString: string) => {
     <SubscribeForm teams={teams} />
   </main>
 
-  <script>
+  <script is:inline>
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('.read-more-link');
+      if (link && link.getAttribute('target') !== '_blank') {
+        const title = link.closest('.news-card')?.querySelector('.title')?.textContent;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'content_interaction',
+          'interaction_type': 'internal_news_view',
+          'content_title': title
+        });
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
       const tabs = document.querySelectorAll<HTMLButtonElement>('.group-tab');
       const panels = document.querySelectorAll<HTMLElement>('.group-panel');
@@ -174,6 +187,14 @@ const formatDate = (dateString: string) => {
           tab.classList.add('active');
 
           const group = tab.dataset.group;
+
+          // GTM Event
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push({
+            'event': 'news_category_filter',
+            'filter_type': 'group_tab',
+            'filter_value': group
+          });
 
           if (group === 'all') {
             panels.forEach(p => p.style.display = '');

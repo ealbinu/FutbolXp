@@ -118,6 +118,23 @@ const hasPrevPage = page > 1;
   </main>
 </Layout>
 
+<script is:inline>
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.read-more-link');
+    if (link && link.getAttribute('target') !== '_blank') {
+      const newsItem = link.closest('.news-item') || link.closest('.news-card');
+      const title = newsItem?.querySelector('.news-title')?.textContent || newsItem?.querySelector('.title')?.textContent;
+      
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'content_interaction',
+        'interaction_type': 'internal_news_view',
+        'content_title': title
+      });
+    }
+  });
+</script>
+
 <style>
   .page-header { margin-bottom: 2rem; }
   .page-header h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
