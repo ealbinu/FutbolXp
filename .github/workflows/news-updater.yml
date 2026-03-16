@@ -26,4 +26,6 @@ jobs:
           POCKETBASE_URL: 'https://futbolxp.pockethost.io'
           POCKETBASE_EMAIL: ${{ secrets.POCKETBASE_EMAIL }}
           POCKETBASE_PASSWORD: ${{ secrets.POCKETBASE_PASSWORD }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: npm run update-news
