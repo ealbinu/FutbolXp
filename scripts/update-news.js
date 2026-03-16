@@ -33,7 +33,7 @@ const CRAWL_SOURCES = [
   { 
     url: 'https://www.elfutbolero.com.mx/mundial-2026', 
     name: 'El Futbolero',
-    includePatterns: ['https://www.elfutbolero.com.mx/mundial-2026/**']
+    includePatterns: ['**/mundial-2026/**']
   }
 ];
 
@@ -62,7 +62,7 @@ async function fetchCrawlArticles() {
           },
           body: JSON.stringify({
             url: source.url,
-            limit: 10,
+            limit: 30,
             depth: 1,
             formats: ['markdown'],
             options: {
@@ -83,9 +83,9 @@ async function fetchCrawlArticles() {
 
       // Polling
       let records = [];
-      const maxAttempts = 20;
+      const maxAttempts = 30; // Increased attempts
       for (let i = 0; i < maxAttempts; i++) {
-        await sleep(10000); // 10s between checks
+        await sleep(10000); 
         const pollRes = await fetch(
           `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=1`,
           { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
@@ -94,13 +94,14 @@ async function fetchCrawlArticles() {
         const status = pollData.result?.status;
 
         if (status === 'completed') {
-          console.log(`  [DONE] ${source.name} completed.`);
+          console.log(`  [DONE] ${source.name} crawl completed.`);
           const fullRes = await fetch(
-            `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=10&status=completed`,
+            `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=20&status=completed`,
             { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
           );
           const fullData = await fullRes.json();
           records = fullData.result?.records || [];
+          console.log(`  [INFO] Found ${records.length} total records from ${source.name}`);
           break;
         } else if (status !== 'running') {
           console.error(`  [FAIL] ${source.name} terminal status: ${status}`);
@@ -111,15 +112,17 @@ async function fetchCrawlArticles() {
 
       for (const record of records) {
         // Skip the index page itself
-        if (record.url === source.url) continue;
+        if (record.url === source.url || record.url.endsWith('/mundial-2026') || record.url.endsWith('/mundial-2026/')) continue;
+        
+        console.log(`    - Article found: ${record.url}`);
 
         allArticles.push({
           title: record.metadata?.title || 'Noticia de Mundial 2026',
           content: record.markdown || '',
-          pubDate: new Date().toISOString(), // Crawlers usually don't give pubDate in metadata easily
+          pubDate: new Date().toISOString(),
           link: record.url,
           source: source.name,
-          imageUrl: '', // Hard to get from metadata
+          imageUrl: '',
         });
       }
     } catch (error) {
@@ -127,6 +130,7 @@ async function fetchCrawlArticles() {
     }
   }
 
+  console.log(`Total articles fetched from crawl: ${allArticles.length}`);
   return allArticles;
 }
 
@@ -301,7 +305,16 @@ async function saveNews(articles) {
     const matchedTeams = findRelevantTeams(article);
     const matchedPlayers = findRelevantPlayers(article);
     
-    if (matchedTeams.length === 0 && matchedPlayers.length === 0) continue;
+    if (matchedTeams.length === 0 && matchedPlayers.length === 0) {
+      if (article.source === 'El Futbolero') {
+        console.log(`    [SKIP] El Futbolero article "${article.title}" matched no teams or players.`);
+      }
+      continue;
+    }
+
+    if (article.source === 'El Futbolero') {
+      console.log(`    [MATCH] El Futbolero article "${article.title}" matched ${matchedTeams.length} teams and ${matchedPlayers.length} players.`);
+    }
 
     const isEnglishSource = ['ESPN', 'Goal', 'Sky Sports', 'BBC Sport', 'NY Times'].includes(article.source);
 
