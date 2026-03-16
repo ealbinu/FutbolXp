@@ -34,6 +34,16 @@ const CRAWL_SOURCES = [
     url: 'https://www.elfutbolero.com.mx/mundial-2026', 
     name: 'El Futbolero',
     includePatterns: ['**/mundial-2026/**']
+  },
+  {
+    url: 'https://www.record.com.mx/mundial-2026',
+    name: 'Récord',
+    includePatterns: ['**/historia/**']
+  },
+  {
+    url: 'https://www.mediotiempo.com/temas/mundial-2026',
+    name: 'Mediotiempo',
+    includePatterns: ['**/futbol/copa-mundial/**']
   }
 ];
 
