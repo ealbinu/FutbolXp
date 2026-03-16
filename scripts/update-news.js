@@ -137,7 +137,7 @@ async function fetchCrawlArticles() {
 
 // Team keywords for matching
 const TEAM_KEYWORDS = {
-  mexico: { name: 'Mexico', keywords: ['mexico', 'seleccion mexicana', 'miseleccion', 'tri', 'el tri', 'jimmy lozano'] },
+  mexico: { name: 'Mexico', keywords: ['mexico', 'seleccion mexicana', 'miseleccion', 'tri', 'el tri', 'jimmy lozano', 'javier aguirre', 'ochoa', 'guillermo ochoa', 'malagon', 'raúl jiménez', 'santi giménez', 'chucky lozano', 'edson álvarez'] },
   canada: { name: 'Canada', keywords: ['canada', 'canadasoccer', 'jesse marsch'] },
   'estados-unidos': { name: 'Estados Unidos', keywords: ['estados unidos', 'usa', 'eeuu', 'usmnt', 'gregg berhalter', 'us soccer'] },
   argentina: { name: 'Argentina', keywords: ['argentina', 'seleccion argentina', 'scaloni', 'albiceleste'] },
