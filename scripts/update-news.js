@@ -62,12 +62,11 @@ async function fetchCrawlArticles() {
           },
           body: JSON.stringify({
             url: source.url,
-            limit: 40,
+            limit: 20,
             depth: 1,
             formats: ['markdown'],
             options: {
               includePatterns: source.includePatterns,
-              waitForSelector: 'a[href*="mundial-2026"]',
             }
           }),
         }
@@ -84,39 +83,41 @@ async function fetchCrawlArticles() {
 
       // Polling
       let records = [];
-      const maxAttempts = 30; // Increased attempts
+      const maxAttempts = 30; 
       for (let i = 0; i < maxAttempts; i++) {
         await sleep(10000); 
         const pollRes = await fetch(
-          `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=1`,
+          `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=20`,
           { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
         );
         const pollData = await pollRes.json();
         const status = pollData.result?.status;
 
-        if (status === 'completed') {
-          console.log(`  [DONE] ${source.name} crawl completed.`);
-          const fullRes = await fetch(
-            `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=20&status=completed`,
-            { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
-          );
-          const fullData = await fullRes.json();
-          records = fullData.result?.records || [];
-          console.log(`  [INFO] Found ${records.length} total records from ${source.name}`);
-          break;
-        } else if (status !== 'running') {
+        // Log status even if not completed
+        if (i % 5 === 0) console.log(`    ... Status: ${status} (${pollData.result?.records?.length || 0} records so far)`);
+
+        if (status === 'completed' || (status === 'running' && pollData.result?.records?.length > 1)) {
+          console.log(`  [INFO] Crawl status: ${status}. Found ${pollData.result?.records?.length} records.`);
+          records = pollData.result?.records || [];
+          if (status === 'completed') break;
+          if (records.length > 5) break; // If we have enough, we can stop early or continue
+        } else if (status !== 'running' && status !== 'completed') {
           console.error(`  [FAIL] ${source.name} terminal status: ${status}`);
           break;
         }
         console.log(`  ... poll ${i+1}/${maxAttempts} (status: ${status})`);
       }
 
+      console.log(`    [DEBUG] Processing ${records.length} records...`);
       for (const record of records) {
-        // Skip the index page itself
-        if (record.url === source.url || record.url.endsWith('/mundial-2026') || record.url.endsWith('/mundial-2026/')) continue;
+        console.log(`    - Discovered: ${record.url} (Type: ${record.metadata?.contentType || 'unknown'})`);
         
-        console.log(`    - Article found: ${record.url}`);
-
+        // Skip the index page itself
+        if (record.url === source.url || record.url.endsWith('/mundial-2026') || record.url.endsWith('/mundial-2026/')) {
+          console.log(`      (Skipping index page)`);
+          continue;
+        }
+        
         allArticles.push({
           title: record.metadata?.title || 'Noticia de Mundial 2026',
           content: record.markdown || '',
