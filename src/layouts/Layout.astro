@@ -123,6 +123,18 @@ const currentPath = Astro.url.pathname;
         line-height: 1.6;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
+        position: relative;
+      }
+
+      #particle-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.6;
       }
 
       h1, h2, h3, h4, h5, h6 {
@@ -457,6 +469,7 @@ const currentPath = Astro.url.pathname;
     </style>
   </head>
   <body>
+    <canvas id="particle-canvas"></canvas>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8QJ8Z9T"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -494,6 +507,66 @@ const currentPath = Astro.url.pathname;
       document.getElementById('mobileToggle')?.addEventListener('click', () => {
         document.getElementById('mainNav')?.classList.toggle('open');
       });
+
+      // Particle System
+      const canvas = document.getElementById('particle-canvas') as HTMLCanvasElement;
+      if (canvas) {
+        const ctx = canvas.getContext('2d')!;
+        let particles: any[] = [];
+        let w: number, h: number;
+
+        const init = () => {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+          particles = [];
+          for (let i = 0; i < 50; i++) {
+            particles.push({
+              x: Math.random() * w,
+              y: Math.random() * h,
+              vx: (Math.random() - 0.5) * 0.5,
+              vy: (Math.random() - 0.5) * 0.5,
+              size: Math.random() * 3 + 1,
+              color: Math.random() > 0.5 ? '#000000' : '#cccccc'
+            });
+          }
+        };
+
+        const draw = () => {
+          ctx.clearRect(0, 0, w, h);
+          particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0) p.x = w;
+            if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h;
+            if (p.y > h) p.y = 0;
+          });
+          requestAnimationFrame(draw);
+        };
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+
+        // Mouse interaction
+        window.addEventListener('mousemove', (e) => {
+          particles.forEach(p => {
+            const dx = p.x - e.clientX;
+            const dy = p.y - e.clientY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 100) {
+              p.vx += dx * 0.001;
+              p.vy += dy * 0.001;
+            }
+          });
+        });
+      }
     </script>
   </body>
 </html>

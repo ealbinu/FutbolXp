@@ -65,9 +65,6 @@ const formatDate = (dateString: string) => {
       </div>
     </section>
 
-    <!-- Subscription Form -->
-    <SubscribeForm teams={teams} />
-
     <!-- Latest News from PocketBase -->
     {latestNews.length > 0 && (
       <section class="container section">
@@ -160,6 +157,9 @@ const formatDate = (dateString: string) => {
         ))}
       </div>
     </section>
+
+    <!-- Subscription Form -->
+    <SubscribeForm teams={teams} />
   </main>
 
   <script>
