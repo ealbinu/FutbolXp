@@ -26,7 +26,27 @@ const formatDate = (dateString: string) => {
 
 ---
 
-<Layout title={`${newsItem.title} - FutbolExperto`}>
+const newsSchema = {
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": newsItem.title,
+  "image": [newsItem.imageUrl || "https://futbolexperto.com/og-image.png"],
+  "datePublished": newsItem.published,
+  "author": [{
+    "@type": "Organization",
+    "name": newsItem.source,
+    "url": newsItem.url
+  }]
+};
+---
+
+<Layout 
+  title={`${newsItem.title} - FutbolExperto`}
+  description={newsItem.contentSnippet?.slice(0, 160) || `Noticias sobre el Mundial 2026.`}
+  image={newsItem.imageUrl}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(newsSchema)} />
   <main class="container section">
     <a href="/noticias" class="back-link">&larr; Volver a Noticias</a>
 
