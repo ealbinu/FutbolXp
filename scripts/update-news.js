@@ -88,25 +88,34 @@ async function fetchCrawlArticles() {
       for (let i = 0; i < maxAttempts; i++) {
         await sleep(10000); 
         const pollRes = await fetch(
-          `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=20`,
+          `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/crawl/${jobId}?limit=50`,
           { headers: { 'Authorization': `Bearer ${CF_API_TOKEN}` } }
         );
         const pollData = await pollRes.json();
         const status = pollData.result?.status;
 
         // Log status even if not completed
-        if (i % 5 === 0) console.log(`    ... Status: ${status} (${pollData.result?.records?.length || 0} records so far)`);
+        if (i % 2 === 0) console.log(`    ... Poll ${i+1}/${maxAttempts} - Status: ${status} (${pollData.result?.records?.length || 0} records discovered)`);
 
-        if (status === 'completed' || (status === 'running' && pollData.result?.records?.length > 1)) {
-          console.log(`  [INFO] Crawl status: ${status}. Found ${pollData.result?.records?.length} records.`);
+        if (status === 'completed') {
+          console.log(`  [DONE] ${source.name} crawl completed.`);
           records = pollData.result?.records || [];
-          if (status === 'completed') break;
-          if (records.length > 5) break; // If we have enough, we can stop early or continue
-        } else if (status !== 'running' && status !== 'completed') {
+          break;
+        } 
+        
+        if (status === 'running' && pollData.result?.records?.length >= 5) {
+          // If it takes too long but we already have articles, we can proceed
+          if (i > 15) {
+            console.log(`  [INFO] Crawl still running but found ${pollData.result?.records?.length} articles. Proceeding with current snapshot.`);
+            records = pollData.result?.records || [];
+            break;
+          }
+        }
+
+        if (status !== 'running' && status !== 'completed') {
           console.error(`  [FAIL] ${source.name} terminal status: ${status}`);
           break;
         }
-        console.log(`  ... poll ${i+1}/${maxAttempts} (status: ${status})`);
       }
 
       console.log(`    [DEBUG] Processing ${records.length} records...`);
