@@ -83,7 +83,7 @@ const formatDate = (dateString: string) => {
 
     <!-- Latest News from PocketBase -->
     {latestNews.length > 0 && (
-      <section class="container section">
+      <section class="container section deferred-section">
         <h2 class="section-title">
           <span class="pulse"></span> Últimas Noticias
         </h2>
@@ -110,7 +110,7 @@ const formatDate = (dateString: string) => {
     )}
 
     {analystCards.length > 0 && (
-      <section class="container section analyst-preview-section">
+      <section class="container section analyst-preview-section deferred-section">
         <div class="analyst-home-head">
           <h2 class="section-title">Analista</h2>
           <div class="analyst-home-actions">
@@ -195,7 +195,7 @@ const formatDate = (dateString: string) => {
     )}
 
     <!-- Teams -->
-    <section id="equipos" class="container section">
+    <section id="equipos" class="container section deferred-section">
       <h2 class="section-title">Equipos por Grupo</h2>
       <div class="group-tabs" id="groupTabs">
         <button class="group-tab active" data-group="all">
@@ -377,6 +377,11 @@ const formatDate = (dateString: string) => {
     font-weight: 700;
   }
   .stat-divider { width: 3px; height: 36px; background: #000000; }
+
+  .deferred-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1200px;
+  }
 
   .news-grid {
     display: grid;

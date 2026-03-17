@@ -113,9 +113,8 @@ const globalSchema = {
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex+Text:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex+Text:wght@400;700;800;900&display=swap" rel="stylesheet" />
     <style is:global>
-      @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex+Text:wght@400;500;600;700;800;900&display=swap');
 
       :root {
         --color-bg: #ffffff;
@@ -157,13 +156,14 @@ const globalSchema = {
       * { margin: 0; padding: 0; box-sizing: border-box; }
 
       body {
-        font-family: 'Google Sans Flex Text', 'Google Sans', system-ui, -apple-system, sans-serif;
+        font-family: 'Google Sans Flex Text', 'Google Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         background: var(--color-bg);
         color: var(--color-text);
         min-height: 100vh;
         line-height: 1.6;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeSpeed;
         position: relative;
       }
 
@@ -230,6 +230,7 @@ const globalSchema = {
         z-index: 100;
         background: #ffffff;
         border-bottom: 3px solid #000000;
+        content-visibility: auto;
       }
 
       .header-inner {

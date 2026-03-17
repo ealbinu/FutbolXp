@@ -15,6 +15,11 @@ Este documento resume los hitos, decisiones técnicas y funcionalidades implemen
 - **Seguridad**: Eliminación de credenciales hardcodeadas en `scripts/update-news.js` y `src/pages/api/subscribe.ts`; migración a variables de entorno.
 - **Compatibilidad / deprecaciones**: `src/content.config.ts` actualizado para usar `z` desde `astro/zod`, eliminando warnings del build.
 - **Documentación**: Añadido `.env.example` y actualización de `README.md` para setup de variables de entorno.
+- **SEO / GEO**: Refuerzo global de metadata (`canonical`, `robots`, Open Graph, Twitter, `hreflang`, `author`, `referrer`) y JSON-LD global para `Organization`, `WebSite`, `WebPage` y `SportsEvent`.
+- **Structured data por página**: Añadidos `BreadcrumbList`, `CollectionPage`, `SportsTeam`, `Person` y `AnalysisNewsArticle` en páginas clave para enriquecer SEO técnico y motores generativos.
+- **Assets SEO**: Creación de `public/og-image.svg` como imagen social por defecto.
+- **robots / sitemap**: `robots.txt` actualizado para desautorizar `/api/` y validación de `sitemap-index.xml` + `sitemap-0.xml` generados por Astro.
+- **Performance inicial**: Optimización de fuentes en `Layout.astro` (eliminación de carga duplicada, menos pesos) y uso de `content-visibility`/`contain-intrinsic-size` en secciones bajo el fold de la home para mejorar FCP/LCP.
 
 ### 1. Rebranding & Identidad Visual
 - **Cambio de Nombre**: Transmisión de toda la marca a `FutbolExperto.com`.
