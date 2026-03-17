@@ -1,0 +1,406 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getLatestNews } from '../../lib/pocketbase';
+import { buildAnalystCards, buildAnalystComparison } from '../../lib/analyst';
+import TrendMiniChart from '../../components/TrendMiniChart.astro';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const allTeams = await getCollection('teams');
+let latestNews: any[] = [];
+
+try {
+  latestNews = await getLatestNews(220);
+} catch (e) {
+  console.error('Error fetching latest news for analyst detail:', e);
+}
+
+const cards = buildAnalystCards(allTeams, latestNews, 80).filter((card) => card.qualified);
+const card = cards.find((entry) => entry.teamId === id);
+
+if (!card) {
+  return Astro.redirect('/analista');
+}
+
+const team = allTeams.find((entry) => entry.data.id === card.teamId);
+const related = cards.find((entry) => entry.teamId !== card.teamId && (entry.group === card.group || entry.continent === card.continent)) || cards.find((entry) => entry.teamId !== card.teamId);
+const comparison = related ? buildAnalystComparison(card, related) : null;
+const sameGroup = cards.filter((entry) => entry.group === card.group && entry.teamId !== card.teamId).slice(0, 3);
+
+const accentClass = (value: string) => {
+  const normalized = value.toLowerCase();
+  if (normalized.includes('positivo') || normalized.includes('ascenso') || normalized.includes('fortale')) return 'accent-green';
+  if (normalized.includes('alerta') || normalized.includes('riesgo')) return 'accent-rose';
+  if (normalized.includes('pulso') || normalized.includes('ritmo')) return 'accent-blue';
+  if (normalized.includes('tono') || normalized.includes('figura') || normalized.includes('compar')) return 'accent-violet';
+  return 'accent-amber';
+};
+
+const formatRelative = (dateString: string) => {
+  try {
+    const diff = Date.now() - new Date(dateString).getTime();
+    const hours = Math.floor(diff / 3600000);
+    if (hours < 1) return 'Hace minutos';
+    if (hours < 24) return `Hace ${hours}h`;
+    const days = Math.floor(hours / 24);
+    if (days === 1) return 'Ayer';
+    if (days < 7) return `Hace ${days} días`;
+    return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short' }).format(new Date(dateString));
+  } catch {
+    return '';
+  }
+};
+---
+
+<Layout title={`Analista: ${card.teamName} - FutbolExperto`} description={card.analysis}>
+  <main class="container section">
+    <a href="/analista" class="back-link">&larr; Volver al radar Analista</a>
+
+    <section class="detail-hero card">
+      <div class="detail-team">
+        {card.flag && <img src={card.flag} alt={card.teamName} class="team-flag" />}
+        <div>
+          <div class="eyebrow">FICHA DE ANÁLISIS</div>
+          <h1>{card.teamName}</h1>
+          <p>{card.code} • Grupo {card.group} • {card.continent}</p>
+        </div>
+      </div>
+      <div class="detail-badges">
+        <span class:list={['badge', accentClass(card.editorialBadge)]}>{card.editorialBadge}</span>
+        <span class:list={['badge', accentClass(`Pulso ${card.momentum}`)]}>Pulso {card.momentum}</span>
+        <span class:list={['badge', accentClass(`Tono ${card.tone}`)]}>Tono {card.tone}</span>
+      </div>
+    </section>
+
+    <section class="metrics-grid">
+      <div class="metric-box card"><strong>{card.trendScore}</strong><span>score de tendencia</span></div>
+      <div class="metric-box card"><strong>{card.recentNewsCount}</strong><span>notas recientes</span></div>
+      <div class="metric-box card"><strong>{card.newsCount}</strong><span>notas totales</span></div>
+      <div class="metric-box card"><strong>{formatRelative(card.latestPublished)}</strong><span>último corte</span></div>
+    </section>
+
+    <section class="content-grid">
+      <div class="main-col">
+        <article class="card content-card">
+          <h2 class="section-title">Lectura editorial</h2>
+          <p class="analysis">{card.analysis}</p>
+
+          <div class="themes">
+            {card.themes.map((theme) => (
+              <span class:list={['theme-tag', accentClass(theme)]}>{theme}</span>
+            ))}
+          </div>
+
+          <div class="signals-grid compact-signals">
+            {card.signals.slice(0, 3).map((signal) => (
+              <div class="signal-box">
+                <small>{signal.label}</small>
+                <strong>{signal.value}</strong>
+              </div>
+            ))}
+          </div>
+
+          <TrendMiniChart points={card.trendLine} title="Micrográfica del radar" color="var(--accent-violet)" />
+
+          <div class="insights-grid">
+            <div class="insight-box">
+              <h3>Fortalezas detectadas</h3>
+              <ul>
+                {(card.strengths.length > 0 ? card.strengths : ['lectura general estable']).map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="insight-box">
+              <h3>Riesgos a seguir</h3>
+              <ul>
+                {(card.risks.length > 0 ? card.risks : ['sin alertas dominantes en el radar']).map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="card content-card">
+          <h2 class="section-title">Noticias que alimentan el análisis</h2>
+          <div class="headline-list">
+            {card.headlines.map((item) => (
+              <a href={item.id ? `/noticia/${item.id}` : item.url} target={item.id ? '_self' : '_blank'} rel="noopener noreferrer" class="headline-item">
+                <span>{item.title}</span>
+                <small>{item.source} • {formatRelative(item.published)}</small>
+              </a>
+            ))}
+          </div>
+        </article>
+
+        {comparison && (
+          <article class="card content-card">
+            <h2 class="section-title">Comparativa rápida</h2>
+            <p class="analysis">{comparison.summary}</p>
+            <div class="compare-grid">
+              <div class="compare-box">
+                <strong>{comparison.left.teamName}</strong>
+                <span>{comparison.left.trendScore} pts • {comparison.left.editorialBadge}</span>
+              </div>
+              <div class="compare-box">
+                <strong>{comparison.right.teamName}</strong>
+                <span>{comparison.right.trendScore} pts • {comparison.right.editorialBadge}</span>
+              </div>
+            </div>
+            <ul class="comparison-list">
+              {comparison.advantages.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        )}
+      </div>
+
+      <aside class="sidebar">
+        <div class="sidebar-section card">
+          <h3 class="sidebar-title">Acciones</h3>
+          <div class="action-list">
+            <a href={`/equipo/${card.teamId}`} class="btn btn-primary">Ir a selección</a>
+            <a href="/analista" class="btn btn-ghost">Ver ranking completo</a>
+          </div>
+        </div>
+
+        {team && (
+          <div class="sidebar-section card">
+            <h3 class="sidebar-title">Ficha base</h3>
+            <div class="sidebar-meta">
+              <div><small>Código</small><strong>{team.data.code}</strong></div>
+              <div><small>Continente</small><strong>{team.data.continent}</strong></div>
+              <div><small>Grupo</small><strong>{team.data.group || 'Por definir'}</strong></div>
+              <div><small>Estado</small><strong>{team.data.qualified ? 'Clasificado' : 'En proceso'}</strong></div>
+            </div>
+          </div>
+        )}
+
+        {sameGroup.length > 0 && (
+          <div class="sidebar-section card">
+            <h3 class="sidebar-title">Mismo grupo</h3>
+            <div class="mini-list">
+              {sameGroup.map((item) => (
+                <a href={`/analista/${item.teamId}`} class="mini-item">
+                  <span>{item.teamName}</span>
+                  <small>{item.trendScore} pts</small>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </aside>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .detail-hero {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-color: var(--accent-violet);
+    box-shadow: 8px 8px 0 var(--accent-violet-soft);
+  }
+  .detail-team {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .team-flag {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid #000000;
+    object-fit: cover;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.35rem;
+  }
+  .detail-team h1 {
+    font-size: 2.2rem;
+    line-height: 1.05;
+  }
+  .detail-team p {
+    color: #666666;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+  .detail-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    flex: 0 1 320px;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .metric-box {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: #ffffff;
+    border-color: var(--accent-blue);
+    box-shadow: 5px 5px 0 var(--accent-blue-soft);
+  }
+  .metric-box strong {
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .metric-box span {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: 800;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 1rem;
+    align-items: start;
+  }
+  .main-col, .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .content-card, .sidebar-section {
+    padding: 1.25rem;
+  }
+  .analysis {
+    color: #333333;
+    font-size: 0.96rem;
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .theme-tag {
+    border: 1px solid #000000;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .signals-grid, .insights-grid, .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  .signal-box, .insight-box, .compare-box {
+    border: 2px solid #000000;
+    padding: 0.85rem;
+    min-width: 0;
+  }
+  .signal-box small, .sidebar-meta small {
+    display: block;
+    font-size: 0.68rem;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+  }
+  .signal-box strong, .sidebar-meta strong, .compare-box strong {
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .insight-box h3, .sidebar-title {
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+  .insight-box ul, .comparison-list {
+    margin-left: 1rem;
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+  }
+  .headline-list, .mini-list, .action-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .headline-item, .mini-item {
+    border: 2px solid #000000;
+    padding: 0.75rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .headline-item span, .mini-item span {
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .headline-item small, .mini-item small, .compare-box span {
+    color: #666666;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .sidebar-meta {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 900px) {
+    .metrics-grid,
+    .content-grid,
+    .signals-grid,
+    .compact-signals,
+    .insights-grid,
+    .compare-grid {
+      grid-template-columns: 1fr;
+    }
+    .detail-hero,
+    .content-card,
+    .sidebar-section {
+      padding: 1rem;
+    }
+    .detail-hero {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .detail-badges {
+      justify-content: flex-start;
+    }
+  }
+</style>

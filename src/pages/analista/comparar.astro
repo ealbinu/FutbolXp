@@ -1,0 +1,439 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getLatestNews } from '../../lib/pocketbase';
+import { buildAnalystCards, buildAnalystComparison } from '../../lib/analyst';
+
+export const prerender = false;
+
+const allTeams = await getCollection('teams');
+let latestNews: any[] = [];
+
+try {
+  latestNews = await getLatestNews(220);
+} catch (e) {
+  console.error('Error fetching latest news for analyst compare:', e);
+}
+
+const cards = buildAnalystCards(allTeams, latestNews, 80).filter((card) => card.qualified);
+const left = cards[0];
+const right = cards[1] || cards[0];
+const initialComparison = left && right ? buildAnalystComparison(left, right) : null;
+---
+
+<Layout title="Comparar selecciones - Analista" description="Comparador editorial de selecciones del Mundial 2026.">
+  <main class="container section">
+    <div class="page-head">
+      <div>
+        <div class="eyebrow accent-violet">ANALISTA V6</div>
+        <h1>Comparar selecciones</h1>
+      </div>
+      <p class="page-desc">Cruza dos selecciones y revisa rápidamente su temperatura mediática, fortalezas, riesgos y lectura editorial.</p>
+    </div>
+
+    {initialComparison ? (
+      <section class="compare-shell card">
+        <div class="controls-grid">
+          <select id="leftSelect" class="toolbar-select">
+            {cards.map((card) => (
+              <option value={card.teamId} selected={card.teamId === left.teamId}>{card.teamName}</option>
+            ))}
+          </select>
+          <select id="rightSelect" class="toolbar-select">
+            {cards.map((card) => (
+              <option value={card.teamId} selected={card.teamId === right.teamId}>{card.teamName}</option>
+            ))}
+          </select>
+        </div>
+
+        <div id="compareOutput" data-cards={JSON.stringify(cards)}>
+          <div class="summary-box accent-blue">
+            <strong>{initialComparison.left.teamName} vs {initialComparison.right.teamName}</strong>
+            <p>{initialComparison.summary}</p>
+          </div>
+
+          <div class="panels-grid comparison-stage">
+            <div class="battle-burst left-burst" aria-hidden="true"></div>
+            <article class="team-panel card left-panel">
+              <div class="panel-top">
+                <div class="team-chip">
+                  {initialComparison.left.flag && <img src={initialComparison.left.flag} alt={initialComparison.left.teamName} class="team-flag" />}
+                  <div>
+                    <h2>{initialComparison.left.teamName}</h2>
+                    <p>{initialComparison.left.code} • Grupo {initialComparison.left.group}</p>
+                  </div>
+                </div>
+                <div class="badge-stack">
+                  <span class="badge accent-blue">{initialComparison.left.trendDirection} {initialComparison.left.trendScore} pts</span>
+                  <span class="badge accent-green">{initialComparison.left.editorialBadge}</span>
+                </div>
+              </div>
+
+              <div class="mini-grid">
+                <div class="mini-box">
+                  <small>Fortalezas</small>
+                  <ul>
+                    {(initialComparison.left.strengths.length > 0 ? initialComparison.left.strengths : ['lectura estable']).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="mini-box accent-rose-soft-box">
+                  <small>Riesgos</small>
+                  <ul>
+                    {(initialComparison.left.risks.length > 0 ? initialComparison.left.risks : ['sin alertas dominantes']).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <div class="versus-zone" aria-hidden="true">
+              <div class="versus-pill"><span>VS</span></div>
+            </div>
+
+            <article class="team-panel card right-panel">
+              <div class="panel-top">
+                <div class="team-chip">
+                  {initialComparison.right.flag && <img src={initialComparison.right.flag} alt={initialComparison.right.teamName} class="team-flag" />}
+                  <div>
+                    <h2>{initialComparison.right.teamName}</h2>
+                    <p>{initialComparison.right.code} • Grupo {initialComparison.right.group}</p>
+                  </div>
+                </div>
+                <div class="badge-stack">
+                  <span class="badge accent-blue">{initialComparison.right.trendDirection} {initialComparison.right.trendScore} pts</span>
+                  <span class="badge accent-green">{initialComparison.right.editorialBadge}</span>
+                </div>
+              </div>
+
+              <div class="mini-grid">
+                <div class="mini-box">
+                  <small>Fortalezas</small>
+                  <ul>
+                    {(initialComparison.right.strengths.length > 0 ? initialComparison.right.strengths : ['lectura estable']).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="mini-box accent-rose-soft-box">
+                  <small>Riesgos</small>
+                  <ul>
+                    {(initialComparison.right.risks.length > 0 ? initialComparison.right.risks : ['sin alertas dominantes']).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </article>
+            <div class="battle-burst right-burst" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+    ) : (
+      <div class="empty-state">No hay suficiente información para comparar selecciones.</div>
+    )}
+  </main>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const leftSelect = document.getElementById('leftSelect');
+      const rightSelect = document.getElementById('rightSelect');
+      const compareOutput = document.getElementById('compareOutput');
+      if (!leftSelect || !rightSelect || !compareOutput) return;
+
+      const cards = JSON.parse(compareOutput.dataset.cards || '[]');
+      const accent = (value) => {
+        const v = String(value || '').toLowerCase();
+        if (v.includes('alerta') || v.includes('riesgo')) return 'accent-rose';
+        if (v.includes('ascenso') || v.includes('fortale')) return 'accent-green';
+        if (v.includes('pulso') || v.includes('pts')) return 'accent-blue';
+        return 'accent-violet';
+      };
+
+      const render = () => {
+        const left = cards.find((card) => card.teamId === leftSelect.value);
+        const right = cards.find((card) => card.teamId === rightSelect.value);
+        if (!left || !right) return;
+        const diff = Math.abs(Number(left.trendScore) - Number(right.trendScore));
+        const stronger = Number(left.trendScore) >= Number(right.trendScore) ? left.teamName : right.teamName;
+
+        compareOutput.innerHTML = `
+          <div class="summary-box accent-blue">
+            <strong>${left.teamName} vs ${right.teamName}</strong>
+            <p>${stronger} llega por delante en el radar con ${diff} puntos de ventaja. El cruce enfrenta ${left.editorialBadge.toLowerCase()} contra ${right.editorialBadge.toLowerCase()}.</p>
+          </div>
+          <div class="panels-grid comparison-stage">
+            <div class="battle-burst left-burst" aria-hidden="true"></div>
+            <article class="team-panel card left-panel">
+              <div class="panel-top">
+                <div class="team-chip">
+                  ${left.flag ? `<img src="${left.flag}" alt="${left.teamName}" class="team-flag" />` : ''}
+                  <div>
+                    <h2>${left.teamName}</h2>
+                    <p>${left.code} • Grupo ${left.group || '—'}</p>
+                  </div>
+                </div>
+                <div class="badge-stack">
+                  <span class="badge accent-blue">${left.trendDirection} ${left.trendScore} pts</span>
+                  <span class="badge ${accent(left.editorialBadge)}">${left.editorialBadge}</span>
+                </div>
+              </div>
+              <div class="mini-grid">
+                <div class="mini-box">
+                  <small>Fortalezas</small>
+                  <ul>${(left.strengths?.length ? left.strengths : ['lectura estable']).map((item) => `<li>${item}</li>`).join('')}</ul>
+                </div>
+                <div class="mini-box accent-rose-soft-box">
+                  <small>Riesgos</small>
+                  <ul>${(left.risks?.length ? left.risks : ['sin alertas dominantes']).map((item) => `<li>${item}</li>`).join('')}</ul>
+                </div>
+              </div>
+            </article>
+
+            <div class="versus-zone" aria-hidden="true">
+              <div class="versus-pill"><span>VS</span></div>
+            </div>
+
+            <article class="team-panel card right-panel">
+              <div class="panel-top">
+                <div class="team-chip">
+                  ${right.flag ? `<img src="${right.flag}" alt="${right.teamName}" class="team-flag" />` : ''}
+                  <div>
+                    <h2>${right.teamName}</h2>
+                    <p>${right.code} • Grupo ${right.group || '—'}</p>
+                  </div>
+                </div>
+                <div class="badge-stack">
+                  <span class="badge accent-blue">${right.trendDirection} ${right.trendScore} pts</span>
+                  <span class="badge ${accent(right.editorialBadge)}">${right.editorialBadge}</span>
+                </div>
+              </div>
+              <div class="mini-grid">
+                <div class="mini-box">
+                  <small>Fortalezas</small>
+                  <ul>${(right.strengths?.length ? right.strengths : ['lectura estable']).map((item) => `<li>${item}</li>`).join('')}</ul>
+                </div>
+                <div class="mini-box accent-rose-soft-box">
+                  <small>Riesgos</small>
+                  <ul>${(right.risks?.length ? right.risks : ['sin alertas dominantes']).map((item) => `<li>${item}</li>`).join('')}</ul>
+                </div>
+              </div>
+            </article>
+            <div class="battle-burst right-burst" aria-hidden="true"></div>
+          </div>
+        `;
+      };
+
+      leftSelect.addEventListener('change', render);
+      rightSelect.addEventListener('change', render);
+    });
+  </script>
+</Layout>
+
+<style>
+  .page-head {
+    display: grid;
+    grid-template-columns: 1fr 460px;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: end;
+  }
+  .page-head h1 { font-size: clamp(2.3rem, 5vw, 4rem); }
+  .page-desc { color: #333333; font-weight: 600; }
+  .compare-shell { padding: 1rem; border-color: var(--accent-violet); box-shadow: 8px 8px 0 var(--accent-violet-soft); }
+  .controls-grid, .panels-grid, .mini-grid { display: grid; gap: 0.75rem; }
+  #compareOutput :global(.panels-grid),
+  #compareOutput :global(.mini-grid) {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .controls-grid { grid-template-columns: repeat(2, 1fr); }
+  .comparison-stage,
+  #compareOutput :global(.comparison-stage) {
+    grid-template-columns: minmax(0, 1fr) 84px minmax(0, 1fr);
+    align-items: center;
+    position: relative;
+    isolation: isolate;
+  }
+  .toolbar-select {
+    padding: 0.8rem 0.9rem;
+    border: 2px solid #000000;
+    background: #ffffff;
+    font: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  #compareOutput :global(.summary-box) { border: 2px solid #000000; padding: 0.9rem; margin: 1rem 0; }
+  #compareOutput :global(.summary-box strong) { display: block; margin-bottom: 0.35rem; font-size: 1rem; text-transform: uppercase; }
+  #compareOutput :global(.summary-box p) { color: #333333; }
+  #compareOutput :global(.team-panel) { padding: 1rem; min-width: 0; position: relative; z-index: 2; }
+  .left-panel,
+  #compareOutput :global(.left-panel) {
+    transform: rotate(-0.6deg);
+    border-color: var(--accent-blue);
+    box-shadow: 8px 8px 0 var(--accent-blue-soft);
+  }
+  .right-panel,
+  #compareOutput :global(.right-panel) {
+    transform: rotate(0.6deg);
+    border-color: var(--accent-rose);
+    box-shadow: 8px 8px 0 var(--accent-rose-soft);
+  }
+  #compareOutput :global(.panel-top) { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; margin-bottom: 0.75rem; }
+  #compareOutput :global(.team-chip) { display: flex; gap: 0.75rem; align-items: center; min-width: 0; flex: 1 1 auto; }
+  #compareOutput :global(.team-chip h2) { font-size: 1rem; line-height: 1.15; }
+  #compareOutput :global(.team-chip p) { font-size: 0.74rem; color: #666666; text-transform: uppercase; font-weight: 800; }
+  #compareOutput :global(.team-flag) { width: 42px; height: 42px; min-width: 42px; max-width: 42px; border: 2px solid #000000; border-radius: 50%; object-fit: cover; display: block; flex-shrink: 0; }
+  #compareOutput :global(.badge-stack) { display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: flex-end; flex: 0 1 220px; }
+  #compareOutput :global(.mini-grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .versus-zone,
+  #compareOutput :global(.versus-zone) {
+    position: relative;
+    width: 84px;
+    height: 96px;
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  .versus-zone::before,
+  #compareOutput :global(.versus-zone)::before,
+  .versus-zone::after,
+  #compareOutput :global(.versus-zone)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 28px;
+    height: 3px;
+    background: #000000;
+    opacity: 0.9;
+  }
+  .versus-zone::before,
+  #compareOutput :global(.versus-zone)::before {
+    left: -10px;
+  }
+  .versus-zone::after,
+  #compareOutput :global(.versus-zone)::after {
+    right: -10px;
+  }
+  .versus-pill,
+  #compareOutput :global(.versus-pill) {
+    width: 72px;
+    height: 72px;
+    border: 3px solid #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    box-shadow: 6px 6px 0 var(--accent-amber-soft);
+    position: relative;
+    z-index: 3;
+    animation: versusNudge 1.8s ease-in-out infinite;
+  }
+  .versus-pill span,
+  #compareOutput :global(.versus-pill span) {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+  .battle-burst,
+  #compareOutput :global(.battle-burst) {
+    position: absolute;
+    width: 132px;
+    height: 132px;
+    border-radius: 999px;
+    opacity: 0.18;
+    z-index: 1;
+    pointer-events: none;
+    filter: blur(0.4px);
+    animation: burstBeat 1.8s ease-in-out infinite;
+  }
+  .left-burst,
+  #compareOutput :global(.left-burst) {
+    left: 22%;
+    top: 18%;
+    background: radial-gradient(circle, var(--accent-blue) 0 18%, transparent 19% 100%);
+  }
+  .right-burst,
+  #compareOutput :global(.right-burst) {
+    right: 22%;
+    bottom: 16%;
+    background: radial-gradient(circle, var(--accent-rose) 0 18%, transparent 19% 100%);
+    animation-delay: 0.25s;
+  }
+  #compareOutput :global(.mini-box) { border: 2px solid #000000; padding: 0.8rem; box-shadow: 4px 4px 0 var(--accent-green-soft); }
+  #compareOutput :global(.accent-rose-soft-box) { box-shadow: 4px 4px 0 var(--accent-rose-soft); }
+  #compareOutput :global(.mini-box small) { display: block; margin-bottom: 0.35rem; font-size: 0.68rem; color: #666666; text-transform: uppercase; font-weight: 800; }
+  #compareOutput :global(.mini-box ul) { margin-left: 1rem; display: grid; gap: 0.3rem; font-size: 0.88rem; }
+  @keyframes versusNudge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @keyframes burstBeat {
+    0%, 100% { transform: scale(0.92); opacity: 0.14; }
+    50% { transform: scale(1.06); opacity: 0.24; }
+  }
+
+  @media (max-width: 900px) {
+    .page-head, .controls-grid, .mini-grid { grid-template-columns: 1fr; }
+    .comparison-stage,
+    #compareOutput :global(.comparison-stage) { grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); }
+    #compareOutput :global(.panel-top) { flex-direction: column; }
+    #compareOutput :global(.badge-stack) { justify-content: flex-start; }
+    #compareOutput :global(.mini-grid) { grid-template-columns: 1fr; }
+    .versus-zone,
+    #compareOutput :global(.versus-zone) {
+      width: 64px;
+      height: 80px;
+    }
+    .versus-pill,
+    #compareOutput :global(.versus-pill) {
+      width: 56px;
+      height: 56px;
+      box-shadow: 4px 4px 0 var(--accent-amber-soft);
+    }
+    .versus-pill span,
+    #compareOutput :global(.versus-pill span) {
+      font-size: 0.85rem;
+    }
+    .battle-burst,
+    #compareOutput :global(.battle-burst) {
+      width: 96px;
+      height: 96px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .comparison-stage,
+    #compareOutput :global(.comparison-stage) {
+      grid-template-columns: 1fr;
+    }
+    .left-panel,
+    .right-panel,
+    #compareOutput :global(.left-panel),
+    #compareOutput :global(.right-panel) {
+      transform: rotate(0deg);
+    }
+    .versus-zone,
+    #compareOutput :global(.versus-zone) {
+      width: 100%;
+      height: 76px;
+      margin: -0.15rem auto;
+    }
+    .versus-pill,
+    #compareOutput :global(.versus-pill) {
+      animation: none;
+    }
+    .battle-burst,
+    #compareOutput :global(.battle-burst) {
+      display: none;
+    }
+  }
+</style>

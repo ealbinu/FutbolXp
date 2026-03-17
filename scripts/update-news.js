@@ -6,8 +6,8 @@ import { translate } from '@vitalets/google-translate-api';
 import { convert } from 'html-to-text';
 
 const PB_URL = process.env.POCKETBASE_URL || 'https://futbolxp.pockethost.io';
-const PB_EMAIL = process.env.POCKETBASE_EMAIL || 'pegaso@agentmail.to';
-const PB_PASSWORD = process.env.POCKETBASE_PASSWORD || 'WiKCaJLJqdtXD65';
+const PB_EMAIL = process.env.POCKETBASE_EMAIL;
+const PB_PASSWORD = process.env.POCKETBASE_PASSWORD;
 
 const pb = new PocketBase(PB_URL);
 pb.autoCancellation(false);
@@ -257,6 +257,10 @@ function findRelevantTeams(article) {
 }
 
 async function authenticate() {
+  if (!PB_EMAIL || !PB_PASSWORD) {
+    throw new Error('Missing POCKETBASE_EMAIL or POCKETBASE_PASSWORD environment variables.');
+  }
+
   try {
     await pb.collection('_superusers').authWithPassword(PB_EMAIL, PB_PASSWORD);
     console.log('Authenticated with PocketBase');

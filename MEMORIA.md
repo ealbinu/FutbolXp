@@ -4,6 +4,18 @@ Este documento resume los hitos, decisiones técnicas y funcionalidades implemen
 
 ## 🚀 Hitos Principales
 
+### 0. Última Iteración: Analista, Responsive y Hardening
+- **Sección Analista**: Creación de `/analista`, detalle por selección `/analista/[id]` y comparador `/analista/comparar` con lógica editorial determinista basada en noticias recientes de PocketBase.
+- **Integración transversal**: Módulos de Analista añadidos en Home y en `src/pages/equipo/[id].astro`.
+- **Micrográficas**: Nuevo componente reusable `src/components/TrendMiniChart.astro` para visualizar `trendLine` como sparkline SVG.
+- **Simplificación editorial**: Se redujo densidad de contenido en tarjetas, resúmenes, señales, fortalezas y riesgos para mejorar escaneo visual.
+- **Pulido responsive**: Corrección de solapamientos, badges, headlines largas, bloques de comparación y gutters laterales para evitar que el contenido toque los bordes del navegador.
+- **Comparador visual**: Mejora de `/analista/comparar` para mantener layout izquierda-vs-derecha al cambiar selecciones, con eje visual central de VS.
+- **Logo animado**: El balón del header quedó sin borde y con una animación sutil de rebote/deformación.
+- **Seguridad**: Eliminación de credenciales hardcodeadas en `scripts/update-news.js` y `src/pages/api/subscribe.ts`; migración a variables de entorno.
+- **Compatibilidad / deprecaciones**: `src/content.config.ts` actualizado para usar `z` desde `astro/zod`, eliminando warnings del build.
+- **Documentación**: Añadido `.env.example` y actualización de `README.md` para setup de variables de entorno.
+
 ### 1. Rebranding & Identidad Visual
 - **Cambio de Nombre**: Transmisión de toda la marca a `FutbolExperto.com`.
 - **Estética Neo-brutalista**: Diseño estrictamente plano, sin sombras ni rellenos en estados activos, basado en bordes gruesos y tipografía *Google Sans Flex*.
@@ -38,4 +50,4 @@ Este documento resume los hitos, decisiones técnicas y funcionalidades implemen
 - La configuración de Cloudflare tiene activada la compatibilidad con el adaptador `@astrojs/cloudflare`.
 
 ---
-*Última actualización: 16 de Marzo, 2026*
+*Última actualización: 17 de Marzo, 2026*

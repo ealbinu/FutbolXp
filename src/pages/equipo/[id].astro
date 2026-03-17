@@ -1,7 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getEntry, getCollection } from 'astro:content';
-import { getNewsByTeam } from '../../lib/pocketbase';
+import { getLatestNews, getNewsByTeam } from '../../lib/pocketbase';
+import { buildAnalystCards, buildAnalystComparison } from '../../lib/analyst';
+import TrendMiniChart from '../../components/TrendMiniChart.astro';
 
 export const prerender = false;
 
@@ -16,6 +18,7 @@ const team = entry.data;
 
 // Get players for this team
 const allPlayers = await getCollection('players');
+const allTeams = await getCollection('teams');
 const teamPlayers = allPlayers.filter(p => p.data.team === team.id);
 
 // Fetch news from PocketBase
@@ -40,6 +43,28 @@ const mergedNews: any[] = [
   })),
   ...staticNews.filter(n => !allNewsUrls.has(n.url)),
 ].sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime()).slice(0, 10);
+
+let latestNews: any[] = [];
+try {
+  latestNews = await getLatestNews(220);
+} catch (e) {
+  console.error('Error fetching latest news for analyst module:', e);
+}
+
+const analystCards = buildAnalystCards(allTeams, latestNews, 80).filter((card) => card.qualified);
+const analystCard = analystCards.find((card) => card.teamId === team.id);
+const analystPeer = analystCard
+  ? analystCards.find((card) => card.teamId !== team.id && (card.group === analystCard.group || card.continent === analystCard.continent))
+  : null;
+const analystComparison = analystCard && analystPeer ? buildAnalystComparison(analystCard, analystPeer) : null;
+
+const accentClass = (value: string) => {
+  const normalized = value.toLowerCase();
+  if (normalized.includes('fortale') || normalized.includes('ascenso')) return 'accent-green';
+  if (normalized.includes('riesgo') || normalized.includes('alerta')) return 'accent-rose';
+  if (normalized.includes('trend') || normalized.includes('pts')) return 'accent-blue';
+  return 'accent-violet';
+};
 
 const formatDate = (dateString: string) => {
   try {
@@ -74,6 +99,55 @@ const formatDate = (dateString: string) => {
     <div class="content-grid">
       <!-- Main: News -->
       <div class="main-col">
+        {analystCard && (
+          <section class="analyst-module card">
+            <div class="analyst-module-head">
+              <div>
+                <h2 class="section-title" style="margin-bottom: 0.75rem;">Analista</h2>
+                <p class="analyst-copy">{analystCard.analysis}</p>
+              </div>
+              <div class="analyst-badges">
+                <span class:list={['badge', accentClass(analystCard.editorialBadge)]}>{analystCard.editorialBadge}</span>
+                <span class:list={['badge', accentClass(`${analystCard.trendDirection} ${analystCard.trendScore} pts`)]}>{analystCard.trendDirection} {analystCard.trendScore} pts</span>
+              </div>
+            </div>
+
+            <div class="analyst-inline-grid">
+              <div class="analyst-box">
+                <small>Fortalezas</small>
+                <ul>
+                  {(analystCard.strengths.length > 0 ? analystCard.strengths : ['lectura general estable']).map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div class="analyst-box">
+                <small>Riesgos</small>
+                <ul>
+                  {(analystCard.risks.length > 0 ? analystCard.risks : ['sin alertas dominantes']).map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="analyst-trend-strip">
+              <TrendMiniChart points={analystCard.trendLine} title="Pulso reciente" color="var(--accent-blue)" />
+            </div>
+
+            {analystComparison && (
+              <div class="analyst-compare-inline">
+                <strong>Comparativa rápida:</strong> {analystComparison.summary}
+              </div>
+            )}
+
+            <div class="analyst-actions">
+              <a href={`/analista/${team.id}`} class="btn btn-primary">Ver análisis completo</a>
+              <a href="/analista" class="btn btn-ghost">Ir al radar</a>
+            </div>
+          </section>
+        )}
+
         <h2 class="section-title">Noticias</h2>
         {mergedNews.length > 0 ? (
           <div class="news-list">
@@ -180,11 +254,15 @@ const formatDate = (dateString: string) => {
   .team-title {
     font-size: 2rem;
     margin-bottom: 0.5rem;
+    line-height: 1.08;
   }
   .team-badges {
     display: flex;
     gap: 0.4rem;
     flex-wrap: wrap;
+  }
+  .team-details {
+    min-width: 0;
   }
 
   .content-grid {
@@ -194,10 +272,94 @@ const formatDate = (dateString: string) => {
     align-items: start;
   }
 
+  .analyst-module {
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-color: var(--accent-blue);
+    box-shadow: 8px 8px 0 var(--accent-blue-soft);
+  }
+  .analyst-module-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .analyst-module-head > div:first-child {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .analyst-copy {
+    color: #333333;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .analyst-badges {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex: 0 1 240px;
+  }
+  .analyst-inline-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .analyst-box {
+    border: 2px solid var(--accent-violet);
+    padding: 0.8rem;
+    background: #ffffff;
+    box-shadow: 4px 4px 0 var(--accent-violet-soft);
+  }
+  .analyst-box:last-child {
+    border-color: var(--accent-rose);
+    box-shadow: 4px 4px 0 var(--accent-rose-soft);
+  }
+  .analyst-box small,
+  .trend-mini-box small {
+    display: block;
+    font-size: 0.68rem;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+  }
+  .analyst-box ul {
+    margin-left: 1rem;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.88rem;
+  }
+  .analyst-trend-strip {
+    margin-bottom: 0.75rem;
+  }
+  .analyst-compare-inline {
+    border-top: 2px solid #000000;
+    padding-top: 0.75rem;
+    font-size: 0.88rem;
+    color: #333333;
+    margin-bottom: 0.85rem;
+  }
+  .analyst-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
   .news-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
+  .news-card .title {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
   }
 
   .sidebar {
@@ -284,10 +446,12 @@ const formatDate = (dateString: string) => {
   .social-btn.website { background: #ffffff; color: #000000; }
 
   @media (max-width: 768px) {
-    .content-grid { grid-template-columns: 1fr; }
+    .content-grid, .analyst-inline-grid, .analyst-trend-strip { grid-template-columns: 1fr; }
     .team-title { font-size: 1.5rem; }
     .team-flag { width: 56px; height: 56px; }
-    .team-profile { padding: 1.25rem; }
+    .team-profile { padding: 1.25rem; align-items: flex-start; }
     .back-link { margin-bottom: 1rem; }
+    .analyst-module-head { flex-direction: column; }
+    .analyst-badges { justify-content: flex-start; }
   }
 </style>

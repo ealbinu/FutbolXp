@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { getLatestNews } from '../lib/pocketbase';
+import { buildAnalystCards, buildAnalystEditorialSummary, buildAnalystForecastBoards, buildAnalystTiers } from '../lib/analyst';
+import TrendMiniChart from '../components/TrendMiniChart.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
 
 const allTeams = await getCollection('teams');
@@ -22,10 +24,24 @@ const sortedGroups = Object.entries(groupedByGroup).sort(([a], [b]) => {
 
 let latestNews: any[] = [];
 try {
-  latestNews = await getLatestNews(6);
+  latestNews = await getLatestNews(24);
 } catch (e) {
   console.error('Could not fetch news from PocketBase:', e);
 }
+
+const allAnalystCards = buildAnalystCards(allTeams, latestNews, 40).filter((card) => card.qualified);
+const analystCards = allAnalystCards.slice(0, 3);
+const analystTiers = buildAnalystTiers(allAnalystCards).slice(0, 2);
+const forecastBoards = buildAnalystForecastBoards(allAnalystCards).slice(0, 1);
+const analystSummary = buildAnalystEditorialSummary(allAnalystCards);
+
+const accentClass = (value: string) => {
+  const normalized = value.toLowerCase();
+  if (normalized.includes('ataque') || normalized.includes('figura')) return 'accent-violet';
+  if (normalized.includes('defensa') || normalized.includes('pulso')) return 'accent-blue';
+  if (normalized.includes('lesiones') || normalized.includes('alerta')) return 'accent-rose';
+  return 'accent-green';
+};
 
 const formatDate = (dateString: string) => {
   try {
@@ -72,7 +88,7 @@ const formatDate = (dateString: string) => {
           <span class="pulse"></span> Últimas Noticias
         </h2>
         <div class="news-grid">
-          {latestNews.map((item: any) => (
+          {latestNews.slice(0, 6).map((item: any) => (
             <div class="news-card">
               <div class="title">{item.title}</div>
               {item.contentSnippet && (
@@ -89,6 +105,91 @@ const formatDate = (dateString: string) => {
         </div>
         <div style="text-align: center; margin-top: 1.5rem;">
           <a href="/noticias" class="btn btn-ghost">Ver todas las noticias &rarr;</a>
+        </div>
+      </section>
+    )}
+
+    {analystCards.length > 0 && (
+      <section class="container section analyst-preview-section">
+        <div class="analyst-home-head">
+          <h2 class="section-title">Analista</h2>
+          <div class="analyst-home-actions">
+            <a href="/analista" class="btn btn-primary">Ir a Analista &rarr;</a>
+            <a href="/analista/comparar" class="btn btn-ghost">Comparar selecciones</a>
+          </div>
+        </div>
+
+        {analystSummary && (
+          <article class="home-summary-card card">
+            <div class="forecast-kicker accent-blue">Resumen del día</div>
+            <h3>{analystSummary.headline}</h3>
+            <p>{analystSummary.summary}</p>
+            <div class="home-summary-list">
+              {analystSummary.highlights.map((item) => (
+                <span class="home-summary-item">{item}</span>
+              ))}
+            </div>
+          </article>
+        )}
+
+        <div class="analyst-preview-grid">
+          {analystCards.map((card) => (
+            <article class="analyst-preview-card card">
+              <div class="analyst-preview-top">
+                <div class="analyst-team">
+                  {card.flag && <img src={card.flag} alt={card.teamName} class="team-flag" loading="lazy" />}
+                  <div>
+                    <h3>{card.teamName}</h3>
+                    <p>{card.code} • {card.group ? `Grupo ${card.group}` : 'Por definir'}</p>
+                  </div>
+                </div>
+                <span class:list={['badge', accentClass(`Pulso ${card.momentum}`)]}>Pulso {card.momentum}</span>
+              </div>
+              <div class="analyst-preview-headline">{card.latestHeadline}</div>
+              <p class="analyst-preview-text">{card.analysis}</p>
+              <div class="analyst-preview-tags">
+                {card.themes.map((theme) => (
+                  <span class:list={['tab-count', accentClass(theme)]}>{theme}</span>
+                ))}
+              </div>
+              <TrendMiniChart points={card.trendLine} compact color="var(--accent-blue)" />
+              <div class="analyst-preview-actions">
+                <a href={`/analista/${card.teamId}`} class="read-more-link">Ver análisis &rarr;</a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="home-insight-grid">
+          {forecastBoards.map((board) => (
+            <article class:list={['home-forecast-card', 'card', accentClass(board.title)]}>
+              <div class="forecast-kicker">Predicción editorial</div>
+              <h3>{board.title}</h3>
+              <div class="home-forecast-list compact-list">
+                {board.teams.slice(0, 3).map((team, index) => (
+                  <a href={`/analista/${team.teamId}`} class="home-forecast-item">
+                    <span>#{index + 1} {team.teamName}</span>
+                    <small>{team.trendScore} pts • {team.editorialBadge}</small>
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
+
+          {analystTiers.map((tier) => (
+            <article class="home-tier-card card">
+              <div class:list={['forecast-kicker', accentClass(tier.title)]}>Panel del día</div>
+              <h3>{tier.title}</h3>
+              <div class="home-tier-list compact-list">
+                {tier.teams.slice(0, 3).map((team) => (
+                  <a href={`/analista/${team.teamId}`} class="home-tier-item">
+                    <span>{team.teamName}</span>
+                    <small>{team.trendDirection} {team.trendScore} pts</small>
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     )}
@@ -363,6 +464,171 @@ const formatDate = (dateString: string) => {
     text-transform: none;
   }
 
+  .analyst-home-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .analyst-home-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .analyst-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .analyst-preview-card {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    background: #ffffff;
+    border-color: var(--accent-blue);
+    box-shadow: 6px 6px 0 var(--accent-blue-soft);
+  }
+  .analyst-preview-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .analyst-team {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .analyst-team h3 {
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+  .analyst-team p {
+    font-size: 0.72rem;
+    color: #666666;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .analyst-preview-headline {
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .analyst-preview-text {
+    color: #333333;
+    font-size: 0.88rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .analyst-preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .analyst-preview-actions {
+    margin-top: auto;
+  }
+  .home-summary-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-color: var(--accent-blue);
+    box-shadow: 6px 6px 0 var(--accent-blue-soft);
+  }
+  .home-summary-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+  }
+  .home-summary-card p {
+    font-size: 0.92rem;
+    color: #333333;
+    margin-bottom: 0.75rem;
+  }
+  .home-summary-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .home-summary-item {
+    display: inline-flex;
+    border: 2px solid #000000;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: #ffffff;
+  }
+  .home-insight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .home-forecast-card,
+  .home-tier-card {
+    padding: 1rem;
+  }
+  .compact-list {
+    gap: 0.35rem;
+  }
+  .forecast-kicker {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border: 2px solid #000000;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .home-forecast-card h3,
+  .home-tier-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+  }
+  .home-forecast-card p {
+    font-size: 0.88rem;
+    color: #333333;
+    margin-bottom: 0.75rem;
+  }
+  .home-forecast-list,
+  .home-tier-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .home-forecast-item,
+  .home-tier-item {
+    border: 2px solid #000000;
+    padding: 0.7rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    background: #ffffff;
+  }
+  .home-forecast-item span,
+  .home-tier-item span {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .home-forecast-item small,
+  .home-tier-item small {
+    font-size: 0.72rem;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
   .teams-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -419,10 +685,14 @@ const formatDate = (dateString: string) => {
 
   @media (max-width: 768px) {
     .hero { padding: 3rem 0 2rem; }
-    .hero-stats { gap: 1.5rem; padding: 0.75rem 1.5rem; }
+    .hero-stats { gap: 1rem; padding: 0.75rem 1rem; width: 100%; max-width: 360px; justify-content: center; }
     .stat-divider { display: none; }
-    .teams-grid, .news-grid { grid-template-columns: 1fr; }
-    .hero-actions { flex-direction: column; align-items: center; }
+    .teams-grid, .news-grid, .analyst-preview-grid, .home-insight-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin-inline: auto; }
+    .analyst-home-head { flex-direction: column; align-items: stretch; }
+    .analyst-home-actions { width: 100%; }
+    .analyst-preview-top { flex-direction: column; }
     .group-tabs { top: 67px; }
+    .group-tab { flex-shrink: 0; }
   }
 </style>

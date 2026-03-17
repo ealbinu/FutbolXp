@@ -1,7 +1,7 @@
 # Fútbol Experto 2026 🌍⚽
 
-Sitio oficial de cobertura total del **Mundial 2026** (México, USA, Canadá).  
-Desarrollado con **Astro 6 + Vite** y desplegado en **Cloudflare Pages**.
+Sitio de cobertura del **Mundial 2026** (México, USA, Canadá).  
+Desarrollado con **Astro 6** y desplegado en **Cloudflare Pages**.
 
 ## 🚀 Características
 
@@ -53,6 +53,9 @@ cd futbol-experto-2026
 # Instalar dependencias (requiere Node.js 22+)
 npm install
 
+# Configurar variables de entorno
+cp .env.example .env
+
 # Iniciar servidor de desarrollo
 npm run dev
 # Abre http://localhost:4321
@@ -62,6 +65,24 @@ npm run build
 
 # Preview del build
 npm run preview
+```
+
+## 🔐 Variables de entorno
+
+El proyecto ya no usa credenciales hardcodeadas. Configura al menos:
+
+```bash
+PUBLIC_POCKETBASE_URL=https://futbolxp.pockethost.io
+POCKETBASE_URL=https://futbolxp.pockethost.io
+POCKETBASE_EMAIL=superuser@example.com
+POCKETBASE_PASSWORD=change-me
+```
+
+Opcionales para crawling con Cloudflare:
+
+```bash
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_API_TOKEN=
 ```
 
 ## 🔄 Actualización automática de noticias
@@ -94,7 +115,7 @@ npm run update-news
 4. Configura:
    - **Build command**: `npm run build`
    - **Build output directory**: `dist`
-   - **Environment variables** (opcional si usas APIs privadas)
+   - **Environment variables**: `PUBLIC_POCKETBASE_URL`, `POCKETBASE_URL`, `POCKETBASE_EMAIL`, `POCKETBASE_PASSWORD`
 5. Guarda y despliega
 
 **Nota**: Asegúrate de que el repositorio esté en GitHub y que el workflow de GitHub Actions esté configurado para actualizar automáticamente los datos.

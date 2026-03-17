@@ -103,6 +103,16 @@ const currentPath = Astro.url.pathname;
         --color-warning: #000000;
         --color-warning-glow: transparent;
         --color-danger: #000000;
+        --accent-blue: #2563eb;
+        --accent-blue-soft: #dbeafe;
+        --accent-green: #15803d;
+        --accent-green-soft: #dcfce7;
+        --accent-amber: #b45309;
+        --accent-amber-soft: #fef3c7;
+        --accent-rose: #be185d;
+        --accent-rose-soft: #fce7f3;
+        --accent-violet: #7c3aed;
+        --accent-violet-soft: #ede9fe;
         --radius-sm: 0px;
         --radius-md: 0px;
         --radius-lg: 0px;
@@ -126,6 +136,21 @@ const currentPath = Astro.url.pathname;
         position: relative;
       }
 
+      .site-frame {
+        padding-inline: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+      }
+
+      @media (max-width: 768px) {
+        .site-frame {
+          padding-inline: max(1rem, calc(env(safe-area-inset-left) + 0.875rem), calc(env(safe-area-inset-right) + 0.875rem));
+        }
+      }
+
+      @media (max-width: 480px) {
+        .site-frame {
+          padding-inline: max(0.875rem, calc(env(safe-area-inset-left) + 0.75rem), calc(env(safe-area-inset-right) + 0.75rem));
+        }
+      }
 
       h1, h2, h3, h4, h5, h6 {
         font-family: 'Google Sans Flex Text', 'Google Sans', sans-serif;
@@ -139,20 +164,31 @@ const currentPath = Astro.url.pathname;
       img { max-width: 100%; display: block; }
 
       .container {
+        width: 100%;
         max-width: 1280px;
         margin: 0 auto;
-        padding: 0 2.5rem;
+        padding-left: clamp(1.25rem, 2.8vw, 2.75rem);
+        padding-right: clamp(1.25rem, 2.8vw, 2.75rem);
       }
 
       @media (max-width: 1024px) {
         .container {
-          padding: 0 1.5rem;
+          padding-left: clamp(1.1rem, 4vw, 1.75rem);
+          padding-right: clamp(1.1rem, 4vw, 1.75rem);
         }
       }
 
       @media (max-width: 768px) {
         .container {
-          padding: 0 1.5rem;
+          padding-left: clamp(1rem, 5vw, 1.4rem);
+          padding-right: clamp(1rem, 5vw, 1.4rem);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding-left: 1rem;
+          padding-right: 1rem;
         }
       }
 
@@ -187,12 +223,15 @@ const currentPath = Astro.url.pathname;
       .logo-icon {
         width: 34px;
         height: 34px;
-        background: #ffffff;
-        border: 3px solid #000000;
+        background: transparent;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
+        font-size: 1.1rem;
+        line-height: 1;
+        animation: logoBallBounce 2.4s ease-in-out infinite;
+        transform-origin: center bottom;
+        will-change: transform;
       }
 
       .logo span {
@@ -324,6 +363,7 @@ const currentPath = Astro.url.pathname;
         flex: 1;
         height: 3px;
         background: #000000;
+        box-shadow: 10px 0 0 var(--accent-blue), 20px 0 0 var(--accent-violet);
       }
 
       .empty-state {
@@ -445,14 +485,41 @@ const currentPath = Astro.url.pathname;
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: #000000;
+        background: var(--accent-rose);
         margin-right: 0.4rem;
         animation: pulse 2s infinite;
       }
 
+      .accent-blue { border-color: var(--accent-blue) !important; color: var(--accent-blue) !important; background: var(--accent-blue-soft) !important; }
+      .accent-green { border-color: var(--accent-green) !important; color: var(--accent-green) !important; background: var(--accent-green-soft) !important; }
+      .accent-amber { border-color: var(--accent-amber) !important; color: var(--accent-amber) !important; background: var(--accent-amber-soft) !important; }
+      .accent-rose { border-color: var(--accent-rose) !important; color: var(--accent-rose) !important; background: var(--accent-rose-soft) !important; }
+      .accent-violet { border-color: var(--accent-violet) !important; color: var(--accent-violet) !important; background: var(--accent-violet-soft) !important; }
+
       @keyframes pulse {
         0%, 100% { opacity: 1; }
         50% { opacity: 0.3; }
+      }
+
+      @keyframes logoBallBounce {
+        0%, 100% {
+          transform: translateY(0) scaleX(1) scaleY(1);
+        }
+        8% {
+          transform: translateY(0) scaleX(1.06) scaleY(0.94);
+        }
+        18% {
+          transform: translateY(-3px) scaleX(0.97) scaleY(1.04);
+        }
+        28% {
+          transform: translateY(0) scaleX(1.04) scaleY(0.96);
+        }
+        36% {
+          transform: translateY(-1px) scaleX(0.99) scaleY(1.01);
+        }
+        44% {
+          transform: translateY(0) scaleX(1) scaleY(1);
+        }
       }
 
       /* ===== RESPONSIVE ===== */
@@ -471,10 +538,20 @@ const currentPath = Astro.url.pathname;
         }
         .mobile-toggle { display: block; }
         .footer-inner { flex-direction: column; text-align: center; }
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .card,
+        .news-card,
+        .empty-state {
+          overflow: hidden;
+        }
       }
     </style>
   </head>
   <body>
+    <div class="site-frame">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8QJ8Z9T"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -490,6 +567,7 @@ const currentPath = Astro.url.pathname;
           <ul class="nav" id="mainNav">
             <li><a href="/" class:list={[{ active: currentPath === '/' }]}>Inicio</a></li>
             <li><a href="/noticias" class:list={[{ active: currentPath.startsWith('/noticias') }]}>Noticias</a></li>
+            <li><a href="/analista" class:list={[{ active: currentPath.startsWith('/analista') }]}>Analista</a></li>
             <li><a href="/jugadores" class:list={[{ active: currentPath.startsWith('/jugadores') || currentPath.startsWith('/jugador') }]}>Jugadores</a></li>
             <li><a href="/partidos" class:list={[{ active: currentPath.startsWith('/partidos') }]}>Partidos</a></li>
           </ul>
@@ -513,5 +591,6 @@ const currentPath = Astro.url.pathname;
         document.getElementById('mainNav')?.classList.toggle('open');
       });
     </script>
+    </div>
   </body>
 </html>

@@ -1,0 +1,968 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getLatestNews } from '../lib/pocketbase';
+import { buildAnalystCards, buildAnalystComparison, buildAnalystForecastBoards, buildAnalystTiers } from '../lib/analyst';
+import TrendMiniChart from '../components/TrendMiniChart.astro';
+
+export const prerender = false;
+
+const allTeams = await getCollection('teams');
+let latestNews: any[] = [];
+
+try {
+  latestNews = await getLatestNews(180);
+} catch (e) {
+  console.error('Error fetching latest news for analyst:', e);
+}
+
+const analystCards = buildAnalystCards(allTeams, latestNews, 40);
+const qualifiedCards = analystCards.filter((card) => card.qualified);
+const groups = [...new Set(qualifiedCards.map((card) => card.group).filter(Boolean))].sort();
+const continents = [...new Set(qualifiedCards.map((card) => card.continent))].sort();
+const topCard = qualifiedCards[0];
+const avgTrend = qualifiedCards.length > 0 ? Math.round(qualifiedCards.reduce((acc, card) => acc + card.trendScore, 0) / qualifiedCards.length) : 0;
+const featuredComparison = qualifiedCards.length >= 2 ? buildAnalystComparison(qualifiedCards[0], qualifiedCards[1]) : null;
+const analystTiers = buildAnalystTiers(qualifiedCards).slice(0, 2);
+const forecastBoards = buildAnalystForecastBoards(qualifiedCards).slice(0, 1);
+
+const accentClass = (value: string) => {
+  const normalized = value.toLowerCase();
+  if (normalized.includes('positivo') || normalized.includes('ascenso') || normalized.includes('favoritos')) return 'accent-green';
+  if (normalized.includes('alerta') || normalized.includes('riesgo') || normalized.includes('vigilancia')) return 'accent-rose';
+  if (normalized.includes('pulso') || normalized.includes('ritmo') || normalized.includes('semifinal')) return 'accent-blue';
+  if (normalized.includes('tono') || normalized.includes('figura') || normalized.includes('tapados') || normalized.includes('caballos')) return 'accent-violet';
+  return 'accent-amber';
+};
+
+const formatRelative = (dateString: string) => {
+  try {
+    const diff = Date.now() - new Date(dateString).getTime();
+    const hours = Math.floor(diff / 3600000);
+    if (hours < 1) return 'Hace minutos';
+    if (hours < 24) return `Hace ${hours}h`;
+    const days = Math.floor(hours / 24);
+    if (days === 1) return 'Ayer';
+    if (days < 7) return `Hace ${days} días`;
+    return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short' }).format(new Date(dateString));
+  } catch {
+    return '';
+  }
+};
+---
+
+<Layout title="Analista - FutbolExperto" description="Tarjetas de análisis automáticas a partir de las últimas noticias del Mundial 2026.">
+  <main class="container section">
+    <section class="hero-block">
+      <div>
+        <div class="eyebrow">ANALISTA V5</div>
+        <h1>Radar inteligente de selecciones</h1>
+        <p class="page-desc">
+          Cruza noticias recientes, detecta temas dominantes y ordena a los participantes con mayor tendencia mediática del Mundial.
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong>{qualifiedCards.length}</strong>
+          <span>selecciones con análisis</span>
+        </div>
+        <div class="hero-stat">
+          <strong>{topCard ? topCard.teamName : '--'}</strong>
+          <span>más caliente del radar</span>
+        </div>
+        <div class="hero-stat">
+          <strong>{avgTrend}</strong>
+          <span>tendencia promedio</span>
+        </div>
+      </div>
+    </section>
+
+    {qualifiedCards.length > 0 ? (
+      <>
+        <section class="toolbar card">
+          <div class="toolbar-group filters-group">
+            <select id="groupFilter" class="toolbar-select">
+              <option value="">Todos los grupos</option>
+              {groups.map((group) => (
+                <option value={group}>Grupo {group}</option>
+              ))}
+            </select>
+            <select id="continentFilter" class="toolbar-select">
+              <option value="">Todos los continentes</option>
+              {continents.map((continent) => (
+                <option value={continent}>{continent}</option>
+              ))}
+            </select>
+            <select id="toneFilter" class="toolbar-select">
+              <option value="">Todos los tonos</option>
+              <option value="Positivo">Positivo</option>
+              <option value="Mixto">Mixto</option>
+              <option value="Atento">Atento</option>
+            </select>
+          </div>
+          <div class="toolbar-group sort-group">
+            <select id="sortFilter" class="toolbar-select">
+              <option value="trend">Ordenar por tendencia</option>
+              <option value="recent">Más recientes</option>
+              <option value="volume">Mayor volumen</option>
+              <option value="name">Nombre</option>
+            </select>
+            <a href="/analista/comparar" class="btn btn-ghost toolbar-link">Comparar</a>
+            <div class="results-counter" id="resultsCounter">{qualifiedCards.length} selecciones</div>
+          </div>
+        </section>
+
+        <section class="top-strip">
+          {qualifiedCards.slice(0, 5).map((card, index) => (
+            <a href={`#analyst-${card.teamId}`} class="top-item">
+              <span class="top-rank">#{index + 1}</span>
+              <span class="top-name">{card.teamName}</span>
+              <span class="top-score">{card.trendScore}</span>
+            </a>
+          ))}
+        </section>
+
+        {featuredComparison && (
+          <section class="comparison card">
+            <div class="comparison-head">
+              <div>
+                <div class="eyebrow">Comparador</div>
+                <h2>{featuredComparison.left.teamName} vs {featuredComparison.right.teamName}</h2>
+              </div>
+              <div class="comparison-badges">
+                <span class:list={['mini-badge', accentClass(featuredComparison.left.editorialBadge)]}>{featuredComparison.left.editorialBadge}</span>
+                <span class:list={['mini-badge', accentClass(featuredComparison.right.editorialBadge)]}>{featuredComparison.right.editorialBadge}</span>
+              </div>
+            </div>
+            <p class="comparison-summary">{featuredComparison.summary}</p>
+            <div class="comparison-grid">
+              <div class="comparison-team-box">
+                <strong>{featuredComparison.left.teamName}</strong>
+                <span>{featuredComparison.left.trendScore} pts • {featuredComparison.left.themes.join(' / ')}</span>
+              </div>
+              <div class="comparison-team-box">
+                <strong>{featuredComparison.right.teamName}</strong>
+                <span>{featuredComparison.right.trendScore} pts • {featuredComparison.right.themes.join(' / ')}</span>
+              </div>
+            </div>
+            <ul class="comparison-list">
+              {featuredComparison.advantages.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+
+            <div class="custom-compare">
+              <div class="subsection-title">Compara dos selecciones del radar</div>
+              <div class="custom-compare-controls">
+                <select id="compareLeft" class="toolbar-select">
+                  {qualifiedCards.map((card) => (
+                    <option value={card.teamId} selected={featuredComparison.left.teamId === card.teamId}>{card.teamName}</option>
+                  ))}
+                </select>
+                <select id="compareRight" class="toolbar-select">
+                  {qualifiedCards.map((card) => (
+                    <option value={card.teamId} selected={featuredComparison.right.teamId === card.teamId}>{card.teamName}</option>
+                  ))}
+                </select>
+              </div>
+              <div class="custom-compare-result card" id="customCompareResult"
+                data-cards={JSON.stringify(qualifiedCards.map((card) => ({
+                  teamId: card.teamId,
+                  teamName: card.teamName,
+                  trendScore: card.trendScore,
+                  editorialBadge: card.editorialBadge,
+                  strengths: card.strengths,
+                  themes: card.themes,
+                  momentum: card.momentum,
+                })))}>
+                <strong>{featuredComparison.left.teamName} vs {featuredComparison.right.teamName}</strong>
+                <p>{featuredComparison.summary}</p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {analystTiers.length > 0 && (
+          <section class="tiers-grid">
+            {analystTiers.map((tier) => (
+              <article class="tier-card card">
+                <div class:list={['eyebrow', accentClass(tier.title)]}>Panel editorial</div>
+                <h3>{tier.title}</h3>
+                <p>{tier.description}</p>
+                <div class="tier-list">
+                  {tier.teams.map((team) => (
+                    <a href={`/analista/${team.teamId}`} class="tier-item">
+                      <span>{team.teamName}</span>
+                      <small>{team.trendScore} pts • {team.editorialBadge}</small>
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </section>
+        )}
+
+        {forecastBoards.length > 0 && (
+          <section class="forecast-grid">
+            {forecastBoards.map((board) => (
+              <article class="forecast-card card">
+                <div class:list={['eyebrow', accentClass(board.title)]}>Predicción editorial</div>
+                <h3>{board.title}</h3>
+                <p>{board.description}</p>
+                <div class="forecast-list">
+                  {board.teams.map((team, index) => (
+                    <a href={`/analista/${team.teamId}`} class="forecast-item">
+                      <span>#{index + 1} {team.teamName}</span>
+                      <small>{team.trendScore} pts • {team.trendDirection} • {team.editorialBadge}</small>
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </section>
+        )}
+
+        <div class="analyst-grid" id="analystGrid">
+          {qualifiedCards.map((card, index) => (
+            <article
+              id={`analyst-${card.teamId}`}
+              class="analyst-card card"
+              data-group={card.group || ''}
+              data-continent={card.continent}
+              data-tone={card.tone}
+              data-trend={card.trendScore}
+              data-recent={new Date(card.latestPublished).getTime()}
+              data-volume={card.newsCount}
+              data-name={card.teamName.toLowerCase()}
+            >
+              <div class="card-top">
+                <div class="team-chip">
+                  {card.flag && <img src={card.flag} alt={card.teamName} class="team-flag" />}
+                  <div>
+                    <div class="team-name">{card.teamName}</div>
+                    <div class="team-meta">{card.code} • Grupo {card.group} • {card.continent}</div>
+                  </div>
+                </div>
+                <div class="badges">
+                  <span class="card-rank">#{index + 1}</span>
+                  <span class:list={['mini-badge', accentClass(`Pulso ${card.momentum}`)]}>Pulso {card.momentum}</span>
+                  <span class:list={['mini-badge', accentClass(`Tono ${card.tone}`)]}>Tono {card.tone}</span>
+                  <span class:list={['mini-badge', accentClass(card.editorialBadge)]}>{card.editorialBadge}</span>
+                </div>
+              </div>
+
+              <div class="score-band">
+                <div>
+                  <strong>{card.trendScore}</strong>
+                  <span>score de tendencia</span>
+                </div>
+                <div>
+                  <strong>{card.recentNewsCount}</strong>
+                  <span>notas recientes</span>
+                </div>
+                <div>
+                  <strong>{card.newsCount}</strong>
+                  <span>notas totales</span>
+                </div>
+              </div>
+
+              <div class="trend-strip-wrap">
+                <span class="trend-arrow">{card.trendDirection}</span>
+                <TrendMiniChart points={card.trendLine} compact color="var(--accent-blue)" />
+              </div>
+
+              <h2 class="headline">{card.latestHeadline}</h2>
+              <p class="analysis">{card.analysis}</p>
+
+              <div class="themes">
+                {card.themes.map((theme) => (
+                  <span class:list={['theme-tag', accentClass(theme)]}>{theme}</span>
+                ))}
+              </div>
+
+              <div class="insights-grid">
+                <div class="insight-box">
+                  <small>Fortalezas</small>
+                  <ul>
+                    {(card.strengths.length > 0 ? card.strengths : ['lectura general estable']).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="insight-box">
+                  <small>Riesgos</small>
+                  <ul>
+                    {(card.risks.length > 0 ? card.risks : ['sin alertas mediáticas dominantes']).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div>
+                  <strong>Corte principal:</strong>
+                  <span> {formatRelative(card.latestPublished)}</span>
+                </div>
+                <time datetime={card.latestPublished}>{formatRelative(card.latestPublished)}</time>
+              </div>
+
+              <div class="subsection-title">Notas que alimentan el análisis</div>
+              <div class="headline-list">
+                {card.headlines.map((item) => (
+                  <a href={item.id ? `/noticia/${item.id}` : item.url} target={item.id ? '_self' : '_blank'} rel="noopener noreferrer" class="headline-item">
+                    <span>{item.title}</span>
+                    <small>{item.source} • {formatRelative(item.published)}</small>
+                  </a>
+                ))}
+              </div>
+
+              <div class="card-actions">
+                <a href={`/analista/${card.teamId}`} class="btn btn-primary">Ver análisis</a>
+                <a href={`/equipo/${card.teamId}`} class="btn btn-ghost">Ver selección</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </>
+    ) : (
+      <div class="empty-state">
+        No hay suficiente información reciente para generar tarjetas de análisis todavía.
+      </div>
+    )}
+  </main>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('analystGrid');
+      if (!grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.analyst-card'));
+      const groupFilter = document.getElementById('groupFilter');
+      const continentFilter = document.getElementById('continentFilter');
+      const toneFilter = document.getElementById('toneFilter');
+      const sortFilter = document.getElementById('sortFilter');
+      const resultsCounter = document.getElementById('resultsCounter');
+      const compareLeft = document.getElementById('compareLeft');
+      const compareRight = document.getElementById('compareRight');
+      const customCompareResult = document.getElementById('customCompareResult');
+      const compareCards = customCompareResult?.dataset.cards ? JSON.parse(customCompareResult.dataset.cards) : [];
+
+      const sortCards = (items, mode) => {
+        const sorted = [...items];
+        sorted.sort((a, b) => {
+          if (mode === 'recent') return Number(b.dataset.recent) - Number(a.dataset.recent);
+          if (mode === 'volume') return Number(b.dataset.volume) - Number(a.dataset.volume);
+          if (mode === 'name') return String(a.dataset.name).localeCompare(String(b.dataset.name));
+          return Number(b.dataset.trend) - Number(a.dataset.trend);
+        });
+        sorted.forEach((card) => grid.appendChild(card));
+      };
+
+      const renderComparison = () => {
+        if (!customCompareResult || !compareLeft || !compareRight) return;
+        const left = compareCards.find((item) => item.teamId === compareLeft.value);
+        const right = compareCards.find((item) => item.teamId === compareRight.value);
+        if (!left || !right) return;
+        const lead = Math.abs(Number(left.trendScore) - Number(right.trendScore));
+        const stronger = Number(left.trendScore) >= Number(right.trendScore) ? left.teamName : right.teamName;
+        customCompareResult.innerHTML = `
+          <strong>${left.teamName} vs ${right.teamName}</strong>
+          <p>${stronger} llega con mejor score reciente. La diferencia es de ${lead} puntos y el duelo enfrenta ${left.editorialBadge.toLowerCase()} contra ${right.editorialBadge.toLowerCase()}.</p>
+          <small>${left.teamName}: ${left.strengths?.[0] || 'sin ventaja dominante'} • ${right.teamName}: ${right.strengths?.[0] || 'sin ventaja dominante'} • Temas: ${(left.themes?.[0] || 'Panorama')} vs ${(right.themes?.[0] || 'Panorama')}</small>
+        `;
+      };
+
+      const applyFilters = () => {
+        const group = groupFilter && 'value' in groupFilter ? groupFilter.value : '';
+        const continent = continentFilter && 'value' in continentFilter ? continentFilter.value : '';
+        const tone = toneFilter && 'value' in toneFilter ? toneFilter.value : '';
+        const sort = sortFilter && 'value' in sortFilter ? sortFilter.value : 'trend';
+
+        let visible = 0;
+        cards.forEach((card) => {
+          const matches = (!group || card.dataset.group === group)
+            && (!continent || card.dataset.continent === continent)
+            && (!tone || card.dataset.tone === tone);
+          card.style.display = matches ? '' : 'none';
+          if (matches) visible++;
+        });
+
+        sortCards(cards, sort);
+        if (resultsCounter) resultsCounter.textContent = `${visible} selecciones`;
+      };
+
+      [groupFilter, continentFilter, toneFilter, sortFilter].forEach((el) => {
+        el?.addEventListener('change', applyFilters);
+      });
+      [compareLeft, compareRight].forEach((el) => {
+        el?.addEventListener('change', renderComparison);
+      });
+
+      applyFilters();
+      renderComparison();
+    });
+  </script>
+</Layout>
+
+<style>
+  .hero-block {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    align-items: stretch;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .hero-block h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    margin-bottom: 0.75rem;
+  }
+  .page-desc {
+    font-size: 1rem;
+    color: #333333;
+    font-weight: 600;
+    max-width: 760px;
+  }
+  .hero-stats {
+    border: 3px solid #000000;
+    display: grid;
+    grid-template-columns: 1fr;
+    background: #ffffff;
+  }
+  .hero-stat {
+    padding: 1rem 1.2rem;
+    border-bottom: 2px solid #000000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .hero-stat:last-child {
+    border-bottom: none;
+  }
+  .hero-stat strong {
+    font-size: 1.35rem;
+    text-transform: uppercase;
+  }
+  .hero-stat span {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: 800;
+  }
+
+  .toolbar {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .toolbar-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 0;
+  }
+  .toolbar-select {
+    padding: 0.7rem 0.9rem;
+    border: 2px solid #000000;
+    background: #ffffff;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .results-counter {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #666666;
+  }
+  .toolbar-link {
+    padding: 0.7rem 0.9rem;
+  }
+
+  .top-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .comparison {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-color: var(--accent-violet);
+    box-shadow: 8px 8px 0 var(--accent-violet-soft);
+  }
+  .comparison-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+  .comparison-head h2 {
+    font-size: 1.4rem;
+  }
+  .comparison-badges {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .comparison-summary {
+    font-size: 0.95rem;
+    color: #333333;
+    margin-bottom: 1rem;
+  }
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .comparison-team-box {
+    border: 2px solid #000000;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .comparison-team-box strong {
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  .comparison-team-box span {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: 800;
+  }
+  .comparison-list {
+    margin-left: 1rem;
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+  }
+  .custom-compare {
+    margin-top: 1rem;
+    border-top: 2px solid #000000;
+    padding-top: 1rem;
+  }
+  .custom-compare-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .custom-compare-result {
+    padding: 0.85rem;
+  }
+  .custom-compare-result strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+  }
+  .custom-compare-result p {
+    font-size: 0.92rem;
+    color: #333333;
+    margin-bottom: 0.35rem;
+  }
+  .custom-compare-result small {
+    color: #666666;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .tier-card {
+    padding: 1rem;
+    background: #ffffff;
+    border-color: var(--accent-blue);
+    box-shadow: 6px 6px 0 var(--accent-blue-soft);
+  }
+  .tier-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .tier-card p {
+    font-size: 0.88rem;
+    color: #333333;
+    margin-bottom: 0.8rem;
+  }
+  .tier-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .tier-item {
+    border: 2px solid #000000;
+    padding: 0.7rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .tier-item span {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .tier-item small {
+    color: #666666;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .forecast-card {
+    padding: 1rem;
+    background: #ffffff;
+    border-color: var(--accent-green);
+    box-shadow: 6px 6px 0 var(--accent-green-soft);
+  }
+  .forecast-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .forecast-card p {
+    font-size: 0.88rem;
+    color: #333333;
+    margin-bottom: 0.8rem;
+  }
+  .forecast-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .forecast-item {
+    border: 2px solid #000000;
+    padding: 0.75rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .forecast-item span {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .forecast-item small {
+    color: #666666;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .top-item {
+    border: 2px solid #000000;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: #ffffff;
+  }
+  .top-rank,
+  .top-score {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .top-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .analyst-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1rem;
+  }
+
+  .analyst-card {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .card-rank {
+    border: 2px solid #000000;
+    padding: 0.2rem 0.45rem;
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: #ffffff;
+    line-height: 1.1;
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .team-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .team-flag {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #000000;
+    flex-shrink: 0;
+  }
+  .team-name {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.15;
+  }
+  .team-meta {
+    font-size: 0.75rem;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .badges {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex: 1 1 240px;
+    min-width: 0;
+  }
+  .mini-badge {
+    border: 2px solid #000000;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .score-band {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 2px solid #000000;
+  }
+  .score-band > div {
+    padding: 0.75rem;
+    border-right: 2px solid #000000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .score-band > div:last-child {
+    border-right: none;
+  }
+  .score-band strong {
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+  .score-band span {
+    font-size: 0.68rem;
+    color: #666666;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .trend-strip-wrap {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .trend-arrow {
+    border: 2px solid #000000;
+    padding: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 900;
+    min-width: 48px;
+  }
+
+  .headline {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    text-transform: none;
+    overflow-wrap: anywhere;
+  }
+  .analysis {
+    color: #333333;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .theme-tag {
+    border: 1px solid #000000;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .insight-box {
+    border: 2px solid #000000;
+    padding: 0.8rem;
+  }
+  .insight-box small {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: 800;
+  }
+  .insight-box ul {
+    margin-left: 1rem;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.86rem;
+  }
+  .insight-box li,
+  .headline-item span {
+    overflow-wrap: anywhere;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+    padding: 0.75rem 0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .subsection-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .headline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .headline-item {
+    border: 2px solid #000000;
+    padding: 0.7rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: transform 0.1s ease;
+  }
+  .headline-item:hover {
+    transform: translate(-2px, -2px);
+  }
+  .headline-item span {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .headline-item small {
+    color: #666666;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .card-actions {
+    margin-top: auto;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1100px) {
+    .hero-block,
+    .top-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .analyst-grid,
+    .score-band,
+    .comparison-grid,
+    .insights-grid,
+    .tiers-grid,
+    .forecast-grid,
+    .custom-compare-controls,
+    .trend-strip-wrap {
+      grid-template-columns: 1fr;
+    }
+    .analyst-card,
+    .comparison,
+    .tier-card,
+    .forecast-card {
+      padding: 1rem;
+    }
+    .card-top {
+      flex-direction: column;
+    }
+    .badges {
+      justify-content: flex-start;
+    }
+    .stats-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0.85rem;
+    }
+    .toolbar-select,
+    .custom-compare-result {
+      width: 100%;
+    }
+  }
+</style>
