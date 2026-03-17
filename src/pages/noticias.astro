@@ -48,9 +48,33 @@ const formatRelative = (dateString: string) => {
 const totalPages = newsData.totalPages;
 const hasNextPage = page < totalPages;
 const hasPrevPage = page > 1;
+
+const pageUrl = `https://futbolexperto.com/noticias${page > 1 ? `?page=${page}` : ''}`;
+const newsListSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://futbolexperto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Noticias', item: pageUrl },
+      ],
+    },
+    {
+      '@type': 'CollectionPage',
+      name: `Noticias del Mundial 2026${page > 1 ? ` - Página ${page}` : ''}`,
+      url: pageUrl,
+      description: 'Últimas noticias, reportes y contexto editorial del Mundial 2026, con cobertura de selecciones, figuras y torneo en tiempo real.',
+      inLanguage: 'es',
+    },
+  ],
+};
 ---
 
-<Layout title="Noticias - FutbolExperto">
+<Layout title="Noticias del Mundial 2026 - FutbolExperto" description="Últimas noticias, reportes y contexto editorial del Mundial 2026, con cobertura de selecciones, figuras y torneo en tiempo real.">
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(newsListSchema)} />
+  </Fragment>
   <main class="container section">
     <div class="page-header">
       <h1>Noticias del Mundial 2026</h1>

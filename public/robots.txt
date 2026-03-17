@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://futbolexperto.com/sitemap-index.xml
+Host: futbolexperto.com

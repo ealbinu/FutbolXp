@@ -29,9 +29,37 @@ const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateString));
   } catch { return ''; }
 };
+
+const playerUrl = `https://futbolexperto.com/jugador/${player.id}`;
+const playerSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://futbolexperto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Jugadores', item: 'https://futbolexperto.com/jugadores' },
+        { '@type': 'ListItem', position: 3, name: player.name, item: playerUrl },
+      ],
+    },
+    {
+      '@type': 'Person',
+      name: player.name,
+      url: playerUrl,
+      nationality: player.nationality,
+      jobTitle: player.position,
+      image: player.photo || undefined,
+      memberOf: team ? { '@type': 'SportsTeam', name: team.data.name, url: `https://futbolexperto.com/equipo/${team.data.id}` } : undefined,
+      description: `Perfil y noticias de ${player.name} en FutbolExperto rumbo al Mundial 2026.`,
+    },
+  ],
+};
 ---
 
-<Layout title={`${player.name} - FutbolExperto`}>
+<Layout title={`${player.name} - FutbolExperto`} description={`Perfil, noticias y contexto de ${player.name}${team ? `, jugador de ${team.data.name}` : ''}, rumbo al Mundial 2026.`}>
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(playerSchema)} />
+  </Fragment>
   <main class="container section">
     <a href="/jugadores" class="back-link">&larr; Todos los jugadores</a>
 

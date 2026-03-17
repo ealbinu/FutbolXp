@@ -71,9 +71,40 @@ const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(dateString));
   } catch { return ''; }
 };
+
+const teamUrl = `https://futbolexperto.com/equipo/${team.id}`;
+const teamSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://futbolexperto.com/' },
+        { '@type': 'ListItem', position: 2, name: team.name, item: teamUrl },
+      ],
+    },
+    {
+      '@type': 'SportsTeam',
+      name: team.name,
+      alternateName: team.code,
+      url: teamUrl,
+      sport: 'Soccer',
+      memberOf: {
+        '@type': 'SportsOrganization',
+        name: 'Copa Mundial de la FIFA 2026',
+      },
+      nationality: team.continent,
+      description: `Perfil, noticias y análisis de ${team.name} en FutbolExperto rumbo al Mundial 2026.`,
+      image: team.flag ? [team.flag] : undefined,
+    },
+  ],
+};
 ---
 
-<Layout title={`${team.name} - FutbolExperto`}>
+<Layout title={`${team.name} - FutbolExperto`} description={`Noticias, contexto y análisis de ${team.name} rumbo al Mundial 2026. Grupo ${team.group || 'por definir'}, ${team.continent}.`}>
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(teamSchema)} />
+  </Fragment>
   <main class="container section">
     <!-- Team Header -->
     <div class="team-header">

@@ -18,9 +18,32 @@ const sortedGroups = Object.entries(groupedByGroup).sort(([a], [b]) => {
   if (b === 'Por Definir') return -1;
   return a.localeCompare(b);
 });
+
+const matchesSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://futbolexperto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Partidos', item: 'https://futbolexperto.com/partidos' },
+      ],
+    },
+    {
+      '@type': 'CollectionPage',
+      name: 'Partidos y cuadro del Mundial 2026',
+      url: 'https://futbolexperto.com/partidos',
+      description: 'Consulta grupos, cruces y seguimiento del mapa del torneo del Mundial 2026 con enfoque editorial y visual.',
+      inLanguage: 'es',
+    },
+  ],
+};
 ---
 
-<Layout title="Partidos - FutbolExperto.com" description="Calendario y seguimiento de partidos del Mundial 2026">
+<Layout title="Partidos y cuadro del Mundial 2026 - FutbolExperto" description="Consulta grupos, cruces y seguimiento del mapa del torneo del Mundial 2026 con enfoque editorial y visual.">
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(matchesSchema)} />
+  </Fragment>
   <main class="container section">
     <div class="page-header">
       <h1>Mapa del Torneo</h1>
