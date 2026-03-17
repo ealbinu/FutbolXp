@@ -12,6 +12,7 @@ const newsCounts = await getNewsCounts();
 
 const teams = [...new Set(allPlayers.map(p => p.data.team))].sort();
 const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
+const statuses = [...new Set(allPlayers.map(p => p.data.status || 'prelista'))].sort();
 
 const playersSchema = {
   '@context': 'https://schema.org',
@@ -58,6 +59,12 @@ const playersSchema = {
           <option value={pos}>{pos}</option>
         ))}
       </select>
+      <select id="statusFilter" class="filter-select">
+        <option value="">Todos los estados</option>
+        {statuses.map(status => (
+          <option value={status}>{status}</option>
+        ))}
+      </select>
       <div class="player-count" id="playerCount">{players.length} jugadores</div>
     </div>
 
@@ -68,6 +75,7 @@ const playersSchema = {
           class="player-card card"
           data-team={player.data.team}
           data-position={player.data.position}
+          data-status={player.data.status || 'prelista'}
         >
           <div class="player-avatar">
             {player.data.photo ? (
@@ -81,6 +89,10 @@ const playersSchema = {
             <div class="player-details">
               <span class="player-pos">{player.data.position}</span>
               <span class="player-team">{player.data.team.replace(/-/g, ' ')}</span>
+            </div>
+            <div class="player-meta-row">
+              <span class="player-status">{player.data.status || 'prelista'}</span>
+              {player.data.club && <span class="player-club">{player.data.club}</span>}
             </div>
           </div>
           {player.data.number && (
@@ -104,6 +116,7 @@ const playersSchema = {
     document.addEventListener('DOMContentLoaded', () => {
       const teamFilter = document.getElementById('teamFilter') as HTMLSelectElement;
       const positionFilter = document.getElementById('positionFilter') as HTMLSelectElement;
+      const statusFilter = document.getElementById('statusFilter') as HTMLSelectElement;
       const grid = document.getElementById('playersGrid')!;
       const countEl = document.getElementById('playerCount')!;
       const cards = grid.querySelectorAll('.player-card') as NodeListOf<HTMLElement>;
@@ -111,9 +124,10 @@ const playersSchema = {
       const filter = () => {
         const team = teamFilter.value;
         const position = positionFilter.value;
+        const status = statusFilter.value;
         let visible = 0;
         cards.forEach(card => {
-          const show = (!team || card.dataset.team === team) && (!position || card.dataset.position === position);
+          const show = (!team || card.dataset.team === team) && (!position || card.dataset.position === position) && (!status || card.dataset.status === status);
           card.style.display = show ? 'flex' : 'none';
           if (show) visible++;
         });
@@ -122,6 +136,7 @@ const playersSchema = {
 
       teamFilter.addEventListener('change', filter);
       positionFilter.addEventListener('change', filter);
+      statusFilter.addEventListener('change', filter);
     });
   </script>
 </Layout>
@@ -200,6 +215,29 @@ const playersSchema = {
     color: #666666;
     text-transform: uppercase;
     font-weight: 600;
+  }
+  .player-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+  }
+  .player-status,
+  .player-club {
+    border: 1px solid #000000;
+    padding: 0.12rem 0.4rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: #ffffff;
+  }
+  .player-status {
+    background: var(--accent-blue-soft);
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+  }
+  .player-club {
+    color: #333333;
   }
   .player-pos { color: #000000; }
   .player-number {

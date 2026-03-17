@@ -21,6 +21,7 @@ Este documento resume los hitos, decisiones técnicas y funcionalidades implemen
 - **robots / sitemap**: `robots.txt` actualizado para desautorizar `/api/` y validación de `sitemap-index.xml` + `sitemap-0.xml` generados por Astro.
 - **Performance inicial**: Optimización de fuentes en `Layout.astro` (eliminación de carga duplicada, menos pesos) y uso de `content-visibility`/`contain-intrinsic-size` en secciones bajo el fold de la home para mejorar FCP/LCP.
 - **Performance final mobile**: Eliminación de Google Fonts del critical path, uso de stack del sistema, diferimiento de GTM y reducción de banderas de `flagcdn` a tamaños más ligeros. Resultado validado en PageSpeed móvil: **Performance 99 / Accessibility 96 / Best Practices 100 / SEO 100**.
+- **Plan de jugadores (fase A)**: Se amplió el esquema de jugadores para soportar `status`, `club`, `clubCountry`, `source`, `sourceUrl`, `lastVerified`, `caps`, `goals`, `isCaptain` y `aliases`. También se adaptó la UI de `jugadores.astro` y `jugador/[id].astro` para exponer estado, club y trazabilidad editorial, preparando el terreno para importación masiva de prelistas.
 
 ### 1. Rebranding & Identidad Visual
 - **Cambio de Nombre**: Transmisión de toda la marca a `FutbolExperto.com`.

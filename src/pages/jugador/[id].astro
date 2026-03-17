@@ -77,6 +77,8 @@ const playerSchema = {
           <span class="badge badge-primary">{player.position}</span>
           {player.number && <span class="badge badge-primary">#{player.number}</span>}
           <span class="badge badge-primary">{player.nationality}</span>
+          <span class="badge accent-blue">{player.status || 'prelista'}</span>
+          {player.isCaptain && <span class="badge accent-amber">Capitán</span>}
         </div>
         {team && (
           <a href={`/equipo/${team.data.id}`} class="team-link">
@@ -115,6 +117,10 @@ const playerSchema = {
               <span class="info-label">Posicion</span>
               <span class="info-value">{player.position}</span>
             </div>
+            <div class="info-item">
+              <span class="info-label">Estado</span>
+              <span class="info-value">{player.status || 'prelista'}</span>
+            </div>
             {player.number && (
               <div class="info-item">
                 <span class="info-label">Numero</span>
@@ -125,14 +131,62 @@ const playerSchema = {
               <span class="info-label">Nacionalidad</span>
               <span class="info-value">{player.nationality}</span>
             </div>
+            {player.club && (
+              <div class="info-item">
+                <span class="info-label">Club</span>
+                <span class="info-value">{player.club}</span>
+              </div>
+            )}
             {player.birth && (
               <div class="info-item">
                 <span class="info-label">Nacimiento</span>
                 <span class="info-value">{formatDate(player.birth)}</span>
               </div>
             )}
+            {player.lastVerified && (
+              <div class="info-item">
+                <span class="info-label">Verificado</span>
+                <span class="info-value">{formatDate(player.lastVerified)}</span>
+              </div>
+            )}
+            {typeof player.caps === 'number' && (
+              <div class="info-item">
+                <span class="info-label">Internacionales</span>
+                <span class="info-value">{player.caps}</span>
+              </div>
+            )}
+            {typeof player.goals === 'number' && (
+              <div class="info-item">
+                <span class="info-label">Goles</span>
+                <span class="info-value">{player.goals}</span>
+              </div>
+            )}
           </div>
         </div>
+
+        {(player.source || player.aliases.length > 0) && (
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">Seguimiento editorial</h3>
+            <div class="info-grid">
+              {player.source && (
+                <div class="info-item">
+                  <span class="info-label">Fuente</span>
+                  {player.sourceUrl ? (
+                    <a href={player.sourceUrl} target="_blank" rel="noopener noreferrer" class="info-value info-link">{player.source}</a>
+                  ) : (
+                    <span class="info-value">{player.source}</span>
+                  )}
+                </div>
+              )}
+              {player.aliases.length > 0 && (
+                <div class="info-item aliases-item">
+                  <span class="info-label">Alias</span>
+                  <span class="info-value">{player.aliases.join(' • ')}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {(player.social.twitter || player.social.instagram || player.social.tiktok || player.social.facebook) && (
           <div class="sidebar-section">
@@ -243,9 +297,20 @@ const playerSchema = {
     letter-spacing: 0.03em;
   }
   .info-grid { display: flex; flex-direction: column; gap: 0.75rem; }
-  .info-item { display: flex; justify-content: space-between; }
+  .info-item { display: flex; justify-content: space-between; gap: 0.75rem; }
+  .aliases-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
   .info-label { font-size: 0.8rem; color: #666666; text-transform: uppercase; font-weight: 600; }
-  .info-value { font-size: 0.8rem; font-weight: 700; }
+  .info-value { font-size: 0.8rem; font-weight: 700; text-align: right; }
+  .info-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .aliases-item .info-value {
+    text-align: left;
+  }
 
   .social-list { display: flex; flex-direction: column; gap: 0.4rem; }
   .social-btn {
