@@ -6,7 +6,7 @@
     "group": "A",
     "continent": "North America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/mx.png",
+    "flag": "https://flagcdn.com/w160/mx.png",
     "officialSite": "https://miseleccion.mx",
     "social": {
       "twitter": "https://twitter.com/miseleccionmx",
@@ -27,7 +27,7 @@
     "group": "B",
     "continent": "North America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ca.png",
+    "flag": "https://flagcdn.com/w160/ca.png",
     "officialSite": "https://canadasoccer.com",
     "social": {
       "twitter": "https://twitter.com/CanadaSoccerEN",
@@ -47,7 +47,7 @@
     "group": "D",
     "continent": "North America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/us.png",
+    "flag": "https://flagcdn.com/w160/us.png",
     "officialSite": "https://www.ussoccer.com",
     "social": {
       "twitter": "https://twitter.com/USMNT",
@@ -67,7 +67,7 @@
     "code": "CRC",
     "continent": "North America",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/cr.png",
+    "flag": "https://flagcdn.com/w160/cr.png",
     "officialSite": "https://fedefutbol.com",
     "social": {
       "twitter": "https://twitter.com/fedefutbolcrc"
@@ -84,7 +84,7 @@
     "code": "JAM",
     "continent": "North America",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/jm.png",
+    "flag": "https://flagcdn.com/w160/jm.png",
     "officialSite": "https://jff.futbol",
     "social": {
       "twitter": "https://twitter.com/jff_football"
@@ -101,7 +101,7 @@
     "group": "L",
     "continent": "North America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/pa.png",
+    "flag": "https://flagcdn.com/w160/pa.png",
     "officialSite": "https://fepafut.com",
     "social": {
       "twitter": "https://twitter.com/fepafut"
@@ -116,7 +116,7 @@
     "group": "J",
     "continent": "South America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ar.png",
+    "flag": "https://flagcdn.com/w160/ar.png",
     "officialSite": "https://afa.com.ar",
     "social": {
       "twitter": "https://twitter.com/Argentina",
@@ -136,7 +136,7 @@
     "group": "K",
     "continent": "South America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/co.png",
+    "flag": "https://flagcdn.com/w160/co.png",
     "officialSite": "https://fcf.com.co",
     "social": {
       "twitter": "https://twitter.com/FCF_Oficial"
@@ -155,7 +155,7 @@
     "group": "E",
     "continent": "South America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ec.png",
+    "flag": "https://flagcdn.com/w160/ec.png",
     "officialSite": "https://ecuafutbol.org",
     "social": {
       "twitter": "https://twitter.com/Ecuafutbol"
@@ -172,7 +172,7 @@
     "group": "H",
     "continent": "South America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/uy.png",
+    "flag": "https://flagcdn.com/w160/uy.png",
     "officialSite": "https://auf.org.uy",
     "social": {
       "twitter": "https://twitter.com/Uruguay"
@@ -190,7 +190,7 @@
     "group": "C",
     "continent": "South America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/br.png",
+    "flag": "https://flagcdn.com/w160/br.png",
     "officialSite": "https://cbf.com.br",
     "social": {
       "twitter": "https://twitter.com/CBF",
@@ -211,7 +211,7 @@
     "group": "D",
     "continent": "South America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/py.png",
+    "flag": "https://flagcdn.com/w160/py.png",
     "officialSite": "https://apf.org.py",
     "social": {
       "twitter": "https://twitter.com/APF"
@@ -225,7 +225,7 @@
     "code": "PER",
     "continent": "South America",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/pe.png",
+    "flag": "https://flagcdn.com/w160/pe.png",
     "officialSite": "https://fpf.org.pe",
     "social": {
       "twitter": "https://twitter.com/TuFPF"
@@ -239,7 +239,7 @@
     "code": "CHI",
     "continent": "South America",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/cl.png",
+    "flag": "https://flagcdn.com/w160/cl.png",
     "officialSite": "https://anfp.cl",
     "social": {
       "twitter": "https://twitter.com/LaRoja"
@@ -254,7 +254,7 @@
     "group": "L",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/gb-eng.png",
+    "flag": "https://flagcdn.com/w160/gb-eng.png",
     "officialSite": "https://englandfootball.com",
     "social": {
       "twitter": "https://twitter.com/England",
@@ -270,7 +270,7 @@
     "group": "I",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/fr.png",
+    "flag": "https://flagcdn.com/w160/fr.png",
     "officialSite": "https://fff.fr",
     "social": {
       "twitter": "https://twitter.com/equipedefrance",
@@ -288,7 +288,7 @@
     "group": "E",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/de.png",
+    "flag": "https://flagcdn.com/w160/de.png",
     "officialSite": "https://dfb.de",
     "social": {
       "twitter": "https://twitter.com/DFB_Team_EN",
@@ -308,7 +308,7 @@
     "group": "H",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/es.png",
+    "flag": "https://flagcdn.com/w160/es.png",
     "officialSite": "https://rfef.es",
     "social": {
       "twitter": "https://twitter.com/SeFutbol",
@@ -328,7 +328,7 @@
     "group": "K",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/pt.png",
+    "flag": "https://flagcdn.com/w160/pt.png",
     "officialSite": "https://fpf.pt",
     "social": {
       "twitter": "https://twitter.com/selecaoportugal",
@@ -347,7 +347,7 @@
     "code": "ITA",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/it.png",
+    "flag": "https://flagcdn.com/w160/it.png",
     "officialSite": "https://figc.it",
     "social": {
       "twitter": "https://twitter.com/Azzurri"
@@ -365,7 +365,7 @@
     "group": "F",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/nl.png",
+    "flag": "https://flagcdn.com/w160/nl.png",
     "officialSite": "https://knvb.nl",
     "social": {
       "twitter": "https://twitter.com/OnsOranje"
@@ -383,7 +383,7 @@
     "group": "G",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/be.png",
+    "flag": "https://flagcdn.com/w160/be.png",
     "officialSite": "https://rbfa.be",
     "social": {
       "twitter": "https://twitter.com/BelRedDevils"
@@ -401,7 +401,7 @@
     "group": "L",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/hr.png",
+    "flag": "https://flagcdn.com/w160/hr.png",
     "officialSite": "https://hns-cff.hr",
     "social": {
       "twitter": "https://twitter.com/HNS_CFF"
@@ -418,7 +418,7 @@
     "code": "DEN",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/dk.png",
+    "flag": "https://flagcdn.com/w160/dk.png",
     "officialSite": "https://dbu.dk",
     "social": {
       "twitter": "https://twitter.com/DBU_2"
@@ -434,7 +434,7 @@
     "code": "POL",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/pl.png",
+    "flag": "https://flagcdn.com/w160/pl.png",
     "officialSite": "https://pzpn.pl",
     "social": {
       "twitter": "https://twitter.com/pzpn_laczynasie"
@@ -451,7 +451,7 @@
     "group": "B",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ch.png",
+    "flag": "https://flagcdn.com/w160/ch.png",
     "officialSite": "https://football.ch",
     "social": {
       "twitter": "https://twitter.com/nati_football"
@@ -469,7 +469,7 @@
     "group": "J",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/at.png",
+    "flag": "https://flagcdn.com/w160/at.png",
     "officialSite": "https://oefb.at",
     "social": {
       "twitter": "https://twitter.com/oefb"
@@ -485,7 +485,7 @@
     "code": "SRB",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/rs.png",
+    "flag": "https://flagcdn.com/w160/rs.png",
     "officialSite": "https://fss.rs",
     "social": {
       "twitter": "https://twitter.com/SerbianFA"
@@ -502,7 +502,7 @@
     "group": "C",
     "continent": "Europe",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/gb-sct.png",
+    "flag": "https://flagcdn.com/w160/gb-sct.png",
     "officialSite": "https://scottishfa.co.uk",
     "social": {
       "twitter": "https://twitter.com/ScotlandNT"
@@ -518,7 +518,7 @@
     "code": "CZE",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/cz.png",
+    "flag": "https://flagcdn.com/w160/cz.png",
     "officialSite": "https://fotbal.cz",
     "social": {
       "twitter": "https://twitter.com/fotbalcz"
@@ -534,7 +534,7 @@
     "code": "TUR",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/tr.png",
+    "flag": "https://flagcdn.com/w160/tr.png",
     "officialSite": "https://tff.org",
     "social": {
       "twitter": "https://twitter.com/TFF_Org"
@@ -550,7 +550,7 @@
     "code": "SWE",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/se.png",
+    "flag": "https://flagcdn.com/w160/se.png",
     "officialSite": "https://svenskfotboll.se",
     "social": {
       "twitter": "https://twitter.com/SvenskFotboll"
@@ -566,7 +566,7 @@
     "code": "WAL",
     "continent": "Europe",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/gb-wls.png",
+    "flag": "https://flagcdn.com/w160/gb-wls.png",
     "officialSite": "https://faw.cymru",
     "social": {
       "twitter": "https://twitter.com/FAsCymru"
@@ -583,7 +583,7 @@
     "group": "C",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ma.png",
+    "flag": "https://flagcdn.com/w160/ma.png",
     "officialSite": "https://frmf.ma",
     "social": {
       "twitter": "https://twitter.com/Maroc__Football"
@@ -600,7 +600,7 @@
     "group": "I",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/sn.png",
+    "flag": "https://flagcdn.com/w160/sn.png",
     "officialSite": "https://fsf.sn",
     "social": {
       "twitter": "https://twitter.com/Football Senegal"
@@ -617,7 +617,7 @@
     "group": "J",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/dz.png",
+    "flag": "https://flagcdn.com/w160/dz.png",
     "officialSite": "https://faf.dz",
     "social": {
       "twitter": "https://twitter.com/lesverts"
@@ -632,7 +632,7 @@
     "group": "F",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/tn.png",
+    "flag": "https://flagcdn.com/w160/tn.png",
     "officialSite": "https://ftf.org.tn",
     "social": {
       "twitter": "https://twitter.com/EquipeTunisie"
@@ -648,7 +648,7 @@
     "code": "NGA",
     "continent": "Africa",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/ng.png",
+    "flag": "https://flagcdn.com/w160/ng.png",
     "officialSite": "https://thenff.ng",
     "social": {
       "twitter": "https://twitter.com/NGSuperEagles"
@@ -664,7 +664,7 @@
     "code": "CMR",
     "continent": "Africa",
     "qualified": false,
-    "flag": "https://flagcdn.com/w640/cm.png",
+    "flag": "https://flagcdn.com/w160/cm.png",
     "officialSite": "https://fecafoot.com",
     "social": {
       "twitter": "https://twitter.com/fecafoot"
@@ -681,7 +681,7 @@
     "group": "L",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/gh.png",
+    "flag": "https://flagcdn.com/w160/gh.png",
     "officialSite": "https://ghanafa.org",
     "social": {
       "twitter": "https://twitter.com/ghanafaofficial"
@@ -698,7 +698,7 @@
     "group": "E",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ci.png",
+    "flag": "https://flagcdn.com/w160/ci.png",
     "officialSite": "https://fif-ci.com",
     "social": {
       "twitter": "https://twitter.com/ federacionivorienne"
@@ -715,7 +715,7 @@
     "group": "G",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/eg.png",
+    "flag": "https://flagcdn.com/w160/eg.png",
     "officialSite": "https://efa.com.eg",
     "social": {
       "twitter": "https://twitter.com/Pharaohs"
@@ -732,7 +732,7 @@
     "group": "A",
     "continent": "Africa",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/za.png",
+    "flag": "https://flagcdn.com/w160/za.png",
     "officialSite": "https://safa.net",
     "social": {
       "twitter": "https://twitter.com/BafanaBafana"
@@ -747,7 +747,7 @@
     "group": "D",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/au.png",
+    "flag": "https://flagcdn.com/w160/au.png",
     "officialSite": "https://footballaustralia.com.au",
     "social": {
       "twitter": "https://twitter.com/Socceroos"
@@ -764,7 +764,7 @@
     "group": "G",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ir.png",
+    "flag": "https://flagcdn.com/w160/ir.png",
     "officialSite": "https://the-ffiri.ir",
     "social": {
       "twitter": "https://twitter.com/TeamMelli_IR"
@@ -781,7 +781,7 @@
     "group": "F",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/jp.png",
+    "flag": "https://flagcdn.com/w160/jp.png",
     "officialSite": "https://jfa.jp",
     "social": {
       "twitter": "https://twitter.com/jfa_samuraiblue",
@@ -800,7 +800,7 @@
     "group": "A",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/kr.png",
+    "flag": "https://flagcdn.com/w160/kr.png",
     "officialSite": "https://kfa.or.kr",
     "social": {
       "twitter": "https://twitter.com/theKFA"
@@ -817,7 +817,7 @@
     "group": "H",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/sa.png",
+    "flag": "https://flagcdn.com/w160/sa.png",
     "officialSite": "https://thesaff.com.sa",
     "social": {
       "twitter": "https://twitter.com/SaudiTeam"
@@ -834,7 +834,7 @@
     "group": "K",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/uz.png",
+    "flag": "https://flagcdn.com/w160/uz.png",
     "officialSite": "https://ufa.uz",
     "social": {
       "twitter": "https://twitter.com/ufa_uz"
@@ -849,7 +849,7 @@
     "group": "J",
     "continent": "Asia",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/jo.png",
+    "flag": "https://flagcdn.com/w160/jo.png",
     "officialSite": "https://jfa.com.jo",
     "social": {
       "twitter": "https://twitter.com/jordanfa"
@@ -864,7 +864,7 @@
     "group": "G",
     "continent": "Oceania",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/nz.png",
+    "flag": "https://flagcdn.com/w160/nz.png",
     "officialSite": "https://nzfootball.co.nz",
     "social": {
       "twitter": "https://twitter.com/NZ_Football"
@@ -878,7 +878,7 @@
     "code": "HAI",
     "continent": "Por Definir",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ht.png",
+    "flag": "https://flagcdn.com/w160/ht.png",
     "players": [],
     "news": [],
     "group": "C"
@@ -889,7 +889,7 @@
     "code": "CUR",
     "continent": "Por Definir",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/cu.png",
+    "flag": "https://flagcdn.com/w160/cu.png",
     "players": [],
     "news": [],
     "group": "E"
@@ -900,7 +900,7 @@
     "code": "NOR",
     "continent": "Por Definir",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/no.png",
+    "flag": "https://flagcdn.com/w160/no.png",
     "players": [],
     "news": [],
     "group": "I"
@@ -911,7 +911,7 @@
     "code": "CAT",
     "continent": "Por Definir",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ca.png",
+    "flag": "https://flagcdn.com/w160/ca.png",
     "players": [],
     "news": [],
     "group": "B"
@@ -922,7 +922,7 @@
     "code": "CAB",
     "continent": "Por Definir",
     "qualified": true,
-    "flag": "https://flagcdn.com/w640/ca.png",
+    "flag": "https://flagcdn.com/w160/ca.png",
     "players": [],
     "news": [],
     "group": "H"
