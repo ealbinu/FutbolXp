@@ -51,10 +51,49 @@ const globalSchema = {
       startDate: '2026-06-11',
       endDate: '2026-07-19',
       eventStatus: 'https://schema.org/EventScheduled',
+      organizer: {
+        '@type': 'Organization',
+        name: 'FIFA',
+        url: 'https://www.fifa.com/',
+      },
+      performer: [
+        { '@type': 'SportsOrganization', name: 'Selección de México' },
+        { '@type': 'SportsOrganization', name: 'Selección de Estados Unidos' },
+        { '@type': 'SportsOrganization', name: 'Selección de Canadá' },
+      ],
+      image: ['https://futbolexperto.com/og-image.svg'],
+      offers: {
+        '@type': 'Offer',
+        url: 'https://futbolexperto.com/partidos',
+        price: '0',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
       location: [
-        { '@type': 'Place', name: 'México' },
-        { '@type': 'Place', name: 'Estados Unidos' },
-        { '@type': 'Place', name: 'Canadá' },
+        {
+          '@type': 'Place',
+          name: 'México',
+          address: {
+            '@type': 'PostalAddress',
+            addressCountry: 'MX',
+          },
+        },
+        {
+          '@type': 'Place',
+          name: 'Estados Unidos',
+          address: {
+            '@type': 'PostalAddress',
+            addressCountry: 'US',
+          },
+        },
+        {
+          '@type': 'Place',
+          name: 'Canadá',
+          address: {
+            '@type': 'PostalAddress',
+            addressCountry: 'CA',
+          },
+        },
       ],
       description: 'La XXIII edición de la Copa Mundial de Fútbol masculino organizada por la FIFA.',
     },
