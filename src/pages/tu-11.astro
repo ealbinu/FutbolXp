@@ -1,0 +1,795 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export const prerender = false;
+
+const allTeams = await getCollection('teams');
+const allPlayers = await getCollection('players');
+
+const teams = allTeams
+  .filter((team) => team.data.qualified)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const players = allPlayers
+  .sort((a, b) => a.data.name.localeCompare(b.data.name))
+  .map((player) => ({
+    id: player.data.id,
+    name: player.data.name,
+    team: player.data.team,
+    position: player.data.position,
+    number: player.data.number,
+    club: player.data.club || '',
+    status: player.data.status || 'prelista',
+  }));
+
+const teamsForClient = teams.map((team) => ({
+  id: team.data.id,
+  name: team.data.name,
+  code: team.data.code,
+  flag: team.data.flag || '',
+}));
+
+const builderSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://futbolexperto.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Tu 11 perfecto', item: 'https://futbolexperto.com/tu-11' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      name: 'Tu 11 perfecto',
+      url: 'https://futbolexperto.com/tu-11',
+      description: 'Arma, mueve y personaliza tu once ideal del Mundial 2026 sobre una cancha táctica en FutbolExperto.',
+      inLanguage: 'es',
+    },
+  ],
+};
+---
+
+<Layout title="Tu 11 perfecto - FutbolExperto" description="Arma, mueve y personaliza tu once ideal del Mundial 2026 sobre una cancha táctica en FutbolExperto.">
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(builderSchema)} />
+  </Fragment>
+
+  <main class="container section">
+    <section class="builder-hero">
+      <div>
+        <div class="eyebrow accent-violet">UGC / EXPERIMENTO SOCIAL</div>
+        <h1>Tu 11 perfecto</h1>
+        <p class="page-desc">Arma tu once ideal, mezcla jugadores del Mundial, mueve fichas libremente en la cancha y guarda tu alineación para seguir editándola.</p>
+      </div>
+      <div class="hero-note card">
+        <strong>Brief MVP</strong>
+        <p>Primero lanzamos el constructor viral: elegir selección, sumar jugadores reales o custom, moverlos libremente y guardar la alineación. Después viene exportación social y simulación animada.</p>
+      </div>
+    </section>
+
+    <section class="builder-shell">
+      <aside class="builder-sidebar card">
+        <div class="sidebar-block">
+          <h2 class="sidebar-title">Base del once</h2>
+          <label class="field-label" for="teamSelect">Selección</label>
+          <select id="teamSelect" class="toolbar-select">
+            <option value="">Modo libre</option>
+            {teams.map((team) => (
+              <option value={team.data.id}>{team.data.name}</option>
+            ))}
+          </select>
+
+          <label class="field-label" for="formationSelect">Formación guía</label>
+          <select id="formationSelect" class="toolbar-select">
+            <option value="4-3-3">4-3-3</option>
+            <option value="4-4-2">4-4-2</option>
+            <option value="4-2-3-1">4-2-3-1</option>
+            <option value="3-5-2">3-5-2</option>
+          </select>
+
+          <div class="action-row">
+            <button id="autoFillBtn" class="btn btn-primary" type="button">Autocompletar</button>
+            <button id="clearBtn" class="btn btn-ghost" type="button">Limpiar</button>
+          </div>
+        </div>
+
+        <div class="sidebar-block">
+          <h2 class="sidebar-title">Agregar jugadores</h2>
+          <label class="field-label" for="playerSearch">Buscar</label>
+          <input id="playerSearch" class="text-input" type="search" placeholder="Nombre, club o posición" />
+          <div class="roster-head">
+            <strong>Plantel disponible</strong>
+            <span id="rosterCount">0</span>
+          </div>
+          <div id="rosterList" class="roster-list"></div>
+        </div>
+
+        <div class="sidebar-block">
+          <h2 class="sidebar-title">Jugador custom</h2>
+          <div class="custom-grid">
+            <input id="customName" class="text-input" type="text" placeholder="Nombre" />
+            <input id="customRole" class="text-input" type="text" placeholder="Posición" value="Mediocampo" />
+            <input id="customClub" class="text-input" type="text" placeholder="Club / apodo" />
+          </div>
+          <button id="addCustomBtn" class="btn btn-primary" type="button">Crear jugador</button>
+        </div>
+
+        <div class="sidebar-block">
+          <h2 class="sidebar-title">Acciones</h2>
+          <div class="action-stack">
+            <button id="saveBtn" class="btn btn-primary" type="button">Guardar en este dispositivo</button>
+            <button id="copyBtn" class="btn btn-ghost" type="button">Copiar resumen</button>
+          </div>
+          <p class="small-note" id="saveStatus">Puedes mover libremente cada ficha sobre la cancha.</p>
+        </div>
+      </aside>
+
+      <section class="builder-main">
+        <div class="builder-topline">
+          <div>
+            <div class="eyebrow">CANCHA TÁCTICA</div>
+            <h2 id="lineupTitle">Modo libre</h2>
+          </div>
+          <div class="lineup-meta">
+            <span id="lineupCount" class="badge accent-blue">0 / 11</span>
+            <span id="formationBadge" class="badge accent-green">4-3-3</span>
+          </div>
+        </div>
+
+        <div id="pitch" class="pitch card" aria-label="Cancha para armar tu once"></div>
+
+        <div class="bench card">
+          <div class="bench-head">
+            <h3>Resumen del once</h3>
+            <small>Mueve las fichas libremente. El orden solo sirve como referencia.</small>
+          </div>
+          <div id="lineupSummary" class="summary-list"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ players, teamsForClient }}>
+    const FORMATIONS = {
+      '4-3-3': [
+        [50, 88], [18, 68], [39, 70], [61, 70], [82, 68],
+        [28, 50], [50, 48], [72, 50],
+        [22, 25], [50, 18], [78, 25],
+      ],
+      '4-4-2': [
+        [50, 88], [18, 68], [39, 70], [61, 70], [82, 68],
+        [20, 46], [40, 50], [60, 50], [80, 46],
+        [38, 22], [62, 22],
+      ],
+      '4-2-3-1': [
+        [50, 88], [18, 68], [39, 70], [61, 70], [82, 68],
+        [38, 54], [62, 54],
+        [22, 34], [50, 30], [78, 34],
+        [50, 16],
+      ],
+      '3-5-2': [
+        [50, 88], [28, 69], [50, 72], [72, 69],
+        [12, 48], [32, 46], [50, 50], [68, 46], [88, 48],
+        [40, 20], [60, 20],
+      ],
+    };
+
+    const state = {
+      teamId: '',
+      formation: '4-3-3',
+      lineup: [],
+      dragId: null,
+      pointerOffsetX: 0,
+      pointerOffsetY: 0,
+    };
+
+    const STORAGE_KEY = 'futbolexperto-tu11';
+    const MAX_PLAYERS = 11;
+
+    const teamSelect = document.getElementById('teamSelect');
+    const formationSelect = document.getElementById('formationSelect');
+    const autoFillBtn = document.getElementById('autoFillBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const playerSearch = document.getElementById('playerSearch');
+    const rosterList = document.getElementById('rosterList');
+    const rosterCount = document.getElementById('rosterCount');
+    const pitch = document.getElementById('pitch');
+    const lineupTitle = document.getElementById('lineupTitle');
+    const lineupCount = document.getElementById('lineupCount');
+    const formationBadge = document.getElementById('formationBadge');
+    const lineupSummary = document.getElementById('lineupSummary');
+    const saveBtn = document.getElementById('saveBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const saveStatus = document.getElementById('saveStatus');
+    const addCustomBtn = document.getElementById('addCustomBtn');
+    const customName = document.getElementById('customName');
+    const customRole = document.getElementById('customRole');
+    const customClub = document.getElementById('customClub');
+
+    const getVisiblePlayers = () => {
+      const query = String(playerSearch.value || '').trim().toLowerCase();
+      return players.filter((player) => {
+        const matchesTeam = !state.teamId || player.team === state.teamId;
+        const text = `${player.name} ${player.club || ''} ${player.position}`.toLowerCase();
+        const matchesQuery = !query || text.includes(query);
+        return matchesTeam && matchesQuery;
+      });
+    };
+
+    const labelTeam = (teamId) => teamsForClient.find((team) => team.id === teamId)?.name || 'Modo libre';
+
+    const hydrate = () => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (saved.teamId) state.teamId = saved.teamId;
+        if (saved.formation && FORMATIONS[saved.formation]) state.formation = saved.formation;
+        if (Array.isArray(saved.lineup)) state.lineup = saved.lineup.slice(0, MAX_PLAYERS);
+        if (teamSelect) teamSelect.value = state.teamId;
+        if (formationSelect) formationSelect.value = state.formation;
+      } catch {}
+    };
+
+    const persist = () => {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        teamId: state.teamId,
+        formation: state.formation,
+        lineup: state.lineup,
+      }));
+    };
+
+    const renderRoster = () => {
+      const visible = getVisiblePlayers();
+      rosterCount.textContent = `${visible.length}`;
+      rosterList.innerHTML = visible.slice(0, 80).map((player) => `
+        <article class="roster-item">
+          <div>
+            <strong>${player.name}</strong>
+            <small>${player.position}${player.club ? ` • ${player.club}` : ''}</small>
+          </div>
+          <button class="mini-action" data-add-player="${player.id}" type="button">Añadir</button>
+        </article>
+      `).join('');
+
+      rosterList.querySelectorAll('[data-add-player]').forEach((button) => {
+        button.addEventListener('click', () => addPlayer(button.dataset.addPlayer));
+      });
+    };
+
+    const renderSummary = () => {
+      lineupSummary.innerHTML = state.lineup.length > 0
+        ? state.lineup.map((player, index) => `
+            <div class="summary-item">
+              <span>${index + 1}. ${player.name}</span>
+              <small>${player.position}${player.club ? ` • ${player.club}` : ''}</small>
+            </div>
+          `).join('')
+        : '<div class="empty-state small-empty">Tu alineación aparecerá aquí.</div>';
+    };
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    const renderPitch = () => {
+      lineupTitle.textContent = labelTeam(state.teamId);
+      lineupCount.textContent = `${state.lineup.length} / ${MAX_PLAYERS}`;
+      formationBadge.textContent = state.formation;
+      pitch.innerHTML = `
+        <div class="pitch-markings">
+          <div class="mid-line"></div>
+          <div class="center-circle"></div>
+          <div class="box top-box"></div>
+          <div class="box bottom-box"></div>
+        </div>
+        ${state.lineup.map((player) => `
+          <button
+            type="button"
+            class="pitch-player"
+            data-player-id="${player.id}"
+            style="left:${player.x}%; top:${player.y}%;"
+            aria-label="${player.name} en la cancha"
+          >
+            <span class="shirt-number">${player.number || player.position?.charAt(0) || '?'}</span>
+            <span class="shirt-name">${player.name}</span>
+          </button>
+        `).join('')}
+      `;
+
+      pitch.querySelectorAll('.pitch-player').forEach((node) => {
+        const playerId = node.dataset.playerId;
+        const onPointerDown = (event) => {
+          const rect = node.getBoundingClientRect();
+          state.dragId = playerId;
+          state.pointerOffsetX = event.clientX - rect.left;
+          state.pointerOffsetY = event.clientY - rect.top;
+          node.setPointerCapture?.(event.pointerId);
+          node.classList.add('dragging');
+        };
+        const onPointerMove = (event) => {
+          if (state.dragId !== playerId) return;
+          const pitchRect = pitch.getBoundingClientRect();
+          const x = ((event.clientX - pitchRect.left - state.pointerOffsetX + 28) / pitchRect.width) * 100;
+          const y = ((event.clientY - pitchRect.top - state.pointerOffsetY + 28) / pitchRect.height) * 100;
+          updatePlayerPosition(playerId, clamp(x, 8, 92), clamp(y, 8, 92), false);
+        };
+        const onPointerUp = (event) => {
+          if (state.dragId !== playerId) return;
+          state.dragId = null;
+          node.releasePointerCapture?.(event.pointerId);
+          node.classList.remove('dragging');
+          persist();
+        };
+        node.addEventListener('pointerdown', onPointerDown);
+        node.addEventListener('pointermove', onPointerMove);
+        node.addEventListener('pointerup', onPointerUp);
+        node.addEventListener('dblclick', () => removePlayer(playerId));
+      });
+
+      renderSummary();
+    };
+
+    const updatePlayerPosition = (id, x, y, rerender = true) => {
+      const player = state.lineup.find((item) => item.id === id);
+      if (!player) return;
+      player.x = x;
+      player.y = y;
+      if (rerender) {
+        renderPitch();
+        persist();
+      } else {
+        const node = pitch.querySelector(`[data-player-id="${id}"]`);
+        if (node) {
+          node.style.left = `${x}%`;
+          node.style.top = `${y}%`;
+        }
+      }
+    };
+
+    const addPlayer = (playerId, custom = null) => {
+      if (state.lineup.length >= MAX_PLAYERS) {
+        saveStatus.textContent = 'Tu once ya está completo. Quita una ficha para añadir otra.';
+        return;
+      }
+      if (state.lineup.some((player) => player.id === playerId)) {
+        saveStatus.textContent = 'Ese jugador ya está en tu once.';
+        return;
+      }
+      const source = custom || players.find((player) => player.id === playerId);
+      if (!source) return;
+      const formationPoints = FORMATIONS[state.formation] || FORMATIONS['4-3-3'];
+      const coords = formationPoints[state.lineup.length] || [50, 50];
+      state.lineup.push({
+        id: source.id,
+        name: source.name,
+        position: source.position || 'Jugador',
+        number: source.number || '',
+        club: source.club || '',
+        x: coords[0],
+        y: coords[1],
+      });
+      saveStatus.textContent = `${source.name} se añadió a la cancha.`;
+      renderPitch();
+      persist();
+    };
+
+    const removePlayer = (playerId) => {
+      state.lineup = state.lineup.filter((player) => player.id !== playerId);
+      saveStatus.textContent = 'Jugador eliminado de la cancha.';
+      renderPitch();
+      persist();
+    };
+
+    const autoFill = () => {
+      const sourcePlayers = players.filter((player) => !state.teamId || player.team === state.teamId).slice(0, MAX_PLAYERS);
+      state.lineup = [];
+      sourcePlayers.forEach((player) => addPlayer(player.id));
+      saveStatus.textContent = sourcePlayers.length > 0 ? 'Se cargó una base inicial para tu once.' : 'No hay suficientes jugadores para esa selección todavía.';
+      renderPitch();
+      persist();
+    };
+
+    const clearAll = () => {
+      state.lineup = [];
+      saveStatus.textContent = 'Cancha reiniciada.';
+      renderPitch();
+      persist();
+    };
+
+    const addCustomPlayer = () => {
+      const name = String(customName.value || '').trim();
+      if (!name) {
+        saveStatus.textContent = 'Escribe el nombre del jugador custom.';
+        return;
+      }
+      const custom = {
+        id: `custom-${Date.now()}`,
+        name,
+        position: String(customRole.value || 'Jugador').trim() || 'Jugador',
+        club: String(customClub.value || '').trim(),
+        number: '',
+      };
+      addPlayer(custom.id, custom);
+      customName.value = '';
+      customRole.value = 'Mediocampo';
+      customClub.value = '';
+    };
+
+    const copySummary = async () => {
+      const lines = state.lineup.map((player, index) => `${index + 1}. ${player.name} (${player.position})${player.club ? ` - ${player.club}` : ''}`);
+      const text = `Mi 11 perfecto en FutbolExperto (${labelTeam(state.teamId)} / ${state.formation})\n\n${lines.join('\n')}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        saveStatus.textContent = 'Resumen copiado al portapapeles.';
+      } catch {
+        saveStatus.textContent = 'No se pudo copiar automáticamente.';
+      }
+    };
+
+    hydrate();
+    renderRoster();
+    renderPitch();
+
+    teamSelect?.addEventListener('change', () => {
+      state.teamId = teamSelect.value;
+      renderRoster();
+      lineupTitle.textContent = labelTeam(state.teamId);
+      persist();
+    });
+    formationSelect?.addEventListener('change', () => {
+      state.formation = formationSelect.value;
+      formationBadge.textContent = state.formation;
+      const points = FORMATIONS[state.formation] || FORMATIONS['4-3-3'];
+      state.lineup.forEach((player, index) => {
+        const coords = points[index] || [50, 50];
+        player.x = coords[0];
+        player.y = coords[1];
+      });
+      renderPitch();
+      persist();
+    });
+    playerSearch?.addEventListener('input', renderRoster);
+    autoFillBtn?.addEventListener('click', autoFill);
+    clearBtn?.addEventListener('click', clearAll);
+    addCustomBtn?.addEventListener('click', addCustomPlayer);
+    saveBtn?.addEventListener('click', () => {
+      persist();
+      saveStatus.textContent = 'Tu 11 quedó guardado en este dispositivo.';
+    });
+    copyBtn?.addEventListener('click', copySummary);
+  </script>
+</Layout>
+
+<style>
+  .builder-hero {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 1rem;
+    align-items: stretch;
+    margin-bottom: 1rem;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+  }
+  .builder-hero h1 {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    margin-bottom: 0.6rem;
+  }
+  .page-desc {
+    color: #333333;
+    max-width: 760px;
+    font-weight: 600;
+  }
+  .hero-note {
+    padding: 1rem;
+    border-color: var(--accent-violet);
+    box-shadow: 8px 8px 0 var(--accent-violet-soft);
+  }
+  .hero-note strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  .hero-note p {
+    color: #333333;
+    font-size: 0.92rem;
+  }
+
+  .builder-shell {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+  .builder-sidebar {
+    padding: 1rem;
+    position: sticky;
+    top: 82px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .sidebar-block {
+    border: 2px solid #000000;
+    padding: 0.9rem;
+    background: #ffffff;
+  }
+  .sidebar-title {
+    font-size: 0.84rem;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+  }
+  .field-label {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    color: #666666;
+  }
+  .toolbar-select,
+  .text-input {
+    width: 100%;
+    border: 2px solid #000000;
+    background: #ffffff;
+    padding: 0.75rem 0.85rem;
+    font: inherit;
+    margin-bottom: 0.8rem;
+  }
+  .action-row,
+  .action-stack {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .roster-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .roster-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    max-height: 420px;
+    overflow: auto;
+    padding-right: 0.2rem;
+  }
+  .roster-item {
+    border: 2px solid #000000;
+    padding: 0.65rem 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .roster-item strong {
+    display: block;
+    font-size: 0.84rem;
+    line-height: 1.2;
+  }
+  .roster-item small {
+    display: block;
+    color: #666666;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .mini-action {
+    border: 2px solid #000000;
+    background: #ffffff;
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0.35rem 0.55rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .custom-grid {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .small-note {
+    color: #666666;
+    font-size: 0.76rem;
+    margin-top: 0.6rem;
+  }
+
+  .builder-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .builder-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: end;
+  }
+  .builder-topline h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+  }
+  .lineup-meta {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .pitch {
+    position: relative;
+    min-height: 760px;
+    background: linear-gradient(180deg, #1b8a43 0%, #16753a 100%);
+    overflow: hidden;
+    box-shadow: 10px 10px 0 var(--accent-green-soft);
+  }
+  .pitch::before,
+  .pitch::after {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border: 3px solid rgba(255,255,255,0.9);
+    pointer-events: none;
+  }
+  .pitch::after {
+    inset: 50% 18px auto 18px;
+    height: 0;
+    border-width: 3px 0 0 0;
+  }
+  .pitch-markings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .mid-line {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    right: 18px;
+    border-top: 3px solid rgba(255,255,255,0.9);
+  }
+  .center-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    border: 3px solid rgba(255,255,255,0.9);
+    border-radius: 999px;
+  }
+  .box {
+    position: absolute;
+    left: 50%;
+    width: 42%;
+    transform: translateX(-50%);
+    border: 3px solid rgba(255,255,255,0.9);
+    height: 110px;
+  }
+  .top-box { top: 18px; border-bottom: none; }
+  .bottom-box { bottom: 18px; border-top: none; }
+
+  .pitch-player {
+    position: absolute;
+    width: 92px;
+    min-height: 74px;
+    border: 3px solid #000000;
+    background: #ffffff;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.35rem;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
+  }
+  .pitch-player.dragging {
+    cursor: grabbing;
+  }
+  .shirt-number {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000000;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    background: var(--accent-amber-soft);
+  }
+  .shirt-name {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.15;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .bench {
+    padding: 1rem;
+  }
+  .bench-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    align-items: end;
+  }
+  .bench-head h3 {
+    font-size: 0.95rem;
+  }
+  .bench-head small {
+    color: #666666;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .summary-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .summary-item {
+    border: 2px solid #000000;
+    padding: 0.7rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .summary-item span {
+    font-size: 0.88rem;
+    font-weight: 800;
+  }
+  .summary-item small {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: 700;
+  }
+  .small-empty {
+    padding: 1rem;
+  }
+
+  @media (max-width: 1100px) {
+    .builder-shell,
+    .builder-hero {
+      grid-template-columns: 1fr;
+    }
+    .builder-sidebar {
+      position: static;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .builder-topline,
+    .bench-head,
+    .summary-list {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+    .pitch {
+      min-height: 620px;
+    }
+    .pitch-player {
+      width: 84px;
+      min-height: 68px;
+    }
+  }
+</style>
