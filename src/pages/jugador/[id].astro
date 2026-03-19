@@ -21,6 +21,10 @@ const realNews = await getNewsByPlayer(player.id, 10);
 const staticNews = player.news || [];
 const allNews = [...realNews, ...staticNews].slice(0, 15);
 
+if (allNews.length === 0) {
+  return Astro.redirect('/jugadores');
+}
+
 const allTeams = await getCollection('teams');
 const team = allTeams.find(t => t.data.id === player.team);
 
@@ -50,13 +54,13 @@ const playerSchema = {
       jobTitle: player.position,
       image: player.photo || undefined,
       memberOf: team ? { '@type': 'SportsTeam', name: team.data.name, url: `https://futbolexperto.com/equipo/${team.data.id}` } : undefined,
-      description: `Perfil y noticias de ${player.name} en FutbolExperto rumbo al Mundial 2026.`,
+      description: `Perfil y noticias de ${player.name} en FutbolExperto para Futbol 2026.`,
     },
   ],
 };
 ---
 
-<Layout title={`${player.name} - FutbolExperto`} description={`Perfil, noticias y contexto de ${player.name}${team ? `, jugador de ${team.data.name}` : ''}, rumbo al Mundial 2026.`}>
+<Layout title={`${player.name} - FutbolExperto`} description={`Perfil, noticias y contexto de ${player.name}${team ? `, jugador de ${team.data.name}` : ''}, para Futbol 2026.`}>
   <Fragment slot="head">
     <script type="application/ld+json" is:inline set:html={JSON.stringify(playerSchema)} />
   </Fragment>

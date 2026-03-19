@@ -6,13 +6,15 @@ import { getNewsCounts } from '../lib/pocketbase';
 export const prerender = false;
 
 const allPlayers = await getCollection('players');
-const players = allPlayers.sort((a, b) => a.data.name.localeCompare(b.data.name));
-
 const newsCounts = await getNewsCounts();
 
-const teams = [...new Set(allPlayers.map(p => p.data.team))].sort();
-const positions = [...new Set(allPlayers.map(p => p.data.position))].sort();
-const statuses = [...new Set(allPlayers.map(p => p.data.status || 'prelista'))].sort();
+const players = allPlayers
+  .filter((player) => (newsCounts[player.data.id] || 0) > 0)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const teams = [...new Set(players.map(p => p.data.team))].sort();
+const positions = [...new Set(players.map(p => p.data.position))].sort();
+const statuses = [...new Set(players.map(p => p.data.status || 'prelista'))].sort();
 
 const playersSchema = {
   '@context': 'https://schema.org',
@@ -26,23 +28,23 @@ const playersSchema = {
     },
     {
       '@type': 'CollectionPage',
-      name: 'Jugadores del Mundial 2026',
+      name: 'Jugadores con cobertura editorial',
       url: 'https://futbolexperto.com/jugadores',
-      description: 'Consulta perfiles, noticias y fichas de jugadores del Mundial 2026 por equipo y posición en FutbolExperto.',
+      description: 'Consulta perfiles, noticias y fichas de jugadores con cobertura editorial activa en FutbolExperto.',
       inLanguage: 'es',
     },
   ],
 };
 ---
 
-<Layout title="Jugadores del Mundial 2026 - FutbolExperto" description="Consulta perfiles, noticias y fichas de jugadores del Mundial 2026 por equipo y posición en FutbolExperto.">
+<Layout title="Jugadores con noticias - FutbolExperto" description="Consulta perfiles, noticias y fichas de jugadores con cobertura editorial activa en FutbolExperto.">
   <Fragment slot="head">
     <script type="application/ld+json" is:inline set:html={JSON.stringify(playersSchema)} />
   </Fragment>
   <main class="container section">
     <div class="page-header">
-      <h1>Jugadores del Mundial 2026</h1>
-      <p class="page-desc">Todos los futbolistas participantes en el torneo</p>
+      <h1>Jugadores con noticias</h1>
+      <p class="page-desc">Solo mostramos futbolistas con cobertura editorial activa.</p>
     </div>
 
     <!-- Filters -->
