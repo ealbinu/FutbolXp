@@ -1,7 +1,7 @@
 ---
 const { 
-  title = 'FutbolExperto - Mundial 2026', 
-  description = 'Noticias, partidos y cobertura total en tiempo real de los equipos y jugadores del Mundial 2026 en México, USA y Canadá.',
+  title = 'FutbolExperto', 
+  description = 'Noticias, análisis y cobertura editorial de equipos y jugadores en FutbolExperto.',
   image = '/og-image.svg',
   type = 'website',
   noindex = false,
@@ -28,7 +28,7 @@ const globalSchema = {
       name: 'FutbolExperto.com',
       alternateName: 'FutbolExperto',
       url: 'https://futbolexperto.com',
-      description: 'Cobertura editorial, noticias y análisis del Mundial 2026.',
+      description: 'Cobertura editorial, noticias y análisis de Futbol 2026.',
       publisher: { '@id': 'https://futbolexperto.com/#organization' },
       potentialAction: {
         '@type': 'SearchAction',
@@ -47,7 +47,7 @@ const globalSchema = {
     },
     {
       '@type': 'SportsEvent',
-      name: 'Copa Mundial de la FIFA 2026',
+      name: 'Futbol 2026',
       startDate: '2026-06-11',
       endDate: '2026-07-19',
       eventStatus: 'https://schema.org/EventScheduled',
@@ -64,7 +64,7 @@ const globalSchema = {
       image: ['https://futbolexperto.com/og-image.svg'],
       offers: {
         '@type': 'Offer',
-        url: 'https://futbolexperto.com/partidos',
+        url: 'https://futbolexperto.com/noticias',
         price: '0',
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
@@ -96,7 +96,7 @@ const globalSchema = {
           },
         },
       ],
-      description: 'La XXIII edición de la Copa Mundial de Fútbol masculino organizada por la FIFA.',
+      description: 'Cobertura editorial de Futbol 2026 en FutbolExperto.',
     },
   ],
 };
@@ -672,7 +672,6 @@ const globalSchema = {
             <li><a href="/analista" class:list={[{ active: currentPath.startsWith('/analista') }]}>Analista</a></li>
             <li><a href="/tu-11" class:list={[{ active: currentPath.startsWith('/tu-11') }]}>Tu 11</a></li>
             <li><a href="/jugadores" class:list={[{ active: currentPath.startsWith('/jugadores') || currentPath.startsWith('/jugador') }]}>Jugadores</a></li>
-            <li><a href="/partidos" class:list={[{ active: currentPath.startsWith('/partidos') }]}>Partidos</a></li>
           </ul>
         </nav>
       </div>
@@ -684,7 +683,7 @@ const globalSchema = {
       <div class="container footer-inner">
         <div class="footer-brand">FutbolExperto.com &copy; 2026</div>
         <div class="footer-info">
-          <span><span class="pulse"></span>¡Noticias del mundial actualizadas!</span>
+          <span><span class="pulse"></span>¡Noticias de futbol actualizadas!</span>
         </div>
       </div>
     </footer>

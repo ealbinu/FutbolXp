@@ -8,7 +8,6 @@ const routes = [
   '/analista/comparar/',
   '/jugadores/',
   '/noticias/',
-  '/partidos/',
 ];
 
 export const GET: APIRoute = async () => {
