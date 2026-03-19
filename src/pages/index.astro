@@ -50,33 +50,17 @@ const formatDate = (dateString: string) => {
 };
 ---
 
-<Layout title="FutbolExperto - Cobertura Total del Mundial 2026">
+<Layout title="FutbolExperto - Cobertura Total Futbol 2026">
   <main>
     <!-- Hero -->
     <section class="hero">
       <div class="container hero-inner">
-        <div class="hero-badge">MUNDIAL 2026</div>
-        <h1 class="hero-title">Cobertura Total<br />del <span class="gradient-text">Mundial 2026</span></h1>
-        <p class="hero-subtitle">México, USA y Canadá &bull; 48 Equipos &bull; ¡Lo último del camino al 2026!</p>
+        <div class="hero-badge">FUTBOL 2026</div>
+        <h1 class="hero-title">Cobertura Total<br />del <span class="gradient-text">Futbol 2026</span></h1>
+        <p class="hero-subtitle">Noticias, análisis y seguimiento editorial de selecciones, jugadores y actualidad del futbol.</p>
         <div class="hero-actions">
           <a href="/noticias" class="btn btn-primary">Ver Noticias</a>
           <a href="#equipos" class="btn btn-ghost">Explorar Equipos</a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-value">{teams.length}</div>
-            <div class="stat-label">Equipos</div>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <div class="stat-value">16</div>
-            <div class="stat-label">Ciudades</div>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Países Sede</div>
-          </div>
         </div>
       </div>
     </section>
@@ -355,29 +339,6 @@ const formatDate = (dateString: string) => {
     justify-content: center;
     margin-bottom: 3rem;
   }
-  .hero-stats {
-    display: inline-flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 1rem 2rem;
-    background: #ffffff;
-    border: 3px solid #000000;
-  }
-  .stat { text-align: center; }
-  .stat-value {
-    font-family: 'Google Sans Flex Text', sans-serif;
-    font-size: 2rem;
-    font-weight: 900;
-  }
-  .stat-label {
-    font-size: 0.7rem;
-    color: #666666;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-  }
-  .stat-divider { width: 3px; height: 36px; background: #000000; }
-
   .deferred-section {
     content-visibility: auto;
     contain-intrinsic-size: 1px 1200px;
@@ -690,8 +651,6 @@ const formatDate = (dateString: string) => {
 
   @media (max-width: 768px) {
     .hero { padding: 3rem 0 2rem; }
-    .hero-stats { gap: 1rem; padding: 0.75rem 1rem; width: 100%; max-width: 360px; justify-content: center; }
-    .stat-divider { display: none; }
     .teams-grid, .news-grid, .analyst-preview-grid, .home-insight-grid { grid-template-columns: 1fr; }
     .hero-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin-inline: auto; }
     .analyst-home-head { flex-direction: column; align-items: stretch; }

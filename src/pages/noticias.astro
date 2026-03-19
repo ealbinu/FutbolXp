@@ -62,25 +62,25 @@ const newsListSchema = {
     },
     {
       '@type': 'CollectionPage',
-      name: `Noticias del Mundial 2026${page > 1 ? ` - Página ${page}` : ''}`,
+      name: `Noticias de Futbol 2026${page > 1 ? ` - Página ${page}` : ''}`,
       url: pageUrl,
-      description: 'Últimas noticias, reportes y contexto editorial del Mundial 2026, con cobertura de selecciones, figuras y torneo en tiempo real.',
+      description: 'Últimas noticias, reportes y contexto editorial de Futbol 2026, con cobertura de selecciones, figuras y actualidad en tiempo real.',
       inLanguage: 'es',
     },
   ],
 };
 ---
 
-<Layout title="Noticias del Mundial 2026 - FutbolExperto" description="Últimas noticias, reportes y contexto editorial del Mundial 2026, con cobertura de selecciones, figuras y torneo en tiempo real.">
+<Layout title="Noticias de Futbol 2026 - FutbolExperto" description="Últimas noticias, reportes y contexto editorial de Futbol 2026, con cobertura de selecciones, figuras y actualidad en tiempo real.">
   <Fragment slot="head">
     <script type="application/ld+json" is:inline set:html={JSON.stringify(newsListSchema)} />
   </Fragment>
   <main class="container section">
     <div class="page-header">
-      <h1>Noticias del Mundial 2026</h1>
+      <h1>Noticias de Futbol 2026</h1>
       <p class="page-desc">
         <span class="pulse"></span>
-        ¡Analizando el pulso del mundial! &bull; Página {page} de {totalPages || 1}
+        ¡Analizando el pulso del futbol! &bull; Página {page} de {totalPages || 1}
       </p>
     </div>
 

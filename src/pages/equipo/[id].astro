@@ -91,17 +91,17 @@ const teamSchema = {
       sport: 'Soccer',
       memberOf: {
         '@type': 'SportsOrganization',
-        name: 'Copa Mundial de la FIFA 2026',
+        name: 'Futbol 2026',
       },
       nationality: team.continent,
-      description: `Perfil, noticias y análisis de ${team.name} en FutbolExperto rumbo al Mundial 2026.`,
+      description: `Perfil, noticias y análisis de ${team.name} en FutbolExperto para Futbol 2026.`,
       image: team.flag ? [team.flag] : undefined,
     },
   ],
 };
 ---
 
-<Layout title={`${team.name} - FutbolExperto`} description={`Noticias, contexto y análisis de ${team.name} rumbo al Mundial 2026. Grupo ${team.group || 'por definir'}, ${team.continent}.`}>
+<Layout title={`${team.name} - FutbolExperto`} description={`Noticias, contexto y análisis de ${team.name} para Futbol 2026. Grupo ${team.group || 'por definir'}, ${team.continent}.`}>
   <Fragment slot="head">
     <script type="application/ld+json" is:inline set:html={JSON.stringify(teamSchema)} />
   </Fragment>
