@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "sessionId": "6e4ec635-634c-4895-88c1-648d02ce2b14",
+  "sessionFile": "/Users/fldsmdfr/.pi/agent/sessions/--Users-fldsmdfr-Documents-GitHub-FutbolXp--/2026-03-19T22-59-35-633Z_6e4ec635-634c-4895-88c1-648d02ce2b14.jsonl",
+  "cwd": "/Users/fldsmdfr/Documents/GitHub/FutbolXp",
+  "ignoreLegacyPiSessionEntries": true,
+  "legacyMigration": {
+    "performedAt": "2026-03-19T22:59:35.670Z",
+    "importedLegacyEntries": false,
+    "legacyStateEntryCount": 0,
+    "legacyUsageEntryCount": 0,
+    "note": "Legacy suggester-state/suggester-usage pi session entries were imported once into extension-owned storage and are ignored afterwards."
+  }
+}

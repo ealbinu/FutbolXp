@@ -1,0 +1,14 @@
+{
+  "stateVersion": 8,
+  "steeringHistory": [
+    {
+      "turnId": "880d8c5f",
+      "suggestedPrompt": "Revisa por qué el deploy no está exponiendo /robots.txt en producción.",
+      "actualUserPrompt": "Lo siento, más bien el problema es este:",
+      "classification": "changed_course",
+      "similarity": 0.18744588744588744,
+      "timestamp": "2026-03-19T23:04:51.987Z"
+    }
+  ],
+  "turnsSinceLastStalenessCheck": 1
+}

@@ -1,0 +1,46 @@
+{
+  "stateVersion": 8,
+  "steeringHistory": [
+    {
+      "turnId": "880d8c5f",
+      "suggestedPrompt": "Revisa por qué el deploy no está exponiendo /robots.txt en producción.",
+      "actualUserPrompt": "Lo siento, más bien el problema es este:",
+      "classification": "changed_course",
+      "similarity": 0.18744588744588744,
+      "timestamp": "2026-03-19T23:04:51.987Z"
+    },
+    {
+      "turnId": "4b942c41",
+      "suggestedPrompt": "Sí, revisa si conviene dejar solo un sitemap.",
+      "actualUserPrompt": "sí.... sólo deja el sitemap principal. Tengo un redirect www to non-www",
+      "classification": "changed_course",
+      "similarity": 0.26926977687626774,
+      "timestamp": "2026-03-19T23:06:21.792Z"
+    },
+    {
+      "turnId": "fbde85e3",
+      "suggestedPrompt": "sí, revisa si conviene eliminar sitemap-index.xml del build",
+      "actualUserPrompt": "deploy",
+      "classification": "changed_course",
+      "similarity": 0.046153846153846156,
+      "timestamp": "2026-03-19T23:07:32.112Z"
+    },
+    {
+      "turnId": "566f36f4",
+      "suggestedPrompt": "sí, deja el commit hecho aquí",
+      "actualUserPrompt": "pushealo",
+      "classification": "changed_course",
+      "similarity": 0.13513513513513514,
+      "timestamp": "2026-03-20T18:44:22.766Z"
+    },
+    {
+      "turnId": "d5c41f9a",
+      "suggestedPrompt": "sí, revisa que en producción ya esté sirviendo la versión nueva.",
+      "actualUserPrompt": "hay estos problemas en google search console > events",
+      "classification": "changed_course",
+      "similarity": 0.2058029689608637,
+      "timestamp": "2026-03-20T18:44:52.779Z"
+    }
+  ],
+  "turnsSinceLastStalenessCheck": 5
+}

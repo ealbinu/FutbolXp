@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:futbolxp.pockethost.io)",
+      "Bash(curl -s -X POST 'https://futbolxp.pockethost.io/api/collections/_superusers/auth-with-password' -H 'Content-Type: application/json' -d '{\"\"\"\"identity\"\"\"\":\"\"\"\"pegaso@agentmail.to\"\"\"\",\"\"\"\"password\"\"\"\":\"\"\"\"WiKCaJLJqdtXD65\"\"\"\"}')",
+      "Bash(PB_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJwYmNfMzE0MjYzNTgyMyIsImV4cCI6MTc3MzUxMjg0NSwiaWQiOiI3dTN4eWlvcXJhN3M4eGwiLCJyZWZyZXNoYWJsZSI6dHJ1ZSwidHlwZSI6ImF1dGgifQ.OxoJv7kCCaCH6S73qYnXRWRQV0xJBG86mzvf8nzz7bc\" curl -s 'https://futbolxp.pockethost.io/api/collections' -H \"Authorization: Bearer $PB_TOKEN\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(npm install:*)",
+      "Bash(npx astro:*)",
+      "Bash(node scripts/convert-data.js)",
+      "Bash(node /Users/fldsmdfr/Documents/GitHub/FutbolXp/scripts/convert-data.cjs)",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d[''''version'''']\\)\")",
+      "Bash(grep -r export.*loader node_modules/astro/dist/content/ --include=*.d.ts)",
+      "Bash(node scripts/update-news.js)"
+    ]
+  }
+}
