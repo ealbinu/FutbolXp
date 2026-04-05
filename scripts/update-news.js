@@ -466,10 +466,10 @@ async function main() {
   const rssArticles = await fetchArticles();
   const crawlArticles = await fetchCrawlArticles();
   
-  // Prioritize crawl articles (El Futbolero) by placing them first
-  const allArticles = [...crawlArticles, ...rssArticles];
-  
-  const articles = allArticles.slice(0, 60); // Increased limit to process more
+  // RSS articles go first to ensure they are always processed
+  const allArticles = [...rssArticles, ...crawlArticles];
+
+  const articles = allArticles.slice(0, 100);
   console.log(`Processing total of ${articles.length} articles...`);
   
   for (const art of crawlArticles) {
