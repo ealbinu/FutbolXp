@@ -516,8 +516,9 @@
     "id": "republica-checa",
     "name": "República Checa",
     "code": "CZE",
+    "group": "A",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w160/cz.png",
     "officialSite": "https://fotbal.cz",
     "social": {
@@ -532,8 +533,9 @@
     "id": "turquia",
     "name": "Turquía",
     "code": "TUR",
+    "group": "D",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w160/tr.png",
     "officialSite": "https://tff.org",
     "social": {
@@ -548,8 +550,9 @@
     "id": "suecia",
     "name": "Suecia",
     "code": "SWE",
+    "group": "F",
     "continent": "Europe",
-    "qualified": false,
+    "qualified": true,
     "flag": "https://flagcdn.com/w160/se.png",
     "officialSite": "https://svenskfotboll.se",
     "social": {
@@ -876,55 +879,120 @@
     "id": "haiti",
     "name": "Haití",
     "code": "HAI",
-    "continent": "Por Definir",
+    "group": "C",
+    "continent": "North America",
     "qualified": true,
     "flag": "https://flagcdn.com/w160/ht.png",
+    "officialSite": "https://fhf.ht",
+    "social": {
+      "twitter": "https://twitter.com/fhf_officiel"
+    },
     "players": [],
-    "news": [],
-    "group": "C"
+    "news": []
   },
   {
     "id": "curazao",
     "name": "Curazao",
-    "code": "CUR",
-    "continent": "Por Definir",
+    "code": "CUW",
+    "group": "E",
+    "continent": "North America",
     "qualified": true,
-    "flag": "https://flagcdn.com/w160/cu.png",
+    "flag": "https://flagcdn.com/w160/cw.png",
+    "officialSite": "https://ffa.cw",
+    "social": {
+      "twitter": "https://twitter.com/FFAcuracao"
+    },
     "players": [],
-    "news": [],
-    "group": "E"
+    "news": []
   },
   {
     "id": "noruega",
     "name": "Noruega",
     "code": "NOR",
-    "continent": "Por Definir",
+    "group": "I",
+    "continent": "Europe",
     "qualified": true,
     "flag": "https://flagcdn.com/w160/no.png",
+    "officialSite": "https://fotball.no",
+    "social": {
+      "twitter": "https://twitter.com/nff_org"
+    },
     "players": [],
-    "news": [],
-    "group": "I"
+    "news": []
   },
   {
     "id": "catar",
     "name": "Catar",
-    "code": "CAT",
-    "continent": "Por Definir",
+    "code": "QAT",
+    "group": "B",
+    "continent": "Asia",
     "qualified": true,
     "flag": "https://flagcdn.com/w160/qa.png",
+    "officialSite": "https://qfa.qa",
+    "social": {
+      "twitter": "https://twitter.com/QFA"
+    },
     "players": [],
-    "news": [],
-    "group": "B"
+    "news": []
   },
   {
     "id": "cabo-verde",
     "name": "Cabo Verde",
-    "code": "CAB",
-    "continent": "Por Definir",
+    "code": "CPV",
+    "group": "H",
+    "continent": "Africa",
     "qualified": true,
     "flag": "https://flagcdn.com/w160/cv.png",
+    "officialSite": "https://fcf.cv",
+    "social": {
+      "twitter": "https://twitter.com/FCF_CV"
+    },
     "players": [],
-    "news": [],
-    "group": "H"
+    "news": []
+  },
+  {
+    "id": "bosnia",
+    "name": "Bosnia y Herzegovina",
+    "code": "BIH",
+    "group": "B",
+    "continent": "Europe",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w160/ba.png",
+    "officialSite": "https://nfsbih.ba",
+    "social": {
+      "twitter": "https://twitter.com/NFSBiH"
+    },
+    "players": [],
+    "news": []
+  },
+  {
+    "id": "irak",
+    "name": "Irak",
+    "code": "IRQ",
+    "group": "I",
+    "continent": "Asia",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w160/iq.png",
+    "officialSite": "https://iraqifa.com",
+    "social": {
+      "twitter": "https://twitter.com/IraqiFA"
+    },
+    "players": [],
+    "news": []
+  },
+  {
+    "id": "rd-congo",
+    "name": "RD Congo",
+    "code": "COD",
+    "group": "K",
+    "continent": "Africa",
+    "qualified": true,
+    "flag": "https://flagcdn.com/w160/cd.png",
+    "officialSite": "https://fecofa.cd",
+    "social": {
+      "twitter": "https://twitter.com/fecofa_cd"
+    },
+    "players": [],
+    "news": []
   }
 ]

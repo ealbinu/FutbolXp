@@ -60,5 +60,18 @@ Este documento resume los hitos, decisiones técnicas y funcionalidades implemen
 - El script de noticias incluye `process.exit(0)` para garantizar que el workflow de GitHub termine correctamente.
 - La configuración de Cloudflare tiene activada la compatibilidad con el adaptador `@astrojs/cloudflare`.
 
+### 1. Grupos del Mundial 2026 — Completados (Abril 2026)
+- **48 equipos confirmados** tras el repechaje intercontinental de marzo 2026.
+- Equipos del playoff ahora integrados al data.json con grupo, continente y `qualified: true`:
+  - **Grupo A**: República Checa (antes `qualified: false`)
+  - **Grupo B**: Bosnia y Herzegovina (nuevo)
+  - **Grupo D**: Turquía (antes `qualified: false`)
+  - **Grupo F**: Suecia (antes `qualified: false`)
+  - **Grupo I**: Irak (nuevo)
+  - **Grupo K**: RD Congo (nuevo)
+- **Continentes corregidos** (antes "Por Definir"): Haití → North America, Curazao → North America, Noruega → Europe, Catar → Asia, Cabo Verde → Africa.
+- Grupos ya correctos confirmados: C, E, G, J, L.
+- **Corrección de fix RSS**: El script `update-news.js` ahora procesa artículos RSS primero (240 artículos) antes que el crawl de Cloudflare, resolviendo bug donde 147 artículos vacíos del crawl bloqueaban el guardado. Límite subido de 60 → 100.
+
 ---
-*Última actualización: 17 de Marzo, 2026*
+*Última actualización: 4 de Abril, 2026*
