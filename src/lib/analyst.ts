@@ -261,6 +261,23 @@ export function buildAnalystCards(
       const trendDelta = recentNewsCount - previousWindowCount;
       const trendDirection = trendDelta > 0 ? '↗' : trendDelta < 0 ? '↘' : '→';
 
+      // Build 7-day daily activity buckets (oldest → today)
+      const DAY_LABELS = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+      const now = new Date();
+      const dailyActivity = Array.from({ length: 7 }, (_, i) => {
+        const offsetDays = 6 - i; // 6 days ago → today
+        const dayStart = new Date(now);
+        dayStart.setDate(dayStart.getDate() - offsetDays);
+        dayStart.setHours(0, 0, 0, 0);
+        const dayEnd = dayStart.getTime() + 86400000;
+        const count = sortedItems.filter((item) => {
+          const t = new Date(item.published).getTime();
+          return Number.isFinite(t) && t >= dayStart.getTime() && t < dayEnd;
+        }).length;
+        const label = offsetDays === 0 ? 'HOY' : DAY_LABELS[dayStart.getDay()];
+        return { label, value: count };
+      });
+
       return {
         teamId,
         teamName: team.data.name,
@@ -289,10 +306,7 @@ export function buildAnalystCards(
           published: item.published,
           id: item.id,
         })),
-        trendLine: [previousWindowCount, recentNewsCount, sortedItems.length].map((value, index) => ({
-          label: index === 0 ? 'ventana previa' : index === 1 ? 'semana actual' : 'volumen total',
-          value,
-        })),
+        trendLine: dailyActivity,
         trendDirection: trendDirection as '↗' | '↘' | '→',
       } satisfies AnalystCard;
     })

@@ -14,46 +14,72 @@ interface Props {
 const {
   points = [],
   color = 'var(--accent-blue)',
-  title = 'Tendencia',
+  title = 'Actividad 7 días',
   compact = false,
 } = Astro.props as Props;
 
-const safePoints = points.length > 0 ? points : [{ label: 'sin datos', value: 0 }];
-const maxValue = Math.max(...safePoints.map((point) => point.value), 1);
+const safePoints = points.length > 0 ? points : Array.from({ length: 7 }, (_, i) => ({ label: i === 6 ? 'HOY' : '·', value: 0 }));
+const maxValue = Math.max(...safePoints.map((p) => p.value), 1);
+const totalValue = safePoints.reduce((sum, p) => sum + p.value, 0);
+const peakDay = safePoints.reduce((best, p) => (p.value > best.value ? p : best), safePoints[0]);
+
 const width = compact ? 180 : 260;
-const height = compact ? 52 : 72;
-const paddingX = compact ? 12 : 16;
-const paddingY = compact ? 8 : 12;
-const step = safePoints.length > 1 ? (width - paddingX * 2) / (safePoints.length - 1) : 0;
+const height = compact ? 48 : 64;
+const paddingX = compact ? 8 : 12;
+const paddingY = compact ? 6 : 8;
+const numBars = safePoints.length;
+const slotWidth = (width - paddingX * 2) / numBars;
+const barWidth = Math.max(slotWidth * 0.55, 2);
+const minBarHeight = 2;
 
-const chartPoints = safePoints.map((point, index) => {
-  const x = paddingX + index * step;
-  const normalized = point.value / maxValue;
-  const y = height - paddingY - normalized * (height - paddingY * 2);
-  return { ...point, x, y };
+const bars = safePoints.map((point, index) => {
+  const slot = paddingX + index * slotWidth + (slotWidth - barWidth) / 2;
+  const barH = point.value > 0
+    ? Math.max(minBarHeight, (point.value / maxValue) * (height - paddingY * 2))
+    : minBarHeight;
+  const x = slot;
+  const y = height - paddingY - barH;
+  const isToday = point.label === 'HOY';
+  const isActive = point.value > 0;
+  return { ...point, x, y, barH, isToday, isActive, centerX: slot + barWidth / 2 };
 });
-
-const polyline = chartPoints.map((point) => `${point.x},${point.y}`).join(' ');
 ---
 
 <div class:list={['trend-mini-chart', { compact }]}>
   {!compact && <div class="chart-title">{title}</div>}
   <svg viewBox={`0 0 ${width} ${height}`} class="chart-svg" aria-label={title} role="img">
-    <line x1={paddingX} y1={height - paddingY} x2={width - paddingX} y2={height - paddingY} stroke="#000000" stroke-width="2" />
-    <polyline points={polyline} fill="none" stroke={color} stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" />
-    {chartPoints.map((point) => (
-      <g>
-        <circle cx={point.x} cy={point.y} r="3.5" fill={color} stroke="#000000" stroke-width="1.5" />
-      </g>
+    <!-- baseline -->
+    <line
+      x1={paddingX} y1={height - paddingY}
+      x2={width - paddingX} y2={height - paddingY}
+      stroke="#e0e0e0" stroke-width="1"
+    />
+    {bars.map((bar) => (
+      <rect
+        x={bar.x}
+        y={bar.y}
+        width={barWidth}
+        height={bar.barH}
+        fill={bar.isToday ? color : bar.isActive ? color : '#e0e0e0'}
+        opacity={bar.isToday ? 1 : bar.isActive ? 0.65 : 0.3}
+        rx="1"
+      />
     ))}
   </svg>
-  <div class="chart-labels">
-    {safePoints.map((point) => (
-      <div class="chart-label">
-        <strong>{point.value}</strong>
-        <small>{point.label}</small>
-      </div>
-    ))}
+  <div class="chart-footer">
+    <div class="chart-days">
+      {bars.map((bar) => (
+        <span class:list={['day-label', { today: bar.isToday, active: bar.isActive }]}>
+          {bar.label}
+        </span>
+      ))}
+    </div>
+    <div class="chart-summary">
+      {totalValue > 0
+        ? <><strong>{totalValue}</strong> nota{totalValue !== 1 ? 's' : ''} · pico <strong>{peakDay.value}</strong></>
+        : <span class="no-data">sin actividad</span>
+      }
+    </div>
   </div>
 </div>
 
@@ -78,24 +104,46 @@ const polyline = chartPoints.map((point) => `${point.x},${point.y}`).join(' ');
     width: 100%;
     height: auto;
     display: block;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.3rem;
   }
-  .chart-labels {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.35rem;
+  .chart-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
-  .chart-label strong {
-    display: block;
-    font-size: 0.82rem;
+  .chart-days {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1px;
+  }
+  .day-label {
+    font-size: 0.52rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #cccccc;
+    letter-spacing: 0.03em;
+    text-align: center;
+    flex: 1;
+  }
+  .day-label.active {
+    color: #888888;
+  }
+  .day-label.today {
+    color: #000000;
     font-weight: 900;
   }
-  .chart-label small {
-    display: block;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    color: #666666;
-    font-weight: 800;
-    line-height: 1.25;
+  .chart-summary {
+    font-size: 0.62rem;
+    color: #888888;
+    text-align: right;
+    font-weight: 600;
+  }
+  .chart-summary strong {
+    color: #000000;
+    font-weight: 900;
+  }
+  .no-data {
+    color: #bbbbbb;
+    font-style: italic;
   }
 </style>
