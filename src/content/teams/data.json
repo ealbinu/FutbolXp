@@ -13,10 +13,24 @@
       "instagram": "https://instagram.com/miseleccion"
     },
     "players": [
-      "h-luis-romero",
-      "h-guillermo-martinez",
-      "h-hirving-loanzo",
-      "h-carlos-rodriguez"
+      "mex-guillermo-ochoa",
+      "mex-jorge-sanchez",
+      "mex-cesar-montes",
+      "mex-nestor-araujo",
+      "mex-johan-vasquez",
+      "mex-santiago-gimenez",
+      "mex-carlos-rodriguez",
+      "mex-raul-jimenez",
+      "mex-henry-martin",
+      "mex-luis-malagon",
+      "mex-orbelín-pineda",
+      "mex-charly-rodriguez",
+      "mex-alexis-vega",
+      "mex-edson-alvarez",
+      "mex-andres-guardado",
+      "mex-roberto-alvarado",
+      "mex-hirving-lozano",
+      "mex-gerardo-arteaga"
     ],
     "news": []
   },
@@ -34,9 +48,22 @@
       "instagram": "https://instagram.com/canadasoccer"
     },
     "players": [
-      "h-alphonso-davies",
-      "h-jonathan-david",
-      "h-cyle-larin"
+      "can-alistair-johnston",
+      "can-alphonso-davies",
+      "can-scott-kennedy",
+      "can-derek-cornelius",
+      "can-ismaël-kone",
+      "can-stephen-eustaquio",
+      "can-jonathan-david",
+      "can-cyle-larin",
+      "can-tajon-buchanan",
+      "can-atiba-hutchinson",
+      "can-kamal-miller",
+      "can-maxime-crepeau",
+      "can-sam-adekugbe",
+      "can-milan-borjan",
+      "can-liam-millar",
+      "can-lucas-cavallini"
     ],
     "news": []
   },
@@ -54,10 +81,23 @@
       "instagram": "https://instagram.com/usmnt"
     },
     "players": [
-      "h-christian-pulisic",
-      "h-gio-reyna",
-      "h-folarin-balogun",
-      "h-weston-mckennie"
+      "usa-matt-turner",
+      "usa-sergino-dest",
+      "usa-joe-scally",
+      "usa-chris-richards",
+      "usa-tyler-adams",
+      "usa-antonee-robinson",
+      "usa-yunus-musah",
+      "usa-gio-reyna",
+      "usa-weston-mckennie",
+      "usa-folarin-balogun",
+      "usa-christian-pulisic",
+      "usa-josh-sargent",
+      "usa-zack-steffen",
+      "usa-tim-ream",
+      "usa-luca-de-la-torre",
+      "usa-ricardo-pepi",
+      "usa-timothy-weah"
     ],
     "news": []
   },
@@ -106,7 +146,25 @@
     "social": {
       "twitter": "https://twitter.com/fepafut"
     },
-    "players": [],
+    "players": [
+      "pan-luis-mejia",
+      "pan-michael-amir-murillo",
+      "pan-harold-cummings",
+      "pan-fidel-escobar",
+      "pan-eric-davis",
+      "pan-anibal-godoy",
+      "pan-omar-browne",
+      "pan-adalberto-carrasquilla",
+      "pan-rolando-blackburn",
+      "pan-edgar-barcenas",
+      "pan-ismael-diaz",
+      "pan-jose-calderon",
+      "pan-cesar-yanis",
+      "pan-jose-fajardo",
+      "pan-cecilio-waterman",
+      "pan-gabriel-torres",
+      "pan-miguel-camargo"
+    ],
     "news": []
   },
   {
@@ -123,9 +181,23 @@
       "instagram": "https://instagram.com/argentina"
     },
     "players": [
-      "a-lionel-messi",
-      "a-julian-alvarez",
-      "a-emiliano-martinez"
+      "arg-nicolas-tagliafico",
+      "arg-leandro-paredes",
+      "arg-rodrigo-de-paul",
+      "arg-julian-alvarez",
+      "arg-lionel-messi",
+      "arg-nicolas-gonzalez",
+      "arg-franco-armani",
+      "arg-cristian-romero",
+      "arg-alejandro-garnacho",
+      "arg-nicolas-otamendi",
+      "arg-alexis-mac-allister",
+      "arg-paulo-dybala",
+      "arg-lautaro-martinez",
+      "arg-emiliano-martinez",
+      "arg-enzo-fernandez",
+      "arg-lisandro-martinez",
+      "arg-nahuel-molina"
     ],
     "news": []
   },
@@ -142,9 +214,23 @@
       "twitter": "https://twitter.com/FCF_Oficial"
     },
     "players": [
-      "j-james-rodriguez",
-      "j-luis-diaz",
-      "j-david-ospina"
+      "col-camilo-vargas",
+      "col-daniel-munoz",
+      "col-johan-mojica",
+      "col-davinson-sanchez",
+      "col-wilmar-barrios",
+      "col-luis-diaz",
+      "col-richard-rios",
+      "col-duvan-zapata",
+      "col-james-rodriguez",
+      "col-jhon-arias",
+      "col-david-ospina",
+      "col-yerry-mina",
+      "col-mateus-uribe",
+      "col-santiago-arias",
+      "col-rafael-santos-borre",
+      "col-yaser-asprilla",
+      "col-jhon-janer-cordoba"
     ],
     "news": []
   },
@@ -161,7 +247,22 @@
       "twitter": "https://twitter.com/Ecuafutbol"
     },
     "players": [
-      "e-enner-valencia"
+      "ecu-alexander-dominguez",
+      "ecu-piero-hincapie",
+      "ecu-carlos-gruezo",
+      "ecu-pervis-estupinan",
+      "ecu-michael-estrada",
+      "ecu-moises-caicedo",
+      "ecu-romario-ibarra",
+      "ecu-hernán-galíndez",
+      "ecu-enner-valencia",
+      "ecu-gonzalo-plata",
+      "ecu-jeremy-sarmiento",
+      "ecu-jordy-caicedo",
+      "ecu-kevin-rodriguez",
+      "ecu-angelo-preciado",
+      "ecu-felix-torres",
+      "ecu-william-pacho"
     ],
     "news": []
   },
@@ -178,8 +279,22 @@
       "twitter": "https://twitter.com/Uruguay"
     },
     "players": [
-      "u-federico-valverde",
-      "u-ronaldo-arias"
+      "uru-sergio-rochet",
+      "uru-jose-gimenez",
+      "uru-martin-caceres",
+      "uru-ronald-araujo",
+      "uru-rodrigo-bentancur",
+      "uru-facundo-pellistri",
+      "uru-federico-valverde",
+      "uru-darwin-nunez",
+      "uru-nicolas-de-la-cruz",
+      "uru-maximiliano-araujo",
+      "uru-sebastian-sosa",
+      "uru-manuel-ugarte",
+      "uru-mathias-olivera",
+      "uru-maxi-gomez",
+      "uru-edinson-cavani",
+      "uru-brian-rodriguez"
     ],
     "news": []
   },
@@ -197,10 +312,23 @@
       "instagram": "https://instagram.com/cbf"
     },
     "players": [
-      "b-neymar",
-      "b-vinicius-jr",
-      "b-alisson",
-      "b-casemiro"
+      "bra-alisson-becker",
+      "bra-danilo",
+      "bra-eder-militao",
+      "bra-marquinhos",
+      "bra-casemiro",
+      "bra-alex-sandro",
+      "bra-vinicius-jr",
+      "bra-endrick",
+      "bra-lucas-paqueta",
+      "bra-rodrygo",
+      "bra-bruno-guimaraes",
+      "bra-gabriel-martinelli",
+      "bra-raphinha",
+      "bra-gabriel-barbosa",
+      "bra-pedro",
+      "bra-ederson",
+      "bra-gabriel-magalhaes"
     ],
     "news": []
   },
@@ -216,7 +344,25 @@
     "social": {
       "twitter": "https://twitter.com/APF"
     },
-    "players": [],
+    "players": [
+      "par-antony-silva",
+      "par-fabio-espinoza",
+      "par-junior-alonso",
+      "par-omar-alderete",
+      "par-gustavo-gomez",
+      "par-andres-cubas",
+      "par-julio-enciso",
+      "par-mathias-villasanti",
+      "par-antonio-sanabria",
+      "par-miguel-almiron",
+      "par-braian-samudio",
+      "par-gastón-silva",
+      "par-santiago-arzamendia",
+      "par-robert-morales",
+      "par-richard-sanchez",
+      "par-alex-arce",
+      "par-carlos-gonzalez"
+    ],
     "news": []
   },
   {
@@ -260,7 +406,22 @@
       "twitter": "https://twitter.com/England",
       "instagram": "https://instagram.com/england"
     },
-    "players": [],
+    "players": [
+      "eng-jordan-pickford",
+      "eng-kyle-walker",
+      "eng-trent-alexander-arnold",
+      "eng-declan-rice",
+      "eng-john-stones",
+      "eng-marc-guehi",
+      "eng-bukayo-saka",
+      "eng-phil-foden",
+      "eng-harry-kane",
+      "eng-jude-bellingham",
+      "eng-marcus-rashford",
+      "eng-dean-henderson",
+      "eng-cole-palmer",
+      "eng-levi-colwill"
+    ],
     "news": []
   },
   {
@@ -277,7 +438,20 @@
       "instagram": "https://instagram.com/equipedefrance"
     },
     "players": [
-      "f-kylian-mbappe"
+      "fra-dayot-upamecano",
+      "fra-jules-kounde",
+      "fra-eduardo-camavinga",
+      "fra-bradley-barcola",
+      "fra-aurelien-tchouameni",
+      "fra-marcus-thuram",
+      "fra-kylian-mbappe",
+      "fra-ousmane-dembele",
+      "fra-adrien-rabiot",
+      "fra-mike-maignan",
+      "fra-william-saliba",
+      "fra-warren-zaire-emery",
+      "fra-theo-hernandez",
+      "fra-alphonse-areola"
     ],
     "news": []
   },
@@ -295,9 +469,21 @@
       "instagram": "https://instagram.com/dfb_team"
     },
     "players": [
-      "g-jamal-musiala",
-      "g-toni-kroos",
-      "g-manuel-neuer"
+      "ger-manuel-neuer",
+      "ger-antonio-rudiger",
+      "ger-maximilian-mittelstadt",
+      "ger-jonathan-tah",
+      "ger-joshua-kimmich",
+      "ger-kai-havertz",
+      "ger-leon-goretzka",
+      "ger-niclas-fullkrug",
+      "ger-florian-wirtz",
+      "ger-jamal-musiala",
+      "ger-serge-gnabry",
+      "ger-toni-kroos",
+      "ger-leroy-sane",
+      "ger-marc-andre-ter-stegen",
+      "ger-robert-andrich"
     ],
     "news": []
   },
@@ -315,9 +501,21 @@
       "instagram": "https://instagram.com/spainnationalteam"
     },
     "players": [
-      "e-pedri",
-      "e-gavi",
-      "e-dani-olmo"
+      "esp-unai-simon",
+      "esp-dani-carvajal",
+      "esp-alejandro-grimaldo",
+      "esp-robin-le-normand",
+      "esp-alvaro-morata",
+      "esp-fabian-ruiz",
+      "esp-gavi",
+      "esp-david-raya",
+      "esp-aymeric-laporte",
+      "esp-rodri",
+      "esp-nico-williams",
+      "esp-joselu",
+      "esp-lamine-yamal",
+      "esp-mikel-merino",
+      "esp-pedri"
     ],
     "news": []
   },
@@ -335,9 +533,21 @@
       "instagram": "https://instagram.com/selecaoportugal"
     },
     "players": [
-      "p-cristiano-ronaldo",
-      "p-bruno-fernandes",
-      "p-bernardo-silva"
+      "por-diogo-costa",
+      "por-pepe",
+      "por-ruben-dias",
+      "por-joao-palhinha",
+      "por-cristiano-ronaldo",
+      "por-bruno-fernandes",
+      "por-joao-felix",
+      "por-bernardo-silva",
+      "por-rafael-leao",
+      "por-vitinha",
+      "por-pedro-neto",
+      "por-nuno-mendes",
+      "por-joao-cancelo",
+      "por-rui-patricio",
+      "por-goncalo-ramos"
     ],
     "news": []
   },
@@ -371,8 +581,20 @@
       "twitter": "https://twitter.com/OnsOranje"
     },
     "players": [
-      "n-memphis-depay",
-      "n-frenkie-de-jong"
+      "ned-bart-verbruggen",
+      "ned-matthijs-de-ligt",
+      "ned-virgil-van-dijk",
+      "ned-nathan-ake",
+      "ned-tijjani-reijnders",
+      "ned-stefan-de-vrij",
+      "ned-donyell-malen",
+      "ned-ryan-gravenberch",
+      "ned-wout-weghorst",
+      "ned-xavi-simons",
+      "ned-cody-gakpo",
+      "ned-memphis-depay",
+      "ned-frenkie-de-jong",
+      "ned-denzel-dumfries"
     ],
     "news": []
   },
@@ -389,8 +611,21 @@
       "twitter": "https://twitter.com/BelRedDevils"
     },
     "players": [
-      "b-kevin-de-bruyne",
-      "b-romelu-lukaku"
+      "bel-koen-casteels",
+      "bel-toby-alderweireld",
+      "bel-timothy-castagne",
+      "bel-wout-faes",
+      "bel-jan-vertonghen",
+      "bel-axel-witsel",
+      "bel-kevin-de-bruyne",
+      "bel-youri-tielemans",
+      "bel-romelu-lukaku",
+      "bel-lois-openda",
+      "bel-jeremy-doku",
+      "bel-amadou-onana",
+      "bel-charles-de-ketelaere",
+      "bel-leandro-trossard",
+      "bel-arthur-vermeeren"
     ],
     "news": []
   },
@@ -407,8 +642,21 @@
       "twitter": "https://twitter.com/HNS_CFF"
     },
     "players": [
-      "c-luka-modric",
-      "c-mateo-kovacic"
+      "cro-dominik-livakovic",
+      "cro-josip-stanisic",
+      "cro-borna-sosa",
+      "cro-ivan-perisic",
+      "cro-dejan-lovren",
+      "cro-ivan-rakitic",
+      "cro-mateo-kovacic",
+      "cro-andrej-kramaric",
+      "cro-luka-modric",
+      "cro-marcelo-brozovic",
+      "cro-mario-pasalic",
+      "cro-bruno-petkovic",
+      "cro-nikola-vlasic",
+      "cro-martin-erletic",
+      "cro-josko-gvardiol"
     ],
     "news": []
   },
@@ -457,8 +705,21 @@
       "twitter": "https://twitter.com/nati_football"
     },
     "players": [
-      "s-xherdan-shaqiri",
-      "s-manuel-akanji"
+      "sui-yann-sommer",
+      "sui-silvan-widmer",
+      "sui-nico-elvedi",
+      "sui-manuel-akanji",
+      "sui-breel-embolo",
+      "sui-remo-freuler",
+      "sui-zeki-amdouni",
+      "sui-granit-xhaka",
+      "sui-noah-okafor",
+      "sui-gregor-kobel",
+      "sui-ricardo-rodriguez",
+      "sui-michel-aebischer",
+      "sui-dan-ndoye",
+      "sui-fabian-rieder",
+      "sui-xherdan-shaqiri"
     ],
     "news": []
   },
@@ -475,7 +736,21 @@
       "twitter": "https://twitter.com/oefb"
     },
     "players": [
-      "a-marko-arnautovic"
+      "aut-alexander-schlager",
+      "aut-maximilian-wober",
+      "aut-philipp-lienhart",
+      "aut-stefan-posch",
+      "aut-florian-grillitsch",
+      "aut-sabitzer-marcel",
+      "aut-david-alaba",
+      "aut-marko-arnautovic",
+      "aut-michael-gregoritsch",
+      "aut-patrick-pentz",
+      "aut-romano-schmid",
+      "aut-patrick-wimmer",
+      "aut-christoph-baumgartner",
+      "aut-nicolas-seiwald",
+      "aut-konrad-laimer"
     ],
     "news": []
   },
@@ -508,7 +783,21 @@
       "twitter": "https://twitter.com/ScotlandNT"
     },
     "players": [
-      "s-andy-robertson"
+      "sco-angus-gunn",
+      "sco-kieran-tierney",
+      "sco-liam-cooper",
+      "sco-andrew-robertson",
+      "sco-grant-hanley",
+      "sco-john-mcginn",
+      "sco-scott-mctominay",
+      "sco-lyndon-dykes",
+      "sco-ryan-christie",
+      "sco-che-adams",
+      "sco-jack-butland",
+      "sco-callum-mcgregor",
+      "sco-stuart-armstrong",
+      "sco-kenny-mclean",
+      "sco-billy-gilmour"
     ],
     "news": []
   },
@@ -525,7 +814,21 @@
       "twitter": "https://twitter.com/fotbalcz"
     },
     "players": [
-      "c-patrice-slavick"
+      "cze-tomas-vaclik",
+      "cze-ladislav-krejci",
+      "cze-david-jurasek",
+      "cze-tomas-holes",
+      "cze-tomas-soucek",
+      "cze-adam-hlozek",
+      "cze-lukas-provod",
+      "cze-patrik-schick",
+      "cze-antonin-barak",
+      "cze-matej-jurasek",
+      "cze-vladimir-coufal",
+      "cze-alex-kral",
+      "cze-jakub-pesek",
+      "cze-ondrej-lingr",
+      "cze-jiri-pavlenka"
     ],
     "news": []
   },
@@ -559,7 +862,21 @@
       "twitter": "https://twitter.com/SvenskFotboll"
     },
     "players": [
-      "s-alexander-isak"
+      "swe-robin-olsen",
+      "swe-victor-lindelof",
+      "swe-ludwig-augustinsson",
+      "swe-isak-hien",
+      "swe-alexander-milosevic",
+      "swe-albin-ekdal",
+      "swe-jesper-karlsson",
+      "swe-mattias-svanberg",
+      "swe-viktor-gyokeres",
+      "swe-dejan-kulusevski",
+      "swe-emil-forsberg",
+      "swe-sebastian-larsson",
+      "swe-alexander-isak",
+      "swe-kristoffer-nordfeldt",
+      "swe-mikael-lustig"
     ],
     "news": []
   },
@@ -592,7 +909,21 @@
       "twitter": "https://twitter.com/Maroc__Football"
     },
     "players": [
-      "m-achraf-hakimi"
+      "mar-yassine-bounou",
+      "mar-achraf-hakimi",
+      "mar-jawad-el-yamiq",
+      "mar-sofyan-amrabat",
+      "mar-nayef-aguerd",
+      "mar-romain-saiss",
+      "mar-hakim-ziyech",
+      "mar-azzedine-ounahi",
+      "mar-youssef-en-nesyri",
+      "mar-brahim-diaz",
+      "mar-soufiane-rahimi",
+      "mar-noussair-mazraoui",
+      "mar-selim-amallah",
+      "mar-ilias-chair",
+      "mar-munir-el-haddadi"
     ],
     "news": []
   },
@@ -609,7 +940,21 @@
       "twitter": "https://twitter.com/Football Senegal"
     },
     "players": [
-      "s-sadio-mane"
+      "sen-edouard-mendy",
+      "sen-youssouf-sabaly",
+      "sen-kalidou-koulibaly",
+      "sen-cheikhou-kouyate",
+      "sen-abdou-diallo",
+      "sen-nampalys-mendy",
+      "sen-ismaila-sarr",
+      "sen-pape-matar-sarr",
+      "sen-nicolas-jackson",
+      "sen-sadio-mane",
+      "sen-boulaye-dia",
+      "sen-lamine-camara",
+      "sen-idrissa-gueye",
+      "sen-mamadou-loum",
+      "sen-krepin-diatta"
     ],
     "news": []
   },
@@ -625,7 +970,23 @@
     "social": {
       "twitter": "https://twitter.com/lesverts"
     },
-    "players": [],
+    "players": [
+      "alg-rais-mbolhi",
+      "alg-youcef-atal",
+      "alg-hossem-aouir",
+      "alg-aissa-mandi",
+      "alg-djamel-benlamri",
+      "alg-ismael-bennacer",
+      "alg-riyad-mahrez",
+      "alg-nacer-chadli",
+      "alg-islam-slimani",
+      "alg-sofiane-feghouli",
+      "alg-andy-delort",
+      "alg-yacine-adli",
+      "alg-mehdi-abeid",
+      "alg-youssouf-belaili",
+      "alg-farès-bahlouli"
+    ],
     "news": []
   },
   {
@@ -641,7 +1002,21 @@
       "twitter": "https://twitter.com/EquipeTunisie"
     },
     "players": [
-      "t-youssef-msakni"
+      "tun-aymen-dahmen",
+      "tun-wajdi-kechrida",
+      "tun-ali-maaloul",
+      "tun-yassine-meriah",
+      "tun-montassar-talbi",
+      "tun-ellyes-skhiri",
+      "tun-youssef-msakni",
+      "tun-wahbi-khazri",
+      "tun-taha-yassine-khenissi",
+      "tun-anis-ben-slimane",
+      "tun-issam-jebali",
+      "tun-naim-sliti",
+      "tun-hannibal-mejbri",
+      "tun-bilel-ifa",
+      "tun-seifeddine-jaziri"
     ],
     "news": []
   },
@@ -690,7 +1065,21 @@
       "twitter": "https://twitter.com/ghanafaofficial"
     },
     "players": [
-      "g-thomas-partey"
+      "gha-joseph-wollacott",
+      "gha-tariq-lamptey",
+      "gha-alexander-djiku",
+      "gha-baba-rahman",
+      "gha-daniel-amartey",
+      "gha-thomas-partey",
+      "gha-osman-bukari",
+      "gha-kudus-mohammed",
+      "gha-jordan-ayew",
+      "gha-andre-ayew",
+      "gha-inaki-williams",
+      "gha-salis-abdul-samed",
+      "gha-gideon-mensah",
+      "gha-antoine-semenyo",
+      "gha-felix-afena-gyan"
     ],
     "news": []
   },
@@ -707,7 +1096,21 @@
       "twitter": "https://twitter.com/ federacionivorienne"
     },
     "players": [
-      "i-seko-fofana"
+      "civ-yahia-fofana",
+      "civ-serge-aurier",
+      "civ-ghislain-konan",
+      "civ-eric-bailly",
+      "civ-willy-boly",
+      "civ-ibrahim-sangare",
+      "civ-nicolas-pepe",
+      "civ-franck-kessie",
+      "civ-sebastien-haller",
+      "civ-jean-michael-seri",
+      "civ-wilfried-zaha",
+      "civ-seko-fofana",
+      "civ-bamba-diallo",
+      "civ-simon-adingra",
+      "civ-maxwel-cornet"
     ],
     "news": []
   },
@@ -724,7 +1127,21 @@
       "twitter": "https://twitter.com/Pharaohs"
     },
     "players": [
-      "e-mohamed-salah"
+      "egy-mohamed-el-shenawy",
+      "egy-ahmed-elhamed",
+      "egy-omar-kamal",
+      "egy-tarek-hamed",
+      "egy-ahmed-hegazy",
+      "egy-mahmoud-el-wensh",
+      "egy-mahmoud-trezeguet",
+      "egy-emam-ashour",
+      "egy-omar-marmoush",
+      "egy-mohamed-salah",
+      "egy-mostafa-mohamed",
+      "egy-ziad-ashraf",
+      "egy-amr-el-solia",
+      "egy-ahmed-abdelkader",
+      "egy-ahmed-sayed-zizo"
     ],
     "news": []
   },
@@ -740,7 +1157,23 @@
     "social": {
       "twitter": "https://twitter.com/BafanaBafana"
     },
-    "players": [],
+    "players": [
+      "rsa-ronwen-williams",
+      "rsa-reeve-frosler",
+      "rsa-sifiso-hlanti",
+      "rsa-thibang-phete",
+      "rsa-rushine-de-reuck",
+      "rsa-ethan-brooks",
+      "rsa-percy-tau",
+      "rsa-mothobi-mvala",
+      "rsa-evidence-makgopa",
+      "rsa-themba-zwane",
+      "rsa-lyle-foster",
+      "rsa-teboho-mokoena",
+      "rsa-ryan-espinosa",
+      "rsa-bongokuhle-hlongwane",
+      "rsa-keagan-dolly"
+    ],
     "news": []
   },
   {
@@ -756,7 +1189,21 @@
       "twitter": "https://twitter.com/Socceroos"
     },
     "players": [
-      "a-aaron-mooy"
+      "aus-mathew-ryan",
+      "aus-nathaniel-atkinson",
+      "aus-aziz-behich",
+      "aus-milos-degenek",
+      "aus-harry-souttar",
+      "aus-jackson-irvine",
+      "aus-martin-boyle",
+      "aus-aaron-mooy",
+      "aus-mitch-duke",
+      "aus-craig-goodwin",
+      "aus-adam-taggart",
+      "aus-riley-mcgree",
+      "aus-keanu-baccus",
+      "aus-mathew-leckie",
+      "aus-jason-cummings"
     ],
     "news": []
   },
@@ -773,7 +1220,21 @@
       "twitter": "https://twitter.com/TeamMelli_IR"
     },
     "players": [
-      "i-mehdi-taremi"
+      "irn-alireza-beiranvand",
+      "irn-ramin-rezaeian",
+      "irn-milad-mohammadi",
+      "irn-majid-hosseini",
+      "irn-shoja-khalilzadeh",
+      "irn-saeid-ezatolahi",
+      "irn-ali-gholizadeh",
+      "irn-ahmad-nourollahi",
+      "irn-mehdi-taremi",
+      "irn-saman-ghoddos",
+      "irn-sardar-azmoun",
+      "irn-omid-noorafkan",
+      "irn-alireza-jahanbakhsh",
+      "irn-karim-ansarifard",
+      "irn-pouya-hosseini"
     ],
     "news": []
   },
@@ -791,8 +1252,21 @@
       "instagram": "https://instagram.com/samuraiblue_jfa"
     },
     "players": [
-      "j-takumi-minamino",
-      "j-maya-yoshida"
+      "jpn-shuichi-gonda",
+      "jpn-hiroki-sakai",
+      "jpn-yuto-nagatomo",
+      "jpn-ko-itakura",
+      "jpn-shogo-taniguchi",
+      "jpn-wataru-endo",
+      "jpn-takefusa-kubo",
+      "jpn-hidemasa-morita",
+      "jpn-kaoru-mitoma",
+      "jpn-daichi-kamada",
+      "jpn-ritsu-doan",
+      "jpn-gaku-shibasaki",
+      "jpn-ao-tanaka",
+      "jpn-junya-ito",
+      "jpn-ayase-ueda"
     ],
     "news": []
   },
@@ -809,7 +1283,21 @@
       "twitter": "https://twitter.com/theKFA"
     },
     "players": [
-      "k-son-heung-min"
+      "kor-jo-hyeon-woo",
+      "kor-kim-jin-su",
+      "kor-kim-min-jae",
+      "kor-kim-young-gwon",
+      "kor-jung-seung-hyun",
+      "kor-paik-seung-ho",
+      "kor-lee-kang-in",
+      "kor-hwang-in-beom",
+      "kor-hwang-ui-jo",
+      "kor-son-heung-min",
+      "kor-cho-gue-sung",
+      "kor-lee-jae-sung",
+      "kor-jeong-woo-yeong",
+      "kor-kwon-chang-hoon",
+      "kor-oh-hyeon-gyu"
     ],
     "news": []
   },
@@ -826,7 +1314,21 @@
       "twitter": "https://twitter.com/SaudiTeam"
     },
     "players": [
-      "s-salem-al-dawsari"
+      "ksa-mohammed-al-owais",
+      "ksa-saud-abdulhamid",
+      "ksa-ali-al-bulayhi",
+      "ksa-hassan-tambakti",
+      "ksa-abdulelah-al-malki",
+      "ksa-ali-al-hassan",
+      "ksa-salem-al-dawsari",
+      "ksa-riyadh-sharahili",
+      "ksa-saleh-al-shehri",
+      "ksa-nasser-al-dawsari",
+      "ksa-firas-al-buraikan",
+      "ksa-yahia-al-shehri",
+      "ksa-sultan-al-ghannam",
+      "ksa-hattan-bahebri",
+      "ksa-abdulrahman-al-aboud"
     ],
     "news": []
   },
@@ -842,7 +1344,23 @@
     "social": {
       "twitter": "https://twitter.com/ufa_uz"
     },
-    "players": [],
+    "players": [
+      "uzb-eldorbek-suyunov",
+      "uzb-khojimat-erkinov",
+      "uzb-akbar-tursunov",
+      "uzb-sherzod-nasrullayev",
+      "uzb-dostonbek-khamdamov",
+      "uzb-otabek-shukurov",
+      "uzb-sardor-rashidov",
+      "uzb-islom-tukhtakhujaev",
+      "uzb-eldor-shomurodov",
+      "uzb-jaloliddin-masharipov",
+      "uzb-abbosbek-fayzullaev",
+      "uzb-jasurbek-yakhshiboev",
+      "uzb-temur-juraev",
+      "uzb-bunyodkor-sobirov",
+      "uzb-shamsiddin-shomurodov"
+    ],
     "news": []
   },
   {
@@ -857,7 +1375,23 @@
     "social": {
       "twitter": "https://twitter.com/jordanfa"
     },
-    "players": [],
+    "players": [
+      "jor-yazid-abou-lehia",
+      "jor-ehsan-haddad",
+      "jor-omar-al-qaisi",
+      "jor-anas-bani-yaseen",
+      "jor-baher-madani",
+      "jor-nour-mansour",
+      "jor-yazan-al-naimat",
+      "jor-musa-al-tamaneh",
+      "jor-baha-faisal",
+      "jor-hamza-al-dardour",
+      "jor-mousa-suleiman",
+      "jor-mahmoud-al-mardi",
+      "jor-yazeed-abu-laila",
+      "jor-moussa-al-tamari",
+      "jor-omar-al-somah"
+    ],
     "news": []
   },
   {
@@ -872,7 +1406,23 @@
     "social": {
       "twitter": "https://twitter.com/NZ_Football"
     },
-    "players": [],
+    "players": [
+      "nzl-oliver-sail",
+      "nzl-dane-ingham",
+      "nzl-liberato-cacace",
+      "nzl-michael-boxall",
+      "nzl-winston-reid",
+      "nzl-ryan-thomas",
+      "nzl-marco-rojas",
+      "nzl-joe-bell",
+      "nzl-chris-wood",
+      "nzl-matt-ridenton",
+      "nzl-clayton-lewis",
+      "nzl-louis-fenton",
+      "nzl-elijah-just",
+      "nzl-ben-waine",
+      "nzl-resit-ciftci"
+    ],
     "news": []
   },
   {
@@ -887,7 +1437,24 @@
     "social": {
       "twitter": "https://twitter.com/fhf_officiel"
     },
-    "players": [],
+    "players": [
+      "hat-johny-placide",
+      "hat-zachary-brault-guillard",
+      "hat-florent-saint-louis",
+      "hat-jems-geffrard",
+      "hat-michael-papile",
+      "hat-james-peneau",
+      "hat-duckens-nazon",
+      "hat-kevens-belfort",
+      "hat-steeven-saba",
+      "hat-daniel-chery",
+      "hat-frantzdy-pierrot",
+      "hat-carlens-arcus",
+      "hat-hugo-drieco",
+      "hat-wilde-donald",
+      "hat-nicolas-is",
+      "hat-melchie-dauphin"
+    ],
     "news": []
   },
   {
@@ -902,7 +1469,25 @@
     "social": {
       "twitter": "https://twitter.com/FFAcuracao"
     },
-    "players": [],
+    "players": [
+      "cur-eloy-room",
+      "cur-cuco-martina",
+      "cur-shaquille-pinas",
+      "cur-damil-dankerlui",
+      "cur-gleofilo-vlijter",
+      "cur-terry-do-rego",
+      "cur-roshon-van-toch",
+      "cur-leandro-bacuna",
+      "cur-jurgen-locadia",
+      "cur-giliano-wijnaldum",
+      "cur-rangelo-janga",
+      "cur-daijiro-kawamoto",
+      "cur-jairzinho-pietermaat",
+      "cur-thierry-audel",
+      "cur-quentin-bregantini",
+      "cur-deroy-duarte",
+      "cur-jayden-oosterwolde"
+    ],
     "news": []
   },
   {
@@ -917,7 +1502,23 @@
     "social": {
       "twitter": "https://twitter.com/nff_org"
     },
-    "players": [],
+    "players": [
+      "nor-orjan-nyland",
+      "nor-birger-meling",
+      "nor-stefan-strandberg",
+      "nor-kristoffer-ajer",
+      "nor-leo-ostigard",
+      "nor-sander-berge",
+      "nor-jens-petter-hauge",
+      "nor-mats-moller-daehli",
+      "nor-erling-haaland",
+      "nor-martin-odegaard",
+      "nor-alexander-sorloth",
+      "nor-pal-kristian-hafstad",
+      "nor-joergen-strand-larsen",
+      "nor-antonio-nusa",
+      "nor-fredrik-aursnes"
+    ],
     "news": []
   },
   {
@@ -932,7 +1533,23 @@
     "social": {
       "twitter": "https://twitter.com/QFA"
     },
-    "players": [],
+    "players": [
+      "qat-meshaal-barsham",
+      "qat-homam-al-amin",
+      "qat-pedro-miguel",
+      "qat-tarek-salman",
+      "qat-bassam-al-rawi",
+      "qat-karim-boudiaf",
+      "qat-salem-al-hajri",
+      "qat-abdulaziz-hatem",
+      "qat-almoez-ali",
+      "qat-hassan-al-haydos",
+      "qat-akram-afif",
+      "qat-ali-asadalla",
+      "qat-khalid-saleh",
+      "qat-ismaeel-mohammad",
+      "qat-yusuf-abdurisag"
+    ],
     "news": []
   },
   {
@@ -947,7 +1564,23 @@
     "social": {
       "twitter": "https://twitter.com/FCF_CV"
     },
-    "players": [],
+    "players": [
+      "cpv-vozinha",
+      "cpv-kevin-pina",
+      "cpv-antonio-varela",
+      "cpv-jeff-fortes",
+      "cpv-stopira",
+      "cpv-kenny-rocha",
+      "cpv-ryan-mendes",
+      "cpv-willy-semedo",
+      "cpv-dyego-sousa",
+      "cpv-julio-tavares",
+      "cpv-garry-rodrigues",
+      "cpv-jamiro-monteiro",
+      "cpv-steven-fortes",
+      "cpv-carlos-ponck",
+      "cpv-gilson-benchimol"
+    ],
     "news": []
   },
   {
@@ -962,7 +1595,23 @@
     "social": {
       "twitter": "https://twitter.com/NFSBiH"
     },
-    "players": [],
+    "players": [
+      "bih-ibrahim-sehic",
+      "bih-nermin-zolotic",
+      "bih-antonio-satic",
+      "bih-anel-ahmedhodzic",
+      "bih-sead-kolasinac",
+      "bih-amer-gojak",
+      "bih-miralem-pjanic",
+      "bih-ermedin-demirovic",
+      "bih-haris-hajradinovic",
+      "bih-edin-dzeko",
+      "bih-sasa-kalajdzic",
+      "bih-eldar-civic",
+      "bih-kenan-kodro",
+      "bih-benjamin-tahirovic",
+      "bih-asmir-begovic"
+    ],
     "news": []
   },
   {
@@ -977,7 +1626,23 @@
     "social": {
       "twitter": "https://twitter.com/IraqiFA"
     },
-    "players": [],
+    "players": [
+      "irq-jalal-hassan",
+      "irq-hassan-abdulkareem",
+      "irq-ali-adnan",
+      "irq-ali-hamid",
+      "irq-rebin-sulaka",
+      "irq-saad-natiq",
+      "irq-aymen-hussein",
+      "irq-hussein-ali",
+      "irq-alaa-abbas",
+      "irq-marwan-hussein",
+      "irq-mohanad-ali",
+      "irq-amjad-attwan",
+      "irq-zaid-hamad",
+      "irq-mansour-hassan",
+      "irq-anas-yousif"
+    ],
     "news": []
   },
   {
@@ -992,7 +1657,23 @@
     "social": {
       "twitter": "https://twitter.com/fecofa_cd"
     },
-    "players": [],
+    "players": [
+      "cod-lionel-mpasi",
+      "cod-arthur-masuaku",
+      "cod-muriel-nguiamba",
+      "cod-christian-luyindama",
+      "cod-chancel-mbemba",
+      "cod-dzon-delarge",
+      "cod-yannick-bolasie",
+      "cod-elia-monama",
+      "cod-cedric-bakambu",
+      "cod-neeskens-kebano",
+      "cod-meschack-elia",
+      "cod-ngoy-nkaya",
+      "cod-romelu-lukaku",
+      "cod-dominique-malonga",
+      "cod-paul-onuachu"
+    ],
     "news": []
   }
 ]
