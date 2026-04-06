@@ -9,8 +9,7 @@ const allPlayers = await getCollection('players');
 const newsCounts = await getNewsCounts();
 
 const players = allPlayers
-  .filter((player) => (newsCounts[player.data.id] || 0) > 0)
-  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+  .sort((a, b) => a.data.team.localeCompare(b.data.team) || (a.data.number ?? 99) - (b.data.number ?? 99));
 
 const teams = [...new Set(players.map(p => p.data.team))].sort();
 const positions = [...new Set(players.map(p => p.data.position))].sort();
@@ -28,23 +27,23 @@ const playersSchema = {
     },
     {
       '@type': 'CollectionPage',
-      name: 'Jugadores con cobertura editorial',
+      name: 'Jugadores del Mundial 2026',
       url: 'https://futbolexperto.com/jugadores',
-      description: 'Consulta perfiles, noticias y fichas de jugadores con cobertura editorial activa en FutbolExperto.',
+      description: 'Perfiles, noticias y fichas de los jugadores de las 48 selecciones del Mundial 2026 en FutbolExperto.',
       inLanguage: 'es',
     },
   ],
 };
 ---
 
-<Layout title="Jugadores con noticias - FutbolExperto" description="Consulta perfiles, noticias y fichas de jugadores con cobertura editorial activa en FutbolExperto.">
+<Layout title="Jugadores del Mundial 2026 - FutbolExperto" description="Perfiles, noticias y fichas de los jugadores de las 48 selecciones del Mundial 2026 en FutbolExperto.">
   <Fragment slot="head">
     <script type="application/ld+json" is:inline set:html={JSON.stringify(playersSchema)} />
   </Fragment>
   <main class="container section">
     <div class="page-header">
-      <h1>Jugadores con noticias</h1>
-      <p class="page-desc">Solo mostramos futbolistas con cobertura editorial activa.</p>
+      <h1>Jugadores del Mundial 2026</h1>
+      <p class="page-desc">723 jugadores · 48 selecciones clasificadas</p>
     </div>
 
     <!-- Filters -->
