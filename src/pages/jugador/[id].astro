@@ -21,9 +21,6 @@ const realNews = await getNewsByPlayer(player.id, 10);
 const staticNews = player.news || [];
 const allNews = [...realNews, ...staticNews].slice(0, 15);
 
-if (allNews.length === 0) {
-  return Astro.redirect('/jugadores');
-}
 
 const allTeams = await getCollection('teams');
 const team = allTeams.find(t => t.data.id === player.team);
