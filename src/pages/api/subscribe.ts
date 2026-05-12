@@ -13,7 +13,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const PB_PASSWORD: string | undefined = env.POCKETBASE_PASSWORD;
 
     if (!PB_EMAIL || !PB_PASSWORD) {
-      return new Response(JSON.stringify({ error: 'Servicio no configurado.' }), {
+      return new Response(JSON.stringify({ error: `Servicio no configurado. EMAIL=${!!PB_EMAIL} PASS=${!!PB_PASSWORD}` }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (!authRes.ok) {
       const authErr = await authRes.text();
       console.error('PocketBase auth failed:', authRes.status, authErr);
-      return new Response(JSON.stringify({ error: 'Error interno de servidor.' }), {
+      return new Response(JSON.stringify({ error: `Auth fallida: ${authRes.status} - ${authErr}` }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -74,7 +74,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (!createRes.ok) {
       const createErr = await createRes.text();
       console.error('PocketBase create failed:', createRes.status, createErr);
-      return new Response(JSON.stringify({ error: 'Hubo un error al suscribirte. Inténtalo de nuevo.' }), {
+      return new Response(JSON.stringify({ error: `Create fallido: ${createRes.status} - ${createErr}` }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -87,7 +87,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   } catch (err: any) {
     console.error('Unexpected error in /api/subscribe:', err);
-    return new Response(JSON.stringify({ error: 'Hubo un error al suscribirte. Inténtalo de nuevo.' }), {
+    return new Response(JSON.stringify({ error: `Error inesperado: ${err?.message ?? String(err)}` }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
