@@ -1,69 +1,95 @@
 import type { APIRoute } from 'astro';
-import PocketBase from 'pocketbase';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const runtime = (locals as any).runtime;
-  const env = runtime?.env ?? import.meta.env;
-
-  const PB_URL = env.POCKETBASE_URL || env.PUBLIC_POCKETBASE_URL || 'https://futbolxp.pockethost.io';
-  const PB_EMAIL = env.POCKETBASE_EMAIL;
-  const PB_PASSWORD = env.POCKETBASE_PASSWORD;
   try {
+    // Get env - works both locally (import.meta.env) and on CF Workers (locals.runtime.env)
+    const runtime = (locals as any)?.runtime;
+    const env: Record<string, string | undefined> = runtime?.env ?? (import.meta.env as any);
+
+    const PB_URL: string = env.POCKETBASE_URL ?? env.PUBLIC_POCKETBASE_URL ?? 'https://futbolxp.pockethost.io';
+    const PB_EMAIL: string | undefined = env.POCKETBASE_EMAIL;
+    const PB_PASSWORD: string | undefined = env.POCKETBASE_PASSWORD;
+
+    if (!PB_EMAIL || !PB_PASSWORD) {
+      return new Response(JSON.stringify({ error: 'Servicio no configurado.' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const { email, teams } = await request.json();
 
     if (!email) {
-      return new Response(JSON.stringify({ error: 'Falta el correo electrónico.' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'Falta el correo electrónico.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    if (!PB_EMAIL || !PB_PASSWORD) {
-      console.error('Missing PocketBase superuser credentials for subscribe API.');
-      return new Response(JSON.stringify({ error: 'Servicio no configurado.' }), { status: 500 });
-    }
-
-    const pb = new PocketBase(PB_URL);
-    pb.autoCancellation(false);
-
-    try {
-      if (!pb.authStore.isValid || !pb.authStore.isSuperuser) {
-        await pb.collection('_superusers').authWithPassword(PB_EMAIL, PB_PASSWORD);
-      }
-    } catch (authErr) {
-      console.error('Error de autenticación con PocketBase:', authErr);
-      return new Response(JSON.stringify({ error: 'Error interno de servidor.' }), { status: 500 });
-    }
-
-    try {
-      const existing = await pb.collection('subscribers').getFirstListItem(`email = "${email}"`);
-      if (existing) {
-        return new Response(
-          JSON.stringify({ error: 'Este correo ya está suscrito.' }),
-          { status: 409 }
-        );
-      }
-    } catch (e: any) {
-      if (e.status !== 404) {
-        throw e;
-      }
-    }
-
-    await pb.collection('subscribers').create({
-      email,
-      teams: teams || [],
+    // 1. Authenticate as superuser via REST API
+    const authRes = await fetch(`${PB_URL}/api/collections/_superusers/auth-with-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identity: PB_EMAIL, password: PB_PASSWORD }),
     });
 
-    pb.authStore.clear();
+    if (!authRes.ok) {
+      const authErr = await authRes.text();
+      console.error('PocketBase auth failed:', authRes.status, authErr);
+      return new Response(JSON.stringify({ error: 'Error interno de servidor.' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
-    return new Response(
-      JSON.stringify({ success: true, message: '¡Suscripción exitosa!' }),
-      { status: 200 }
+    const { token } = await authRes.json();
+
+    // 2. Check if email already exists
+    const checkRes = await fetch(
+      `${PB_URL}/api/collections/subscribers/records?filter=${encodeURIComponent(`email="${email}"`)}`,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+    if (checkRes.ok) {
+      const checkData = await checkRes.json();
+      if (checkData.totalItems > 0) {
+        return new Response(JSON.stringify({ error: 'Este correo ya está suscrito.' }), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+    // 3. Create subscriber
+    const createRes = await fetch(`${PB_URL}/api/collections/subscribers/records`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ email, teams: teams ?? [] }),
+    });
+
+    if (!createRes.ok) {
+      const createErr = await createRes.text();
+      console.error('PocketBase create failed:', createRes.status, createErr);
+      return new Response(JSON.stringify({ error: 'Hubo un error al suscribirte. Inténtalo de nuevo.' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    return new Response(JSON.stringify({ success: true, message: '¡Suscripción exitosa!' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+
   } catch (err: any) {
-    console.error('Error al guardar en PocketBase:', err);
-    return new Response(
-      JSON.stringify({ error: 'Hubo un error al suscribirte. Inténtalo de nuevo.' }),
-      { status: 500 }
-    );
+    console.error('Unexpected error in /api/subscribe:', err);
+    return new Response(JSON.stringify({ error: 'Hubo un error al suscribirte. Inténtalo de nuevo.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 };
