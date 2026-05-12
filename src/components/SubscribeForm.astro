@@ -49,7 +49,7 @@ const { teams } = Astro.props;
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, teams })
       });
-      const data = await res.json();
+      const data = await res.json() as { success?: boolean; error?: string; message?: string };
       if (res.ok) {
         msg.textContent = '¡Suscripción exitosa!';
         msg.className = 'msg success';

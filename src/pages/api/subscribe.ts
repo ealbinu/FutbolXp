@@ -1,16 +1,13 @@
 import type { APIRoute } from 'astro';
+import { env as cfEnv } from 'cloudflare:workers';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request }) => {
   try {
-    // Get env - works both locally (import.meta.env) and on CF Workers (locals.runtime.env)
-    const runtime = (locals as any)?.runtime;
-    const env: Record<string, string | undefined> = runtime?.env ?? (import.meta.env as any);
-
-    const PB_URL: string = env.POCKETBASE_URL ?? env.PUBLIC_POCKETBASE_URL ?? 'https://futbolxp.pockethost.io';
-    const PB_EMAIL: string | undefined = env.POCKETBASE_EMAIL;
-    const PB_PASSWORD: string | undefined = env.POCKETBASE_PASSWORD;
+    const PB_URL: string = (cfEnv as any).POCKETBASE_URL ?? (cfEnv as any).PUBLIC_POCKETBASE_URL ?? 'https://futbolxp.pockethost.io';
+    const PB_EMAIL: string | undefined = (cfEnv as any).POCKETBASE_EMAIL;
+    const PB_PASSWORD: string | undefined = (cfEnv as any).POCKETBASE_PASSWORD;
 
     if (!PB_EMAIL || !PB_PASSWORD) {
       return new Response(JSON.stringify({ error: `Servicio no configurado. EMAIL=${!!PB_EMAIL} PASS=${!!PB_PASSWORD}` }), {
@@ -19,7 +16,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const { email, teams } = await request.json();
+    const { email, teams } = await request.json() as { email: string; teams: string[] };
 
     if (!email) {
       return new Response(JSON.stringify({ error: 'Falta el correo electrónico.' }), {
@@ -44,7 +41,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const { token } = await authRes.json();
+    const { token } = await authRes.json() as { token: string };
 
     // 2. Check if email already exists
     const checkRes = await fetch(
@@ -52,7 +49,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     if (checkRes.ok) {
-      const checkData = await checkRes.json();
+      const checkData = await checkRes.json() as { totalItems: number };
       if (checkData.totalItems > 0) {
         return new Response(JSON.stringify({ error: 'Este correo ya está suscrito.' }), {
           status: 409,
