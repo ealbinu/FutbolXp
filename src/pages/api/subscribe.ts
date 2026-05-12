@@ -3,11 +3,13 @@ import PocketBase from 'pocketbase';
 
 export const prerender = false;
 
-const PB_URL = import.meta.env.POCKETBASE_URL || import.meta.env.PUBLIC_POCKETBASE_URL || 'https://futbolxp.pockethost.io';
-const PB_EMAIL = import.meta.env.POCKETBASE_EMAIL;
-const PB_PASSWORD = import.meta.env.POCKETBASE_PASSWORD;
+export const POST: APIRoute = async ({ request, locals }) => {
+  const runtime = (locals as any).runtime;
+  const env = runtime?.env ?? import.meta.env;
 
-export const POST: APIRoute = async ({ request }) => {
+  const PB_URL = env.POCKETBASE_URL || env.PUBLIC_POCKETBASE_URL || 'https://futbolxp.pockethost.io';
+  const PB_EMAIL = env.POCKETBASE_EMAIL;
+  const PB_PASSWORD = env.POCKETBASE_PASSWORD;
   try {
     const { email, teams } = await request.json();
 
